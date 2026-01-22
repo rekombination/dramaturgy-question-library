@@ -1,0 +1,8 @@
+<svg width="1200" height="630" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#FFFEF8"/>
+  <rect x="0" y="0" width="60" height="60" fill="#C8372D"/>
+  <text x="600" y="315" font-family="Arial, sans-serif" font-size="120" font-weight="900" text-anchor="middle" fill="#0A0A0A">?</text>
+  <text x="600" y="420" font-family="Arial, sans-serif" font-size="36" font-weight="700" text-anchor="middle" fill="#C8372D">THE ART OF ASKING</text>
+  <text x="600" y="470" font-family="Arial, sans-serif" font-size="36" font-weight="700" text-anchor="middle" fill="#C8372D">QUESTIONS</text>
+  <rect x="400" y="500" width="400" height="3" fill="#0A0A0A"/>
+</svg>

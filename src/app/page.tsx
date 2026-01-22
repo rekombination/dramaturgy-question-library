@@ -1,6 +1,17 @@
 import Link from "next/link";
+import Image from "next/image";
+import { reader } from "@/lib/keystatic";
 
-export default function HomePage() {
+export default async function HomePage() {
+  // Get latest blog posts
+  const posts = await reader.collections.posts.all();
+  const latestPosts = posts
+    .sort((a, b) => {
+      const dateA = a.entry.publishedAt ? new Date(a.entry.publishedAt).getTime() : 0;
+      const dateB = b.entry.publishedAt ? new Date(b.entry.publishedAt).getTime() : 0;
+      return dateB - dateA;
+    })
+    .slice(0, 3);
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
@@ -107,6 +118,68 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* Latest Articles */}
+      {latestPosts.length > 0 && (
+        <section className="py-20 border-y-3 border-foreground">
+          <div className="container">
+            <div className="flex justify-between items-end mb-12">
+              <h2 className="display-text">Latest Articles</h2>
+              <Link
+                href="/blog"
+                className="px-6 py-3 border-3 border-foreground font-bold hover:bg-foreground hover:text-background transition-colors"
+              >
+                View All
+              </Link>
+            </div>
+            <div className="grid md:grid-cols-3 gap-0">
+              {latestPosts.map((post, index) => (
+                <Link
+                  key={post.slug}
+                  href={`/blog/${post.slug}`}
+                  className={`group block border-3 border-foreground hover:bg-muted transition-colors ${
+                    index > 0 ? "border-t-0 md:border-t-3 md:border-l-0" : ""
+                  }`}
+                >
+                  {post.entry.coverImage && (
+                    <div className="aspect-video relative overflow-hidden border-b-3 border-foreground">
+                      <Image
+                        src={post.entry.coverImage}
+                        alt={post.entry.title}
+                        fill
+                        className="object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                    </div>
+                  )}
+                  <div className="p-6 md:p-8">
+                    {post.entry.publishedAt && (
+                      <p className="text-sm text-muted-foreground mb-3 uppercase tracking-wider">
+                        {new Date(post.entry.publishedAt).toLocaleDateString("de-DE", {
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
+                        })}
+                      </p>
+                    )}
+                    <h3 className="text-xl font-bold group-hover:text-primary transition-colors leading-tight">
+                      {post.entry.title}
+                    </h3>
+                    {post.entry.description && (
+                      <p className="mt-3 text-muted-foreground line-clamp-2">
+                        {post.entry.description}
+                      </p>
+                    )}
+                    <div className="mt-4 inline-flex items-center gap-2 text-sm font-bold text-primary">
+                      Read More
+                      <span className="group-hover:translate-x-1 transition-transform">→</span>
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Featured Topics */}
       <section className="py-20 bg-muted border-y-3 border-foreground">
