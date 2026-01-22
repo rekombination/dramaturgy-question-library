@@ -1,0 +1,284 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+// NextAuth Models
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// Application Models
+enum UserRole {
+  USER
+  EXPERT
+  MODERATOR
+  ADMIN
+}
+
+enum TrustLevel {
+  NEW
+  BASIC
+  TRUSTED
+}
+
+model User {
+  id              String     @id @default(cuid())
+  name            String?
+  email           String?    @unique
+  emailVerified   DateTime?
+  image           String?
+  role            UserRole   @default(USER)
+  trustLevel      TrustLevel @default(NEW)
+  bio             String?    @db.Text
+  expertiseAreas  String[]
+  approvedPosts   Int        @default(0)
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+
+  accounts        Account[]
+  sessions        Session[]
+  questions       Question[]
+  replies         Reply[]
+  votes           Vote[]
+  bookmarks       Bookmark[]
+  flags           Flag[]     @relation("Reporter")
+  resolvedFlags   Flag[]     @relation("Resolver")
+  toolkits        Toolkit[]
+}
+
+enum QuestionStatus {
+  DRAFT
+  PENDING
+  PUBLISHED
+  HIDDEN
+}
+
+enum ContextType {
+  REHEARSAL
+  SHOW
+  TOURING
+  FUNDING
+  TEAM
+  AUDIENCE
+  OTHER
+}
+
+model Question {
+  id              String         @id @default(cuid())
+  title           String
+  body            String         @db.Text
+  status          QuestionStatus @default(PENDING)
+  contextType     ContextType    @default(OTHER)
+  stakes          String?        @db.Text
+  constraints     String?        @db.Text
+  tried           String?        @db.Text
+  sensitivityNote String?        @db.Text
+  requestExpert   Boolean        @default(false)
+  voteCount       Int            @default(0)
+  replyCount      Int            @default(0)
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+
+  authorId        String
+  author          User           @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  tags            QuestionTag[]
+  replies         Reply[]
+  votes           Vote[]
+  bookmarks       Bookmark[]
+  flags           Flag[]
+  toolkitItems    ToolkitQuestion[]
+
+  @@index([authorId])
+  @@index([status])
+  @@index([contextType])
+  @@index([createdAt])
+}
+
+model Tag {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  slug        String   @unique
+  description String?
+  category    String?
+  createdAt   DateTime @default(now())
+
+  questions   QuestionTag[]
+
+  @@index([slug])
+  @@index([category])
+}
+
+model QuestionTag {
+  questionId String
+  tagId      String
+
+  question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  tag        Tag      @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([questionId, tagId])
+}
+
+enum ReplyStatus {
+  PENDING
+  PUBLISHED
+  HIDDEN
+}
+
+model Reply {
+  id                  String      @id @default(cuid())
+  body                String      @db.Text
+  status              ReplyStatus @default(PENDING)
+  isExpertPerspective Boolean     @default(false)
+  voteCount           Int         @default(0)
+  createdAt           DateTime    @default(now())
+  updatedAt           DateTime    @updatedAt
+
+  questionId          String
+  question            Question    @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  authorId            String
+  author              User        @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  votes               Vote[]
+  flags               Flag[]
+
+  @@index([questionId])
+  @@index([authorId])
+}
+
+enum VoteType {
+  HELPFUL
+  INSIGHTFUL
+}
+
+model Vote {
+  id         String   @id @default(cuid())
+  type       VoteType @default(HELPFUL)
+  createdAt  DateTime @default(now())
+
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  questionId String?
+  question   Question? @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  replyId    String?
+  reply      Reply?    @relation(fields: [replyId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, questionId])
+  @@unique([userId, replyId])
+  @@index([questionId])
+  @@index([replyId])
+}
+
+model Bookmark {
+  id         String   @id @default(cuid())
+  createdAt  DateTime @default(now())
+
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  questionId String
+  question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, questionId])
+  @@index([userId])
+}
+
+model Toolkit {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  description String?  @db.Text
+  introText   String?  @db.Text
+  isFeatured  Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  createdById String
+  createdBy   User     @relation(fields: [createdById], references: [id])
+
+  questions   ToolkitQuestion[]
+
+  @@index([slug])
+}
+
+model ToolkitQuestion {
+  toolkitId  String
+  questionId String
+  position   Int      @default(0)
+  note       String?  @db.Text
+
+  toolkit    Toolkit  @relation(fields: [toolkitId], references: [id], onDelete: Cascade)
+  question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  @@id([toolkitId, questionId])
+  @@index([toolkitId])
+}
+
+enum FlagStatus {
+  PENDING
+  RESOLVED
+  DISMISSED
+}
+
+model Flag {
+  id           String     @id @default(cuid())
+  reason       String     @db.Text
+  status       FlagStatus @default(PENDING)
+  createdAt    DateTime   @default(now())
+  resolvedAt   DateTime?
+
+  reporterId   String
+  reporter     User       @relation("Reporter", fields: [reporterId], references: [id], onDelete: Cascade)
+
+  resolvedById String?
+  resolvedBy   User?      @relation("Resolver", fields: [resolvedById], references: [id])
+
+  questionId   String?
+  question     Question?  @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  replyId      String?
+  reply        Reply?     @relation(fields: [replyId], references: [id], onDelete: Cascade)
+
+  @@index([status])
+  @@index([reporterId])
+}
