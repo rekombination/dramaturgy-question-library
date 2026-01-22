@@ -3,7 +3,7 @@ import { formatDistanceToNow } from "date-fns";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import type { QuestionWithRelations } from "@/types";
+import type { QuestionWithRelations, Tag } from "@/types";
 
 interface QuestionCardProps {
   question: QuestionWithRelations;
@@ -39,7 +39,7 @@ export function QuestionCard({ question }: QuestionCardProps) {
         <p className="text-sm text-muted-foreground line-clamp-3">{question.body}</p>
         {question.tags.length > 0 && (
           <div className="mt-3 flex flex-wrap gap-1">
-            {question.tags.map(({ tag }) => (
+            {question.tags.map(({ tag }: { tag: Tag }) => (
               <Link key={tag.id} href={`/tags/${tag.slug}`}>
                 <Badge variant="outline" className="text-xs hover:bg-accent">
                   {tag.name}
