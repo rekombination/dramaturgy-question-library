@@ -13,6 +13,8 @@
     "@auth/prisma-adapter": "^2.11.1",
     "@ducanh2912/next-pwa": "^10.2.9",
     "@hookform/resolvers": "^5.2.2",
+    "@keystatic/core": "^0.5.48",
+    "@keystatic/next": "^5.0.4",
     "@prisma/adapter-pg": "^7.3.0",
     "@prisma/client": "^7.3.0",
     "@radix-ui/react-avatar": "^1.1.11",

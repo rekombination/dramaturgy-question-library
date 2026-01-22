@@ -46,6 +46,11 @@ export function Footer({ className }: FooterProps) {
                   Browse Tags
                 </Link>
               </li>
+              <li>
+                <Link href="/blog" className="text-background/70 hover:text-primary transition-colors">
+                  Blog
+                </Link>
+              </li>
             </ul>
           </div>
 

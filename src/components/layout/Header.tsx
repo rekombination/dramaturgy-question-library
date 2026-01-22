@@ -78,6 +78,12 @@ export function Header() {
                   Tags
                 </Link>
                 <Link
+                  href="/blog"
+                  className="text-xl font-bold hover:text-primary transition-colors py-3 border-b border-border"
+                >
+                  Blog
+                </Link>
+                <Link
                   href="/guidelines"
                   className="text-xl font-bold hover:text-primary transition-colors py-3 border-b border-border"
                 >
@@ -127,6 +133,12 @@ export function Header() {
               className="text-sm font-bold uppercase tracking-wide hover:text-primary transition-colors"
             >
               Tags
+            </Link>
+            <Link
+              href="/blog"
+              className="text-sm font-bold uppercase tracking-wide hover:text-primary transition-colors"
+            >
+              Blog
             </Link>
             <Link
               href="/guidelines"
