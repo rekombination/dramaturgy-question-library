@@ -14,8 +14,6 @@ const withPWA = withPWAInit({
 });
 
 const nextConfig: NextConfig = {
-  // Disable Turbopack for production builds (PWA plugin uses webpack)
-  turbopack: false,
   images: {
     formats: ["image/avif", "image/webp"],
     remotePatterns: [
