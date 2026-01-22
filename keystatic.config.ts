@@ -1,11 +1,16 @@
 import { config, fields, collection, singleton } from "@keystatic/core";
 
-// Always use local storage since content files are in the repo
-// This works for both development and production builds on Vercel
+const isProd = process.env.NODE_ENV === "production";
+
 export default config({
-  storage: {
-    kind: "local",
-  },
+  storage: isProd
+    ? {
+        kind: "github",
+        repo: "rekombination/dramaturgy-question-library",
+      }
+    : {
+        kind: "local",
+      },
   ui: {
     brand: {
       name: "The Dramaturgy",
@@ -15,14 +20,13 @@ export default config({
     posts: collection({
       label: "Blog Posts",
       slugField: "title",
-      path: "content/posts/**/",
+      path: "content/posts/*/",
       format: { contentField: "content" },
       schema: {
         title: fields.slug({ name: { label: "Title" } }),
         description: fields.text({
           label: "Description",
           multiline: true,
-          validation: { length: { min: 50, max: 160 } },
         }),
         publishedAt: fields.date({
           label: "Published Date",
@@ -59,14 +63,12 @@ export default config({
         // SEO Fields
         metaTitle: fields.text({
           label: "Meta Title (SEO)",
-          description: "Optional. If empty, uses the post title. Max 60 characters.",
-          validation: { length: { max: 60 } },
+          description: "Optional. If empty, uses the post title. Recommended max 60 characters.",
         }),
         metaDescription: fields.text({
           label: "Meta Description (SEO)",
-          description: "Optional. If empty, uses the post description. Max 160 characters.",
+          description: "Optional. If empty, uses the post description. Recommended max 160 characters.",
           multiline: true,
-          validation: { length: { max: 160 } },
         }),
         ogImage: fields.image({
           label: "Open Graph Image",
