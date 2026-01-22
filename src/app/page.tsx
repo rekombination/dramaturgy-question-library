@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
 
 export default function HomePage() {
   return (
@@ -20,12 +19,18 @@ export default function HomePage() {
                 A community platform for dramaturgical questions, insights, and knowledge sharing.
               </p>
               <div className="mt-10 flex flex-wrap gap-4">
-                <Button asChild size="lg" className="text-lg px-8 py-6 font-bold">
-                  <Link href="/explore">Explore Questions</Link>
-                </Button>
-                <Button asChild variant="outline" size="lg" className="text-lg px-8 py-6 font-bold border-3 border-foreground hover:bg-foreground hover:text-background">
-                  <Link href="/submit">Ask a Question</Link>
-                </Button>
+                <Link
+                  href="/explore"
+                  className="inline-flex items-center justify-center px-8 py-4 bg-primary text-primary-foreground text-lg font-bold hover:bg-primary/90 transition-colors"
+                >
+                  Explore Questions
+                </Link>
+                <Link
+                  href="/submit"
+                  className="inline-flex items-center justify-center px-8 py-4 border-3 border-foreground text-lg font-bold hover:bg-foreground hover:text-background transition-colors"
+                >
+                  Ask a Question
+                </Link>
               </div>
             </div>
             <div className="hidden lg:block">
@@ -134,12 +139,18 @@ export default function HomePage() {
                 collection of dramaturgical resources.
               </p>
               <div className="mt-10 flex flex-wrap gap-4">
-                <Button asChild size="lg" variant="secondary" className="text-lg px-8 py-6 font-bold">
-                  <Link href="/signup">Create Account</Link>
-                </Button>
-                <Button asChild size="lg" variant="ghost" className="text-lg px-8 py-6 font-bold text-primary-foreground hover:text-primary-foreground hover:bg-white/10">
-                  <Link href="/explore">Browse First</Link>
-                </Button>
+                <Link
+                  href="/signup"
+                  className="inline-flex items-center justify-center px-8 py-4 bg-white text-primary text-lg font-bold hover:bg-white/90 transition-colors"
+                >
+                  Create Account
+                </Link>
+                <Link
+                  href="/explore"
+                  className="inline-flex items-center justify-center px-8 py-4 border-3 border-primary-foreground text-primary-foreground text-lg font-bold hover:bg-white/10 transition-colors"
+                >
+                  Browse First
+                </Link>
               </div>
             </div>
           </div>
