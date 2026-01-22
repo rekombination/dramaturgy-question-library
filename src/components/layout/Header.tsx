@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useSession, signOut } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import {
@@ -23,151 +24,146 @@ export function Header() {
   const { data: session, status } = useSession();
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
-      <div className="container flex h-14 md:h-16 items-center justify-between">
-        <div className="flex items-center gap-4 md:gap-6">
+    <header className="sticky top-0 z-50 w-full border-b-3 border-foreground bg-background">
+      <div className="container flex h-16 md:h-20 items-center justify-between">
+        <div className="flex items-center gap-8">
           {/* Mobile Menu */}
           <Sheet>
             <SheetTrigger asChild className="md:hidden">
-              <Button variant="ghost" size="icon" className="h-9 w-9">
+              <Button variant="ghost" size="icon" className="h-10 w-10">
                 <svg
-                  className="h-5 w-5"
+                  className="h-6 w-6"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
+                  strokeWidth={2.5}
                 >
                   <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
+                    strokeLinecap="square"
                     d="M4 6h16M4 12h16M4 18h16"
                   />
                 </svg>
                 <span className="sr-only">Menu</span>
               </Button>
             </SheetTrigger>
-            <SheetContent side="left" className="w-[280px] sm:w-[320px]">
+            <SheetContent side="left" className="w-[300px] border-r-3 border-foreground">
               <SheetHeader>
-                <SheetTitle className="text-left">The Dramaturgy</SheetTitle>
+                <SheetTitle className="text-left">
+                  <Image
+                    src="/logo.png"
+                    alt="The Dramaturgy"
+                    width={120}
+                    height={40}
+                    className="h-8 w-auto"
+                  />
+                </SheetTitle>
               </SheetHeader>
-              <nav className="flex flex-col gap-4 mt-8">
+              <nav className="flex flex-col gap-2 mt-8">
                 <Link
                   href="/explore"
-                  className="flex items-center gap-3 text-lg font-medium hover:text-primary transition-colors py-2"
+                  className="text-xl font-bold hover:text-primary transition-colors py-3 border-b border-border"
                 >
-                  <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                  </svg>
-                  Explore Questions
+                  Explore
                 </Link>
                 <Link
                   href="/toolkits"
-                  className="flex items-center gap-3 text-lg font-medium hover:text-primary transition-colors py-2"
+                  className="text-xl font-bold hover:text-primary transition-colors py-3 border-b border-border"
                 >
-                  <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-                  </svg>
                   Toolkits
                 </Link>
                 <Link
                   href="/tags"
-                  className="flex items-center gap-3 text-lg font-medium hover:text-primary transition-colors py-2"
+                  className="text-xl font-bold hover:text-primary transition-colors py-3 border-b border-border"
                 >
-                  <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
-                  </svg>
                   Tags
                 </Link>
                 <Link
                   href="/guidelines"
-                  className="flex items-center gap-3 text-lg font-medium hover:text-primary transition-colors py-2"
+                  className="text-xl font-bold hover:text-primary transition-colors py-3 border-b border-border"
                 >
-                  <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                  </svg>
                   Guidelines
                 </Link>
-                <div className="border-t my-4" />
                 {!session?.user && (
-                  <>
-                    <Link
-                      href="/login"
-                      className="flex items-center gap-3 text-lg font-medium hover:text-primary transition-colors py-2"
-                    >
-                      Sign in
-                    </Link>
-                    <Link
-                      href="/signup"
-                      className="flex items-center gap-3 text-lg font-medium hover:text-primary transition-colors py-2"
-                    >
-                      Create account
-                    </Link>
-                  </>
+                  <div className="mt-6 space-y-3">
+                    <Button asChild className="w-full" size="lg">
+                      <Link href="/signup">Sign Up</Link>
+                    </Button>
+                    <Button asChild variant="outline" className="w-full border-2 border-foreground" size="lg">
+                      <Link href="/login">Sign In</Link>
+                    </Button>
+                  </div>
                 )}
               </nav>
             </SheetContent>
           </Sheet>
 
-          <Link href="/" className="flex items-center space-x-2">
-            <span className="text-lg md:text-xl font-bold">The Dramaturgy</span>
+          <Link href="/" className="flex items-center">
+            <Image
+              src="/logo.png"
+              alt="The Dramaturgy"
+              width={160}
+              height={53}
+              className="h-10 md:h-12 w-auto"
+              priority
+            />
           </Link>
 
           {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center gap-6">
+          <nav className="hidden md:flex items-center gap-8">
             <Link
               href="/explore"
-              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+              className="text-sm font-bold uppercase tracking-wide hover:text-primary transition-colors"
             >
               Explore
             </Link>
             <Link
               href="/toolkits"
-              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+              className="text-sm font-bold uppercase tracking-wide hover:text-primary transition-colors"
             >
               Toolkits
             </Link>
             <Link
               href="/tags"
-              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+              className="text-sm font-bold uppercase tracking-wide hover:text-primary transition-colors"
             >
               Tags
             </Link>
             <Link
               href="/guidelines"
-              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+              className="text-sm font-bold uppercase tracking-wide hover:text-primary transition-colors"
             >
               Guidelines
             </Link>
           </nav>
         </div>
 
-        <div className="flex items-center gap-2 md:gap-4">
+        <div className="flex items-center gap-3">
           {status === "loading" ? (
-            <div className="h-8 w-8 animate-pulse rounded-full bg-muted" />
+            <div className="h-10 w-10 animate-pulse bg-muted" />
           ) : session?.user ? (
             <>
-              <Button asChild variant="default" size="sm" className="hidden md:flex">
-                <Link href="/submit">Ask a Question</Link>
+              <Button asChild size="lg" className="hidden md:flex font-bold">
+                <Link href="/submit">Ask Question</Link>
               </Button>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-                    <Avatar className="h-8 w-8">
+                  <Button variant="ghost" className="relative h-10 w-10 p-0">
+                    <Avatar className="h-10 w-10 border-2 border-foreground">
                       <AvatarImage
                         src={session.user.image || ""}
                         alt={session.user.name || ""}
                       />
-                      <AvatarFallback>
+                      <AvatarFallback className="bg-primary text-primary-foreground font-bold">
                         {session.user.name?.charAt(0).toUpperCase() || "U"}
                       </AvatarFallback>
                     </Avatar>
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-56">
-                  <div className="flex items-center justify-start gap-2 p-2">
+                <DropdownMenuContent align="end" className="w-56 border-2 border-foreground">
+                  <div className="flex items-center justify-start gap-2 p-3">
                     <div className="flex flex-col space-y-1 leading-none">
                       {session.user.name && (
-                        <p className="font-medium">{session.user.name}</p>
+                        <p className="font-bold">{session.user.name}</p>
                       )}
                       {session.user.email && (
                         <p className="truncate text-sm text-muted-foreground">
@@ -178,10 +174,10 @@ export function Header() {
                   </div>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem asChild>
-                    <Link href="/me">My Dashboard</Link>
+                    <Link href="/me" className="font-medium">My Dashboard</Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild>
-                    <Link href="/me/settings">Settings</Link>
+                    <Link href="/me/settings" className="font-medium">Settings</Link>
                   </DropdownMenuItem>
                   {(session.user.role === "EXPERT" ||
                     session.user.role === "MODERATOR" ||
@@ -190,20 +186,20 @@ export function Header() {
                       <DropdownMenuSeparator />
                       {session.user.role === "EXPERT" && (
                         <DropdownMenuItem asChild>
-                          <Link href="/expert">Expert Queue</Link>
+                          <Link href="/expert" className="font-medium">Expert Queue</Link>
                         </DropdownMenuItem>
                       )}
                       {(session.user.role === "MODERATOR" ||
                         session.user.role === "ADMIN") && (
                         <DropdownMenuItem asChild>
-                          <Link href="/mod">Moderation</Link>
+                          <Link href="/mod" className="font-medium">Moderation</Link>
                         </DropdownMenuItem>
                       )}
                     </>
                   )}
                   <DropdownMenuSeparator />
                   <DropdownMenuItem
-                    className="cursor-pointer text-destructive focus:text-destructive"
+                    className="font-medium text-primary cursor-pointer"
                     onSelect={() => signOut()}
                   >
                     Sign out
@@ -213,11 +209,11 @@ export function Header() {
             </>
           ) : (
             <>
-              <Button asChild variant="ghost" size="sm" className="hidden sm:flex">
-                <Link href="/login">Sign in</Link>
+              <Button asChild variant="ghost" className="hidden sm:flex font-bold">
+                <Link href="/login">Sign In</Link>
               </Button>
-              <Button asChild size="sm">
-                <Link href="/signup">Sign up</Link>
+              <Button asChild size="lg" className="font-bold">
+                <Link href="/signup">Sign Up</Link>
               </Button>
             </>
           )}

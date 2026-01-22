@@ -1,7 +1,5 @@
 import Link from "next/link";
 import { prisma } from "@/lib/db";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export const metadata = {
   title: "Tags",
@@ -29,46 +27,81 @@ export default async function TagsPage() {
   }, {} as Record<string, typeof tags>);
 
   return (
-    <div className="container py-8">
-      <div className="max-w-4xl">
-        <h1 className="text-3xl font-bold">Tags</h1>
-        <p className="text-muted-foreground mt-2">
-          Browse questions by topic
-        </p>
-
-        {tags.length === 0 ? (
-          <p className="text-muted-foreground text-center py-12">
-            No tags available yet.
+    <div className="min-h-screen">
+      {/* Hero Section */}
+      <section className="border-b-3 border-foreground bg-foreground text-background py-16 md:py-24">
+        <div className="container">
+          <h1 className="text-5xl md:text-6xl lg:text-7xl font-black tracking-tight">
+            Tags
+          </h1>
+          <p className="mt-4 text-xl md:text-2xl text-background/70 max-w-2xl">
+            Browse questions by topic. Find the conversations that matter to your practice.
           </p>
-        ) : (
-          <div className="mt-8 space-y-8">
-            {Object.entries(groupedTags).map(([category, categoryTags]) => (
-              <Card key={category}>
-                <CardHeader>
-                  <CardTitle className="text-lg">{category}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex flex-wrap gap-2">
+        </div>
+      </section>
+
+      {/* Tags Grid */}
+      <section className="py-12 md:py-20">
+        <div className="container">
+          {tags.length === 0 ? (
+            <div className="text-center py-20">
+              <div className="text-6xl font-black text-primary">?</div>
+              <p className="mt-4 text-xl text-muted-foreground">
+                No tags available yet.
+              </p>
+            </div>
+          ) : (
+            <div className="space-y-12">
+              {Object.entries(groupedTags).map(([category, categoryTags]) => (
+                <div key={category}>
+                  <h2 className="text-2xl md:text-3xl font-black mb-6 flex items-center gap-4">
+                    <span>{category}</span>
+                    <div className="h-1 flex-1 bg-foreground max-w-32" />
+                  </h2>
+                  <div className="flex flex-wrap gap-3">
                     {categoryTags.map((tag) => (
-                      <Link key={tag.id} href={`/tags/${tag.slug}`}>
-                        <Badge
-                          variant="secondary"
-                          className="text-sm py-1.5 px-3 hover:bg-accent cursor-pointer"
-                        >
-                          {tag.name}
-                          <span className="ml-2 text-muted-foreground">
+                      <Link
+                        key={tag.id}
+                        href={`/tags/${tag.slug}`}
+                        className="group"
+                      >
+                        <div className="px-5 py-3 border-3 border-foreground font-bold text-lg hover:bg-foreground hover:text-background transition-colors flex items-center gap-3">
+                          <span>{tag.name}</span>
+                          <span className="text-sm font-normal text-muted-foreground group-hover:text-background/70">
                             {tag._count.questions}
                           </span>
-                        </Badge>
+                        </div>
                       </Link>
                     ))}
                   </div>
-                </CardContent>
-              </Card>
-            ))}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="border-t-3 border-foreground bg-muted py-16">
+        <div className="container">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-8">
+            <div>
+              <h2 className="text-3xl md:text-4xl font-black">
+                Can&apos;t find your topic?
+              </h2>
+              <p className="mt-2 text-lg text-muted-foreground">
+                Ask a question and help us grow the community knowledge base.
+              </p>
+            </div>
+            <Link
+              href="/submit"
+              className="px-8 py-4 bg-primary text-primary-foreground font-bold text-lg hover:bg-primary/90 transition-colors"
+            >
+              Ask a Question
+            </Link>
           </div>
-        )}
-      </div>
+        </div>
+      </section>
     </div>
   );
 }
