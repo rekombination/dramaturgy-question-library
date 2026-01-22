@@ -1,10 +1,49 @@
 import Link from "next/link";
 import Image from "next/image";
 import { reader } from "@/lib/keystatic";
+import { BlogPostingListJsonLd } from "@/components/seo/JsonLd";
+import type { Metadata } from "next";
 
-export const metadata = {
-  title: "Blog",
-  description: "Articles and insights about dramaturgy and theatre practice.",
+const siteUrl = "https://thedramaturgy.com";
+
+export const metadata: Metadata = {
+  title: "Blog | Articles on Dramaturgy & Theatre Practice",
+  description:
+    "Articles, insights, and resources about dramaturgy, theatre practice, new work development, rehearsal techniques, and collaborative creation.",
+  keywords: [
+    "dramaturgy blog",
+    "theatre articles",
+    "dramaturg resources",
+    "theatre practice",
+    "performing arts",
+    "playwriting",
+    "rehearsal techniques",
+  ],
+  openGraph: {
+    type: "website",
+    url: `${siteUrl}/blog`,
+    title: "Blog | The Dramaturgy",
+    description:
+      "Articles, insights, and resources about dramaturgy and theatre practice.",
+    images: [
+      {
+        url: `${siteUrl}/og-image.png`,
+        width: 1200,
+        height: 630,
+        alt: "The Dramaturgy Blog",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Blog | The Dramaturgy",
+    description:
+      "Articles, insights, and resources about dramaturgy and theatre practice.",
+    images: [`${siteUrl}/og-image.png`],
+  },
+  alternates: {
+    canonical: `${siteUrl}/blog`,
+  },
 };
 
 export default async function BlogPage() {
@@ -17,8 +56,25 @@ export default async function BlogPage() {
     return dateB - dateA;
   });
 
+  // Prepare data for BlogPosting schema
+  const blogPostsSchema = sortedPosts.map((post) => ({
+    title: post.entry.title,
+    description: post.entry.description || "",
+    url: `${siteUrl}/blog/${post.slug}`,
+    datePublished: post.entry.publishedAt || new Date().toISOString(),
+    dateModified: post.entry.updatedAt || post.entry.publishedAt || new Date().toISOString(),
+    author: post.entry.author || "The Dramaturgy Team",
+    image: post.entry.coverImage
+      ? post.entry.coverImage.startsWith("http")
+        ? post.entry.coverImage
+        : `${siteUrl}${post.entry.coverImage}`
+      : undefined,
+  }));
+
   return (
     <div className="min-h-screen">
+      {/* Schema.org JSON-LD for blog listing */}
+      <BlogPostingListJsonLd posts={blogPostsSchema} />
       {/* Hero Section */}
       <section className="border-b-3 border-foreground bg-foreground text-background py-16 md:py-24">
         <div className="container">

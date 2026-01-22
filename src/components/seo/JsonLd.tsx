@@ -231,3 +231,54 @@ export function FAQJsonLd({ questions }: FAQJsonLdProps) {
     />
   );
 }
+
+interface BlogPostingListJsonLdProps {
+  posts: {
+    title: string;
+    description: string;
+    url: string;
+    datePublished: string;
+    dateModified?: string;
+    author: string;
+    image?: string;
+  }[];
+}
+
+export function BlogPostingListJsonLd({ posts }: BlogPostingListJsonLdProps) {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    name: "The Dramaturgy Blog",
+    description:
+      "Articles, insights, and resources about dramaturgy and theatre practice.",
+    url: `${siteUrl}/blog`,
+    blogPost: posts.map((post) => ({
+      "@type": "BlogPosting",
+      headline: post.title,
+      description: post.description,
+      url: post.url,
+      datePublished: post.datePublished,
+      dateModified: post.dateModified || post.datePublished,
+      author: {
+        "@type": "Person",
+        name: post.author,
+      },
+      publisher: {
+        "@type": "Organization",
+        name: "The Dramaturgy",
+        logo: {
+          "@type": "ImageObject",
+          url: `${siteUrl}/logo.png`,
+        },
+      },
+      ...(post.image && { image: post.image }),
+    })),
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+    />
+  );
+}

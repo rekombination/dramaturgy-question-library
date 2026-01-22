@@ -3,17 +3,21 @@ import Image from "next/image";
 import Link from "next/link";
 import { reader } from "@/lib/keystatic";
 import { DocumentRenderer } from "@keystatic/core/renderer";
+import { ArticleJsonLd, BreadcrumbJsonLd } from "@/components/seo/JsonLd";
+import type { Metadata } from "next";
 
 type Props = {
   params: Promise<{ slug: string }>;
 };
+
+const siteUrl = "https://thedramaturgy.com";
 
 export async function generateStaticParams() {
   const posts = await reader.collections.posts.all();
   return posts.map((post) => ({ slug: post.slug }));
 }
 
-export async function generateMetadata({ params }: Props) {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const post = await reader.collections.posts.read(slug);
 
@@ -21,9 +25,52 @@ export async function generateMetadata({ params }: Props) {
     return { title: "Post not found" };
   }
 
+  const url = `${siteUrl}/blog/${slug}`;
+  const title = post.seo?.metaTitle || post.title;
+  const description = post.seo?.metaDescription || post.description;
+  const ogImage = post.seo?.ogImage || post.coverImage;
+  const keywords = post.seo?.keywords || [];
+  const allKeywords = [...new Set([...post.tags, ...keywords])];
+  const mutableTags = [...post.tags];
+
   return {
-    title: post.title,
-    description: post.description,
+    title,
+    description,
+    keywords: allKeywords,
+    authors: [{ name: post.author || "The Dramaturgy Team" }],
+    openGraph: {
+      type: "article",
+      url,
+      title,
+      description: description || undefined,
+      publishedTime: post.publishedAt || undefined,
+      modifiedTime: post.updatedAt || post.publishedAt || undefined,
+      authors: [post.author || "The Dramaturgy Team"],
+      tags: mutableTags,
+      images: ogImage
+        ? [
+            {
+              url: ogImage.startsWith("http") ? ogImage : `${siteUrl}${ogImage}`,
+              width: 1200,
+              height: 630,
+              alt: post.title,
+            },
+          ]
+        : undefined,
+    },
+    twitter: {
+      card: (post.seo?.twitterCard as "summary" | "summary_large_image") || "summary_large_image",
+      title,
+      description: description || undefined,
+      images: ogImage ? [ogImage.startsWith("http") ? ogImage : `${siteUrl}${ogImage}`] : undefined,
+    },
+    alternates: {
+      canonical: post.seo?.canonicalUrl || url,
+    },
+    robots: {
+      index: true,
+      follow: true,
+    },
   };
 }
 
@@ -36,9 +83,32 @@ export default async function BlogPostPage({ params }: Props) {
   }
 
   const content = await post.content();
+  const url = `${siteUrl}/blog/${slug}`;
+  const imageUrl = post.coverImage
+    ? post.coverImage.startsWith("http")
+      ? post.coverImage
+      : `${siteUrl}${post.coverImage}`
+    : undefined;
 
   return (
     <div className="min-h-screen">
+      {/* Schema.org JSON-LD */}
+      <ArticleJsonLd
+        title={post.title}
+        description={post.description || ""}
+        url={url}
+        datePublished={post.publishedAt ? new Date(post.publishedAt) : new Date()}
+        dateModified={post.updatedAt ? new Date(post.updatedAt) : post.publishedAt ? new Date(post.publishedAt) : new Date()}
+        authorName={post.author || "The Dramaturgy Team"}
+        images={imageUrl ? [imageUrl] : []}
+      />
+      <BreadcrumbJsonLd
+        items={[
+          { name: "Home", url: siteUrl },
+          { name: "Blog", url: `${siteUrl}/blog` },
+          { name: post.title, url },
+        ]}
+      />
       {/* Hero Section */}
       <section className="border-b-3 border-foreground py-12 md:py-16">
         <div className="container max-w-4xl">

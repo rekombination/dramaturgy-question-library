@@ -3,6 +3,7 @@ description: >-
   Exploring the dynamics of collaborative creation and the dramaturg's
   role in supporting new play development.
 publishedAt: 2025-01-10
+updatedAt: 2025-01-10
 coverImage: /images/posts/collaboration.jpg
 author: The Dramaturgy Team
 tags:
@@ -10,3 +11,16 @@ tags:
   - Collaboration
   - Playwriting
   - Development
+seo:
+  metaTitle: Collaboration in New Work Development | Dramaturgy
+  metaDescription: >-
+    Explore the dynamics of collaborative creation and the dramaturg's role
+    in supporting new play development.
+  ogImage: null
+  twitterCard: summary_large_image
+  keywords:
+    - new work development
+    - collaborative theatre
+    - playwriting collaboration
+    - dramaturg role
+  canonicalUrl: null
