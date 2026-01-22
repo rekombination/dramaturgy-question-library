@@ -147,7 +147,7 @@ export function Header() {
               </Button>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" className="relative h-10 w-10 p-0">
+                  <button className="relative h-10 w-10 rounded-full overflow-hidden focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2">
                     <Avatar className="h-10 w-10 border-2 border-foreground">
                       <AvatarImage
                         src={session.user.image || ""}
@@ -157,7 +157,7 @@ export function Header() {
                         {session.user.name?.charAt(0).toUpperCase() || "U"}
                       </AvatarFallback>
                     </Avatar>
-                  </Button>
+                  </button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-56 border-2 border-foreground">
                   <div className="flex items-center justify-start gap-2 p-3">
