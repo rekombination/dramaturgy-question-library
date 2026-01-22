@@ -1,16 +1,11 @@
 import { config, fields, collection, singleton } from "@keystatic/core";
 
-const isProduction = process.env.NODE_ENV === "production";
-
+// Always use local storage since content files are in the repo
+// This works for both development and production builds on Vercel
 export default config({
-  storage: isProduction
-    ? {
-        kind: "github",
-        repo: "rekombination/dramaturgy-question-library",
-      }
-    : {
-        kind: "local",
-      },
+  storage: {
+    kind: "local",
+  },
   ui: {
     brand: {
       name: "The Dramaturgy",
@@ -20,7 +15,7 @@ export default config({
     posts: collection({
       label: "Blog Posts",
       slugField: "title",
-      path: "content/posts/*",
+      path: "content/posts/**/",
       format: { contentField: "content" },
       schema: {
         title: fields.slug({ name: { label: "Title" } }),
