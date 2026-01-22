@@ -26,10 +26,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 
   const url = `${siteUrl}/blog/${slug}`;
-  const title = post.seo?.metaTitle || post.title;
-  const description = post.seo?.metaDescription || post.description;
-  const ogImage = post.seo?.ogImage || post.coverImage;
-  const keywords = post.seo?.keywords || [];
+  const title = post.metaTitle || post.title;
+  const description = post.metaDescription || post.description;
+  const ogImage = post.ogImage || post.coverImage;
+  const keywords = post.keywords || [];
   const allKeywords = [...new Set([...post.tags, ...keywords])];
   const mutableTags = [...post.tags];
 
@@ -59,13 +59,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         : undefined,
     },
     twitter: {
-      card: (post.seo?.twitterCard as "summary" | "summary_large_image") || "summary_large_image",
+      card: (post.twitterCard as "summary" | "summary_large_image") || "summary_large_image",
       title,
       description: description || undefined,
       images: ogImage ? [ogImage.startsWith("http") ? ogImage : `${siteUrl}${ogImage}`] : undefined,
     },
     alternates: {
-      canonical: post.seo?.canonicalUrl || url,
+      canonical: post.canonicalUrl || url,
     },
     robots: {
       index: true,

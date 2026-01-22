@@ -62,47 +62,42 @@ export default config({
           },
         }),
         // SEO Fields
-        seo: fields.object({
-          metaTitle: fields.text({
-            label: "Meta Title (SEO)",
-            description: "Optional. If empty, uses the post title. Max 60 characters.",
-            validation: { length: { max: 60 } },
-          }),
-          metaDescription: fields.text({
-            label: "Meta Description (SEO)",
-            description: "Optional. If empty, uses the post description. Max 160 characters.",
-            multiline: true,
-            validation: { length: { max: 160 } },
-          }),
-          ogImage: fields.image({
-            label: "Open Graph Image",
-            description: "Optional. If empty, uses the cover image. Recommended: 1200x630px",
-            directory: "public/images/posts/og",
-            publicPath: "/images/posts/og",
-          }),
-          twitterCard: fields.select({
-            label: "Twitter Card Type",
-            options: [
-              { label: "Summary Large Image", value: "summary_large_image" },
-              { label: "Summary", value: "summary" },
-            ],
-            defaultValue: "summary_large_image",
-          }),
-          keywords: fields.array(
-            fields.text({ label: "Keyword" }),
-            {
-              label: "SEO Keywords",
-              description: "Additional keywords for SEO (optional)",
-              itemLabel: (props) => props.value,
-            }
-          ),
-          canonicalUrl: fields.text({
-            label: "Canonical URL",
-            description: "Optional. Full URL if this content was published elsewhere first.",
-          }),
-        }, {
-          label: "SEO Settings",
-          description: "Advanced SEO options for search engines and social media",
+        metaTitle: fields.text({
+          label: "Meta Title (SEO)",
+          description: "Optional. If empty, uses the post title. Max 60 characters.",
+          validation: { length: { max: 60 } },
+        }),
+        metaDescription: fields.text({
+          label: "Meta Description (SEO)",
+          description: "Optional. If empty, uses the post description. Max 160 characters.",
+          multiline: true,
+          validation: { length: { max: 160 } },
+        }),
+        ogImage: fields.image({
+          label: "Open Graph Image",
+          description: "Optional. If empty, uses the cover image. Recommended: 1200x630px",
+          directory: "public/images/posts/og",
+          publicPath: "/images/posts/og",
+        }),
+        twitterCard: fields.select({
+          label: "Twitter Card Type",
+          options: [
+            { label: "Summary Large Image", value: "summary_large_image" },
+            { label: "Summary", value: "summary" },
+          ],
+          defaultValue: "summary_large_image",
+        }),
+        keywords: fields.array(
+          fields.text({ label: "Keyword" }),
+          {
+            label: "SEO Keywords",
+            description: "Additional keywords for SEO (optional)",
+            itemLabel: (props) => props.value,
+          }
+        ),
+        canonicalUrl: fields.text({
+          label: "Canonical URL",
+          description: "Optional. Full URL if this content was published elsewhere first.",
         }),
       },
     }),

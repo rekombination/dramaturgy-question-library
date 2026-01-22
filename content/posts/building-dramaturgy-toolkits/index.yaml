@@ -11,16 +11,15 @@ tags:
   - Resources
   - Practice
   - Community
-seo:
-  metaTitle: Building Dramaturgy Toolkits | Resource Guide
-  metaDescription: >-
-    Create and curate collections of tools, frameworks, and resources
-    for specific dramaturgical challenges.
-  ogImage: null
-  twitterCard: summary_large_image
-  keywords:
-    - dramaturgy toolkits
-    - theatre resources
-    - dramaturg tools
-    - creative frameworks
-  canonicalUrl: null
+metaTitle: Building Dramaturgy Toolkits | Resource Guide
+metaDescription: >-
+  Create and curate collections of tools, frameworks, and resources
+  for specific dramaturgical challenges.
+ogImage: null
+twitterCard: summary_large_image
+keywords:
+  - dramaturgy toolkits
+  - theatre resources
+  - dramaturg tools
+  - creative frameworks
+canonicalUrl: ''

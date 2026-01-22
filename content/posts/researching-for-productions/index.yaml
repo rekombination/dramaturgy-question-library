@@ -11,16 +11,15 @@ tags:
   - Practice
   - Production
   - Resources
-seo:
-  metaTitle: Researching for Productions | Dramaturgical Guide
-  metaDescription: >-
-    A practical guide to dramaturgical research—from finding sources to
-    presenting findings that support creative teams.
-  ogImage: null
-  twitterCard: summary_large_image
-  keywords:
-    - dramaturgical research
-    - theatre research
-    - production research
-    - research methods
-  canonicalUrl: null
+metaTitle: Researching for Productions | Dramaturgical Guide
+metaDescription: >-
+  A practical guide to dramaturgical research—from finding sources to
+  presenting findings that support creative teams.
+ogImage: null
+twitterCard: summary_large_image
+keywords:
+  - dramaturgical research
+  - theatre research
+  - production research
+  - research methods
+canonicalUrl: ''
