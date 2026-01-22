@@ -18,8 +18,18 @@ export default function SignUpPage() {
     setIsLoading(true);
 
     try {
-      await signIn("resend", { email, callbackUrl: "/" });
-      setEmailSent(true);
+      // redirect: false prevents NextAuth from redirecting, we handle UI ourselves
+      const result = await signIn("resend", {
+        email,
+        redirect: false,
+        callbackUrl: "/"
+      });
+
+      if (result?.error) {
+        console.error("Sign up error:", result.error);
+      } else {
+        setEmailSent(true);
+      }
     } catch (error) {
       console.error("Sign up error:", error);
     } finally {
