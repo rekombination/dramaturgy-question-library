@@ -88,37 +88,40 @@ export default async function BlogPage() {
       </section>
 
       {/* Posts Grid */}
-      <section className="py-12 md:py-20">
+      <section className="py-20">
         <div className="container">
           {sortedPosts.length === 0 ? (
-            <div className="text-center py-20 border-3 border-foreground">
-              <div className="text-8xl font-black text-primary">+</div>
+            <div className="text-center py-20 border-3 border-foreground bg-muted">
+              <div className="text-8xl font-black text-primary">?</div>
               <h3 className="mt-6 text-2xl font-bold">No posts yet</h3>
               <p className="text-muted-foreground mt-2 text-lg">
                 Check back soon for articles and insights.
               </p>
             </div>
           ) : (
-            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-              {sortedPosts.map((post) => (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-0">
+              {sortedPosts.map((post, index) => (
                 <Link
                   key={post.slug}
                   href={`/blog/${post.slug}`}
-                  className="group block border-3 border-foreground hover:bg-muted transition-colors"
+                  className={`group block border-3 border-foreground hover:bg-foreground hover:text-background transition-all hover-lift ${
+                    index > 0 ? "border-t-0 md:border-t-3" : ""
+                  } ${
+                    index % 3 !== 0 && index > 0 ? "md:border-l-0" : ""
+                  }`}
                 >
                   {post.entry.coverImage && (
-                    <div className="aspect-video relative overflow-hidden border-b-3 border-foreground">
-                      <Image
-                        src={post.entry.coverImage}
+                    <div className="aspect-video relative overflow-hidden border-b-3 border-foreground bg-muted">
+                      <img
+                        src={post.entry.coverImage.replace('.jpg', '.svg')}
                         alt={post.entry.title}
-                        fill
-                        className="object-cover group-hover:scale-105 transition-transform duration-300"
+                        className="w-full h-full object-cover"
                       />
                     </div>
                   )}
-                  <div className="p-6">
+                  <div className="p-8">
                     {post.entry.publishedAt && (
-                      <p className="text-sm text-muted-foreground mb-2">
+                      <p className="text-sm uppercase tracking-wider mb-3 text-muted-foreground group-hover:text-background/70">
                         {new Date(post.entry.publishedAt).toLocaleDateString("de-DE", {
                           year: "numeric",
                           month: "long",
@@ -126,20 +129,20 @@ export default async function BlogPage() {
                         })}
                       </p>
                     )}
-                    <h2 className="text-xl font-bold group-hover:text-primary transition-colors">
+                    <h2 className="text-2xl font-black mb-3 group-hover:text-primary transition-colors">
                       {post.entry.title}
                     </h2>
                     {post.entry.description && (
-                      <p className="mt-2 text-muted-foreground line-clamp-2">
+                      <p className="text-muted-foreground group-hover:text-background/80 line-clamp-3 mb-4">
                         {post.entry.description}
                       </p>
                     )}
                     {post.entry.tags && post.entry.tags.length > 0 && (
-                      <div className="mt-4 flex flex-wrap gap-2">
+                      <div className="flex flex-wrap gap-2">
                         {post.entry.tags.slice(0, 3).map((tag) => (
                           <span
                             key={tag}
-                            className="px-2 py-1 bg-muted text-xs font-medium"
+                            className="px-3 py-1 border-2 border-foreground group-hover:border-background text-xs font-bold uppercase tracking-wider"
                           >
                             {tag}
                           </span>

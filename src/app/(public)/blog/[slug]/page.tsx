@@ -110,62 +110,67 @@ export default async function BlogPostPage({ params }: Props) {
         ]}
       />
       {/* Hero Section */}
-      <section className="border-b-3 border-foreground py-12 md:py-16">
+      <section className="border-b-3 border-foreground py-16 md:py-20 bg-muted">
         <div className="container max-w-4xl">
           <Link
             href="/blog"
-            className="inline-flex items-center gap-2 text-sm font-bold text-muted-foreground hover:text-primary transition-colors mb-8"
+            className="inline-flex items-center gap-2 px-4 py-2 border-3 border-foreground text-sm font-bold hover:bg-foreground hover:text-background transition-colors mb-8"
           >
             ← Back to Blog
           </Link>
 
-          {post.publishedAt && (
-            <p className="text-sm text-muted-foreground mb-4">
-              {new Date(post.publishedAt).toLocaleDateString("de-DE", {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-              })}
-              {post.author && ` · ${post.author}`}
-            </p>
-          )}
-
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight">
-            {post.title}
-          </h1>
-
-          {post.description && (
-            <p className="mt-6 text-xl text-muted-foreground">
-              {post.description}
-            </p>
-          )}
-
           {post.tags && post.tags.length > 0 && (
-            <div className="mt-6 flex flex-wrap gap-2">
+            <div className="mt-6 mb-4 flex flex-wrap gap-2">
               {post.tags.map((tag) => (
                 <span
                   key={tag}
-                  className="px-3 py-1 border-2 border-foreground text-sm font-medium"
+                  className="px-3 py-1 bg-primary text-primary-foreground text-xs font-bold uppercase tracking-wider"
                 >
                   {tag}
                 </span>
               ))}
             </div>
           )}
+
+          <h1 className="hero-text mt-4">
+            {post.title}
+          </h1>
+
+          {post.description && (
+            <p className="mt-8 text-xl md:text-2xl text-foreground/80 leading-relaxed max-w-3xl">
+              {post.description}
+            </p>
+          )}
+
+          <div className="mt-8 flex items-center gap-4 text-sm text-muted-foreground">
+            {post.author && (
+              <span className="font-bold uppercase tracking-wider">{post.author}</span>
+            )}
+            {post.publishedAt && (
+              <>
+                <span>·</span>
+                <time>
+                  {new Date(post.publishedAt).toLocaleDateString("de-DE", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })}
+                </time>
+              </>
+            )}
+          </div>
         </div>
       </section>
 
       {/* Cover Image */}
       {post.coverImage && (
-        <section className="border-b-3 border-foreground">
-          <div className="container max-w-4xl py-8">
-            <div className="aspect-video relative overflow-hidden border-3 border-foreground">
-              <Image
-                src={post.coverImage}
+        <section className="border-b-3 border-foreground bg-background">
+          <div className="container max-w-5xl py-12">
+            <div className="aspect-video relative overflow-hidden border-3 border-foreground bg-muted">
+              <img
+                src={post.coverImage.replace('.jpg', '.svg')}
                 alt={post.title}
-                fill
-                className="object-cover"
-                priority
+                className="w-full h-full object-cover"
               />
             </div>
           </div>
@@ -173,31 +178,31 @@ export default async function BlogPostPage({ params }: Props) {
       )}
 
       {/* Content */}
-      <section className="py-12 md:py-16">
+      <section className="py-16 md:py-24">
         <div className="container max-w-3xl">
-          <article className="prose prose-lg dark:prose-invert max-w-none prose-headings:font-bold prose-headings:tracking-tight prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-img:border-3 prose-img:border-foreground">
+          <article className="prose prose-lg prose-headings:font-black prose-headings:tracking-tight prose-h2:text-3xl prose-h2:mt-12 prose-h2:mb-6 prose-h3:text-2xl prose-h3:mt-8 prose-h3:mb-4 prose-p:text-lg prose-p:leading-relaxed prose-p:mb-6 prose-a:text-primary prose-a:font-bold prose-a:no-underline hover:prose-a:underline prose-ul:my-6 prose-ul:space-y-2 prose-li:text-lg prose-strong:font-bold prose-strong:text-foreground max-w-none">
             <DocumentRenderer document={content} />
           </article>
         </div>
       </section>
 
       {/* Footer CTA */}
-      <section className="border-t-3 border-foreground bg-muted py-12">
+      <section className="border-t-3 border-foreground bg-primary text-primary-foreground py-16 md:py-20">
         <div className="container max-w-4xl text-center">
-          <h2 className="text-2xl font-bold">Have a question?</h2>
-          <p className="mt-2 text-muted-foreground">
+          <h2 className="text-4xl md:text-5xl font-black">Have a question?</h2>
+          <p className="mt-4 text-xl opacity-90">
             Join the community and start a conversation.
           </p>
-          <div className="mt-6 flex flex-wrap justify-center gap-4">
+          <div className="mt-8 flex flex-col sm:flex-row justify-center gap-4">
             <Link
               href="/submit"
-              className="px-6 py-3 bg-primary text-primary-foreground font-bold hover:bg-primary/90 transition-colors"
+              className="px-8 py-4 bg-white text-primary text-lg font-bold hover:bg-white/90 transition-colors"
             >
               Ask a Question
             </Link>
             <Link
               href="/explore"
-              className="px-6 py-3 border-3 border-foreground font-bold hover:bg-foreground hover:text-background transition-colors"
+              className="px-8 py-4 border-3 border-primary-foreground text-lg font-bold hover:bg-white/10 transition-colors"
             >
               Explore Questions
             </Link>

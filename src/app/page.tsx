@@ -123,7 +123,7 @@ export default async function HomePage() {
       {latestPosts.length > 0 && (
         <section className="py-20 border-y-3 border-foreground">
           <div className="container">
-            <div className="flex justify-between items-end mb-12">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 mb-12">
               <h2 className="display-text">Latest Articles</h2>
               <Link
                 href="/blog"
@@ -137,23 +137,22 @@ export default async function HomePage() {
                 <Link
                   key={post.slug}
                   href={`/blog/${post.slug}`}
-                  className={`group block border-3 border-foreground hover:bg-muted transition-colors ${
+                  className={`group block border-3 border-foreground hover:bg-foreground hover:text-background transition-all hover-lift ${
                     index > 0 ? "border-t-0 md:border-t-3 md:border-l-0" : ""
                   }`}
                 >
                   {post.entry.coverImage && (
-                    <div className="aspect-video relative overflow-hidden border-b-3 border-foreground">
-                      <Image
-                        src={post.entry.coverImage}
+                    <div className="aspect-video relative overflow-hidden border-b-3 border-foreground bg-muted">
+                      <img
+                        src={post.entry.coverImage.replace('.jpg', '.svg')}
                         alt={post.entry.title}
-                        fill
-                        className="object-cover group-hover:scale-105 transition-transform duration-300"
+                        className="w-full h-full object-cover"
                       />
                     </div>
                   )}
-                  <div className="p-6 md:p-8">
+                  <div className="p-6 md:p-8 min-h-[280px] flex flex-col">
                     {post.entry.publishedAt && (
-                      <p className="text-sm text-muted-foreground mb-3 uppercase tracking-wider">
+                      <p className="text-sm text-muted-foreground group-hover:text-background/70 mb-3 uppercase tracking-wider">
                         {new Date(post.entry.publishedAt).toLocaleDateString("de-DE", {
                           year: "numeric",
                           month: "long",
@@ -161,15 +160,15 @@ export default async function HomePage() {
                         })}
                       </p>
                     )}
-                    <h3 className="text-xl font-bold group-hover:text-primary transition-colors leading-tight">
+                    <h3 className="text-xl md:text-2xl font-black mb-3 leading-tight flex-grow">
                       {post.entry.title}
                     </h3>
                     {post.entry.description && (
-                      <p className="mt-3 text-muted-foreground line-clamp-2">
+                      <p className="text-muted-foreground group-hover:text-background/80 line-clamp-2 mb-4">
                         {post.entry.description}
                       </p>
                     )}
-                    <div className="mt-4 inline-flex items-center gap-2 text-sm font-bold text-primary">
+                    <div className="mt-auto inline-flex items-center gap-2 text-sm font-bold text-primary group-hover:text-background">
                       Read More
                       <span className="group-hover:translate-x-1 transition-transform">→</span>
                     </div>
