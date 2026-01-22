@@ -18,16 +18,16 @@ export default function HomePage() {
               <p className="mt-8 text-xl md:text-2xl max-w-lg">
                 A community platform for dramaturgical questions, insights, and knowledge sharing.
               </p>
-              <div className="mt-10 flex flex-wrap gap-4">
+              <div className="mt-10 flex flex-col sm:flex-row gap-4">
                 <Link
                   href="/explore"
-                  className="inline-flex items-center justify-center px-8 py-4 bg-primary text-primary-foreground text-lg font-bold hover:bg-primary/90 transition-colors"
+                  className="inline-flex items-center justify-center w-full sm:w-52 px-8 py-4 bg-primary text-primary-foreground text-lg font-bold hover:bg-primary/90 transition-colors text-center"
                 >
                   Explore Questions
                 </Link>
                 <Link
                   href="/submit"
-                  className="inline-flex items-center justify-center px-8 py-4 border-3 border-foreground text-lg font-bold hover:bg-foreground hover:text-background transition-colors"
+                  className="inline-flex items-center justify-center w-full sm:w-52 px-8 py-4 border-3 border-foreground text-lg font-bold hover:bg-foreground hover:text-background transition-colors text-center"
                 >
                   Ask a Question
                 </Link>
@@ -138,16 +138,16 @@ export default function HomePage() {
                 Sign up to ask questions, contribute answers, and build your personal
                 collection of dramaturgical resources.
               </p>
-              <div className="mt-10 flex flex-wrap gap-4">
+              <div className="mt-10 flex flex-col sm:flex-row gap-4">
                 <Link
                   href="/signup"
-                  className="inline-flex items-center justify-center px-8 py-4 bg-white text-primary text-lg font-bold hover:bg-white/90 transition-colors"
+                  className="inline-flex items-center justify-center w-full sm:w-52 px-8 py-4 bg-white text-primary text-lg font-bold hover:bg-white/90 transition-colors text-center"
                 >
                   Create Account
                 </Link>
                 <Link
                   href="/explore"
-                  className="inline-flex items-center justify-center px-8 py-4 border-3 border-primary-foreground text-primary-foreground text-lg font-bold hover:bg-white/10 transition-colors"
+                  className="inline-flex items-center justify-center w-full sm:w-52 px-8 py-4 border-3 border-primary-foreground text-primary-foreground text-lg font-bold hover:bg-white/10 transition-colors text-center"
                 >
                   Browse First
                 </Link>
