@@ -61,9 +61,9 @@ export default function LoginPage() {
             <Image
               src="/logo.png"
               alt="The Dramaturgy"
-              width={160}
-              height={53}
-              className="h-12 w-auto brightness-0 invert"
+              width={180}
+              height={60}
+              className="h-auto w-40 brightness-0 invert"
             />
             <h1 className="mt-8 text-4xl xl:text-5xl font-black leading-tight">
               Welcome
