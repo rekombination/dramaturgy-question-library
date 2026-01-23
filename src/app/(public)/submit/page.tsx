@@ -19,6 +19,7 @@ import {
 import { toast } from "sonner";
 import { IconX, IconPhoto, IconVideo, IconEye } from "@tabler/icons-react";
 import { QuestionPreviewModal } from "@/components/question/QuestionPreviewModal";
+import { useUploadThing } from "@/lib/uploadthing";
 
 const contextTypes = [
   { value: "REHEARSAL", label: "Rehearsal" },
@@ -60,6 +61,18 @@ export default function SubmitPage() {
   const [uploadedFiles, setUploadedFiles] = useState<UploadedFile[]>([]);
   const [isUploading, setIsUploading] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
+
+  const { startUpload, isUploading: uploadthingUploading } = useUploadThing("questionMedia", {
+    onClientUploadComplete: (files) => {
+      console.log("Upload complete:", files);
+    },
+    onUploadError: (error) => {
+      console.error("Upload error:", error);
+      toast.error("Upload failed", {
+        description: error.message,
+      });
+    },
+  });
 
   const [formData, setFormData] = useState<QuestionDraft>({
     title: "",
@@ -141,39 +154,40 @@ export default function SubmitPage() {
     setIsUploading(true);
 
     try {
-      // Upload files sequentially
-      for (const file of validFiles) {
-        const formData = new FormData();
-        formData.append("file", file);
+      // Upload using Uploadthing
+      const uploadedResults = await startUpload(validFiles);
 
-        const response = await fetch("/api/upload", {
-          method: "POST",
-          body: formData,
-        });
+      if (!uploadedResults) {
+        throw new Error("Upload failed");
+      }
 
-        if (!response.ok) {
-          const error = await response.json();
-          throw new Error(error.error || "Upload failed");
-        }
+      // Process uploaded files
+      for (const result of uploadedResults) {
+        const fileType = result.type.startsWith("image") ? "image" : "video";
+        const uploadedFile: UploadedFile = {
+          url: result.url,
+          type: fileType,
+          size: result.size,
+          name: result.name,
+        };
 
-        const data: UploadedFile = await response.json();
-        setUploadedFiles((prev) => [...prev, data]);
+        setUploadedFiles((prev) => [...prev, uploadedFile]);
 
         // Update form data
-        if (data.type === "image") {
+        if (fileType === "image") {
           setFormData((prev) => ({
             ...prev,
-            images: [...(prev.images || []), data.url],
+            images: [...(prev.images || []), result.url],
           }));
         } else {
           setFormData((prev) => ({
             ...prev,
-            videos: [...(prev.videos || []), data.url],
+            videos: [...(prev.videos || []), result.url],
           }));
         }
       }
 
-      toast.success(`${validFiles.length} file(s) uploaded successfully`);
+      toast.success(`${uploadedResults.length} file(s) uploaded successfully`);
     } catch (error) {
       toast.error("Upload failed", {
         description: error instanceof Error ? error.message : "Please try again",
