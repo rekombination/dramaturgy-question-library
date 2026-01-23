@@ -2,24 +2,30 @@
 
 import { useState, Suspense } from "react";
 import { signIn } from "next-auth/react";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { IconBrandGoogle, IconBrandWindows, IconBrandApple } from "@tabler/icons-react";
+import { toast } from "sonner";
 
 function LoginContent() {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const callbackUrl = searchParams.get("callbackUrl") || "/";
+  const [loginMethod, setLoginMethod] = useState<"magic-link" | "password">("magic-link");
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
+  const [error, setError] = useState("");
 
   const handleEmailSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
+    setError("");
 
     try {
       // redirect: false prevents NextAuth from redirecting, we handle UI ourselves
@@ -36,6 +42,33 @@ function LoginContent() {
       }
     } catch (error) {
       console.error("Sign in error:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handlePasswordSignIn = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setError("");
+
+    try {
+      const result = await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
+      });
+
+      if (result?.error) {
+        throw new Error("Invalid email or password");
+      }
+
+      toast.success("Signed in successfully!");
+      router.push(callbackUrl);
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : "Failed to sign in";
+      setError(errorMessage);
+      toast.error(errorMessage);
     } finally {
       setIsLoading(false);
     }
@@ -67,11 +100,12 @@ function LoginContent() {
   }
 
   return (
-    <div className="min-h-[80vh] flex items-center py-8 md:py-0">
+    <div className="min-h-[80vh] flex items-center py-12 md:py-16">
       <div className="container">
         <div className="grid lg:grid-cols-2 gap-0 max-w-5xl mx-auto">
           {/* Left Side - Branding */}
-          <div className="hidden lg:flex flex-col justify-center bg-foreground text-background p-12 xl:p-16">
+          <div className="hidden lg:block bg-foreground">
+            <div className="sticky top-0 flex flex-col justify-center text-background p-12 xl:p-16 min-h-screen">
             <Image
               src="/logo.png"
               alt="The Dramaturgy"
@@ -87,10 +121,11 @@ function LoginContent() {
             <p className="mt-6 text-lg text-background/70">
               Sign in to continue your dramaturgical journey. Ask questions, share insights, and connect with the community.
             </p>
+            </div>
           </div>
 
           {/* Right Side - Form */}
-          <div className="border-2 border-foreground lg:border-l-0 p-8 md:p-12">
+          <div className="border-2 border-foreground lg:border-l-0 p-8 md:p-12 flex flex-col">
             <div className="lg:hidden mb-8">
               <h1 className="text-3xl font-black">Welcome back</h1>
               <p className="mt-2 text-muted-foreground">
@@ -136,29 +171,114 @@ function LoginContent() {
               </div>
             </div>
 
-            <form onSubmit={handleEmailSignIn} className="space-y-6">
-              <div className="space-y-2">
-                <Label htmlFor="email" className="text-sm font-bold uppercase tracking-wider">
-                  Email Address
-                </Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="you@example.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  className="h-14 text-base border-2 border-foreground px-4"
-                />
-              </div>
-              <Button
-                type="submit"
-                className="w-full h-14 text-base font-bold bg-primary hover:bg-primary/90"
-                disabled={isLoading}
+            {/* Tab Selector */}
+            <div className="flex border-2 border-foreground mb-6">
+              <button
+                type="button"
+                onClick={() => setLoginMethod("magic-link")}
+                className={`flex-1 py-3 text-sm font-bold transition-colors ${
+                  loginMethod === "magic-link"
+                    ? "bg-primary text-primary-foreground"
+                    : "bg-background hover:bg-muted"
+                }`}
               >
-                {isLoading ? "Sending link..." : "Send magic link"}
-              </Button>
-            </form>
+                Magic Link
+              </button>
+              <button
+                type="button"
+                onClick={() => setLoginMethod("password")}
+                className={`flex-1 py-3 text-sm font-bold transition-colors border-l-2 border-foreground ${
+                  loginMethod === "password"
+                    ? "bg-primary text-primary-foreground"
+                    : "bg-background hover:bg-muted"
+                }`}
+              >
+                Password
+              </button>
+            </div>
+
+            {/* Magic Link Form */}
+            {loginMethod === "magic-link" && (
+              <form onSubmit={handleEmailSignIn} className="space-y-6">
+                <div className="space-y-2">
+                  <Label htmlFor="email" className="text-sm font-bold uppercase tracking-wider">
+                    Email Address
+                  </Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    placeholder="you@example.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                    className="h-14 text-base border-2 border-foreground px-4"
+                  />
+                </div>
+                <Button
+                  type="submit"
+                  className="w-full h-14 text-base font-bold bg-primary hover:bg-primary/90"
+                  disabled={isLoading}
+                >
+                  {isLoading ? "Sending link..." : "Send magic link"}
+                </Button>
+              </form>
+            )}
+
+            {/* Password Form */}
+            {loginMethod === "password" && (
+              <form onSubmit={handlePasswordSignIn} className="space-y-6">
+                {error && (
+                  <div className="p-4 border-2 border-red-600 bg-red-50 dark:bg-red-950/20 text-red-900 dark:text-red-100 text-sm">
+                    {error}
+                  </div>
+                )}
+                <div className="space-y-2">
+                  <Label htmlFor="email-password" className="text-sm font-bold uppercase tracking-wider">
+                    Email Address
+                  </Label>
+                  <Input
+                    id="email-password"
+                    type="email"
+                    placeholder="you@example.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                    className="h-14 text-base border-2 border-foreground px-4"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="password" className="text-sm font-bold uppercase tracking-wider">
+                    Password
+                  </Label>
+                  <Input
+                    id="password"
+                    type="password"
+                    placeholder="Your password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                    className="h-14 text-base border-2 border-foreground px-4"
+                  />
+                </div>
+                <Button
+                  type="submit"
+                  className="w-full h-14 text-base font-bold bg-primary hover:bg-primary/90"
+                  disabled={isLoading}
+                >
+                  {isLoading ? "Signing in..." : "Sign in"}
+                </Button>
+                <p className="text-center text-sm text-muted-foreground">
+                  No password yet?{" "}
+                  <button
+                    type="button"
+                    onClick={() => setLoginMethod("magic-link")}
+                    className="font-bold text-primary hover:underline"
+                  >
+                    Use magic link instead
+                  </button>
+                </p>
+              </form>
+            )}
 
             <p className="mt-8 text-center text-sm text-muted-foreground">
               Don&apos;t have an account?{" "}

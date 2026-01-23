@@ -67,7 +67,7 @@ function SignUpContent() {
   }
 
   return (
-    <div className="min-h-[80vh] flex items-center py-8 md:py-0">
+    <div className="min-h-[80vh] flex items-center py-12 md:py-16">
       <div className="container">
         <div className="grid lg:grid-cols-2 gap-0 max-w-5xl mx-auto">
           {/* Left Side - Branding */}

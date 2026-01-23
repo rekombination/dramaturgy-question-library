@@ -15,7 +15,8 @@ import {
   IconWorld,
   IconCheck,
   IconX,
-  IconLoader2
+  IconLoader2,
+  IconLock
 } from "@tabler/icons-react";
 
 export default function SettingsPage() {
@@ -37,6 +38,14 @@ export default function SettingsPage() {
     linkedinUrl: "",
     websiteUrl: "",
   });
+
+  const [passwordData, setPasswordData] = useState({
+    newPassword: "",
+    confirmPassword: "",
+  });
+
+  const [passwordLoading, setPasswordLoading] = useState(false);
+  const [passwordMessage, setPasswordMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
 
   const [usernameValidation, setUsernameValidation] = useState<{
     checking: boolean;
@@ -118,6 +127,46 @@ export default function SettingsPage() {
       setMessage({ type: "error", text: "Failed to update profile. Please try again." });
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleSetPassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setPasswordLoading(true);
+    setPasswordMessage(null);
+
+    // Validation
+    if (passwordData.newPassword !== passwordData.confirmPassword) {
+      setPasswordMessage({ type: "error", text: "Passwords do not match" });
+      setPasswordLoading(false);
+      return;
+    }
+
+    if (passwordData.newPassword.length < 8) {
+      setPasswordMessage({ type: "error", text: "Password must be at least 8 characters" });
+      setPasswordLoading(false);
+      return;
+    }
+
+    try {
+      const response = await fetch("/api/user/set-password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password: passwordData.newPassword }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to set password");
+      }
+
+      setPasswordMessage({ type: "success", text: "Password set successfully! You can now sign in with email and password." });
+      setPasswordData({ newPassword: "", confirmPassword: "" });
+    } catch (error) {
+      setPasswordMessage({ type: "error", text: error instanceof Error ? error.message : "Failed to set password" });
+    } finally {
+      setPasswordLoading(false);
     }
   };
 
@@ -442,6 +491,75 @@ export default function SettingsPage() {
                   </div>
                 </div>
               </div>
+            </section>
+
+            {/* Security */}
+            <section className="border-t-2 border-foreground pt-8">
+              <h2 className="text-2xl font-black mb-6 flex items-center gap-2">
+                <IconLock size={28} />
+                Security
+              </h2>
+
+              <div className="bg-blue-50 dark:bg-blue-950/20 border-2 border-blue-600 p-6 mb-6">
+                <h3 className="font-bold text-blue-900 dark:text-blue-100 mb-2">
+                  Set a Password for Quick Sign-In
+                </h3>
+                <p className="text-sm text-blue-800 dark:text-blue-200">
+                  Currently, you sign in with a magic link sent to your email. Set a password to sign in faster next time.
+                </p>
+              </div>
+
+              <form onSubmit={handleSetPassword} className="space-y-6">
+                {passwordMessage && (
+                  <div
+                    className={`p-4 border-2 ${
+                      passwordMessage.type === "success"
+                        ? "border-green-600 bg-green-50 dark:bg-green-950/20 text-green-900 dark:text-green-100"
+                        : "border-red-600 bg-red-50 dark:bg-red-950/20 text-red-900 dark:text-red-100"
+                    } text-sm font-medium`}
+                  >
+                    {passwordMessage.text}
+                  </div>
+                )}
+
+                <div>
+                  <label htmlFor="newPassword" className="block text-sm font-bold mb-2">
+                    New Password
+                  </label>
+                  <input
+                    type="password"
+                    id="newPassword"
+                    value={passwordData.newPassword}
+                    onChange={(e) => setPasswordData({ ...passwordData, newPassword: e.target.value })}
+                    className="w-full px-4 py-3 border-2 border-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                    placeholder="At least 8 characters"
+                    minLength={8}
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="confirmPassword" className="block text-sm font-bold mb-2">
+                    Confirm Password
+                  </label>
+                  <input
+                    type="password"
+                    id="confirmPassword"
+                    value={passwordData.confirmPassword}
+                    onChange={(e) => setPasswordData({ ...passwordData, confirmPassword: e.target.value })}
+                    className="w-full px-4 py-3 border-2 border-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                    placeholder="Re-type your password"
+                    minLength={8}
+                  />
+                </div>
+
+                <Button
+                  type="submit"
+                  disabled={passwordLoading || !passwordData.newPassword || !passwordData.confirmPassword}
+                  className="font-bold"
+                >
+                  {passwordLoading ? "Setting password..." : "Set Password"}
+                </Button>
+              </form>
             </section>
 
             {/* Actions - Bottom */}
