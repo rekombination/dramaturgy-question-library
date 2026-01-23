@@ -109,31 +109,32 @@ export default async function BlogPostPage({ params }: Props) {
           { name: post.title, url },
         ]}
       />
-      {/* Breadcrumb */}
-      <nav className="border-b border-border bg-muted/30 py-3">
+      {/* Breadcrumb Navigation */}
+      <nav className="border-b-3 border-foreground bg-foreground text-background py-4">
         <div className="container max-w-5xl">
-          <div className="flex items-center gap-2 text-sm">
-            <Link href="/" className="text-muted-foreground hover:text-foreground transition-colors">
+          <div className="flex items-center gap-3 text-sm font-bold uppercase tracking-wider">
+            <Link href="/" className="hover:text-primary transition-colors">
               Home
             </Link>
-            <span className="text-muted-foreground">/</span>
-            <Link href="/blog" className="text-muted-foreground hover:text-foreground transition-colors">
+            <span className="text-primary">/</span>
+            <Link href="/blog" className="hover:text-primary transition-colors">
               Blog
             </Link>
-            <span className="text-muted-foreground">/</span>
-            <span className="text-foreground font-medium truncate">{post.title}</span>
+            <span className="text-primary">/</span>
+            <span className="truncate">{post.title}</span>
           </div>
         </div>
       </nav>
 
       {/* Cover Image Hero */}
       {post.coverImage && (
-        <section className="relative">
+        <section className="relative border-b-3 border-foreground">
           <div className="aspect-[21/9] relative overflow-hidden bg-muted">
             <ResponsiveImage
               src={post.coverImage}
               alt={post.title}
               className="w-full h-full object-cover"
+              priority={true}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent" />
           </div>

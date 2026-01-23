@@ -75,28 +75,41 @@ export default async function BlogPage() {
     <div className="min-h-screen">
       {/* Schema.org JSON-LD for blog listing */}
       <BlogPostingListJsonLd posts={blogPostsSchema} />
+
+      {/* Breadcrumb Navigation */}
+      <nav className="border-b-3 border-foreground bg-foreground text-background py-4">
+        <div className="container max-w-6xl">
+          <div className="flex items-center gap-3 text-sm font-bold uppercase tracking-wider">
+            <Link href="/" className="hover:text-primary transition-colors">
+              Home
+            </Link>
+            <span className="text-primary">/</span>
+            <span>Blog</span>
+          </div>
+        </div>
+      </nav>
+
       {/* Hero Section */}
-      <section className="py-20 md:py-32 bg-background relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-primary opacity-10" />
-        <div className="container relative">
-          <div className="max-w-4xl">
-            <div className="inline-block px-4 py-2 bg-primary text-primary-foreground text-sm font-bold uppercase tracking-wider mb-6">
-              The Dramaturgy Blog
+      <section className="py-16 md:py-24 border-b-3 border-foreground bg-background">
+        <div className="container max-w-6xl">
+          <div className="flex items-start gap-8">
+            <div className="w-16 h-16 bg-primary flex-shrink-0" />
+            <div className="flex-1">
+              <h1 className="text-5xl md:text-7xl font-black tracking-tight leading-[1.1]">
+                Insights &<br />
+                <span className="text-primary">Resources</span>
+              </h1>
+              <p className="mt-6 text-lg md:text-xl text-muted-foreground max-w-2xl">
+                Practical articles and in-depth explorations of dramaturgical practice, collaborative creation, and theatrical craft.
+              </p>
             </div>
-            <h1 className="hero-text">
-              Insights &<br />
-              Resources
-            </h1>
-            <p className="mt-8 text-xl md:text-2xl text-muted-foreground max-w-2xl leading-relaxed">
-              Practical articles and in-depth explorations of dramaturgical practice, collaborative creation, and theatrical craft.
-            </p>
           </div>
         </div>
       </section>
 
       {/* Posts Grid */}
-      <section className="py-16 md:py-24 bg-muted/30">
-        <div className="container">
+      <section className="py-16 md:py-24">
+        <div className="container max-w-6xl">
           {sortedPosts.length === 0 ? (
             <div className="text-center py-20 border-3 border-foreground bg-background">
               <div className="text-8xl font-black text-primary">?</div>
@@ -117,18 +130,19 @@ export default async function BlogPage() {
                 >
                   <div className={`grid ${index === 0 ? "md:grid-cols-2" : "grid-cols-1"} gap-0`}>
                     {post.entry.coverImage && (
-                      <div className={`relative overflow-hidden ${index === 0 ? "aspect-[16/10]" : "aspect-video"} border-b-3 md:border-b-0 ${index === 0 ? "md:border-r-3" : ""} border-foreground`}>
+                      <div className={`relative overflow-hidden ${index === 0 ? "aspect-[16/10]" : "aspect-video"} ${index === 0 ? "md:border-r-3" : "border-b-3"} border-foreground bg-muted`}>
                         <ResponsiveImage
                           src={post.entry.coverImage}
                           alt={post.entry.title}
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                          priority={index === 0}
                         />
                       </div>
                     )}
                     <div className={`p-8 ${index === 0 ? "md:p-12" : ""} flex flex-col`}>
                       <div className="flex items-center gap-3 mb-4">
                         {post.entry.publishedAt && (
-                          <time className="text-sm text-muted-foreground">
+                          <time className="text-sm font-bold uppercase tracking-wider text-muted-foreground">
                             {new Date(post.entry.publishedAt).toLocaleDateString("de-DE", {
                               year: "numeric",
                               month: "short",
@@ -138,8 +152,8 @@ export default async function BlogPage() {
                         )}
                         {post.entry.tags && post.entry.tags.length > 0 && (
                           <>
-                            <span className="text-muted-foreground">·</span>
-                            <span className="text-sm text-primary font-bold">{post.entry.tags[0]}</span>
+                            <span className="text-primary font-black">·</span>
+                            <span className="text-sm text-primary font-bold uppercase tracking-wider">{post.entry.tags[0]}</span>
                           </>
                         )}
                       </div>

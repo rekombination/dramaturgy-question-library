@@ -13,6 +13,7 @@ const withPWA = withPWAInit({
 });
 
 const nextConfig: NextConfig = {
+  turbopack: {},
   images: {
     formats: ["image/avif", "image/webp"],
     remotePatterns: [
