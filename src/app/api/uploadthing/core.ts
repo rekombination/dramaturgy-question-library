@@ -17,8 +17,8 @@ export const ourFileRouter = {
     }),
 
   questionMedia: f({
-    image: { maxFileSize: "15MB", maxFileCount: 10 },
-    video: { maxFileSize: "15MB", maxFileCount: 10 }
+    image: { maxFileSize: "16MB", maxFileCount: 10 },
+    video: { maxFileSize: "16MB", maxFileCount: 10 }
   })
     .middleware(async () => {
       const session = await auth();
