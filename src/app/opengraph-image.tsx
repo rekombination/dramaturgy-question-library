@@ -1,6 +1,8 @@
 import { ImageResponse } from 'next/og';
+import { readFile } from 'fs/promises';
+import { join } from 'path';
 
-export const runtime = 'edge';
+export const runtime = 'nodejs';
 
 export const alt = 'The Dramaturgy - Community for Dramaturgical Questions';
 export const size = {
@@ -11,6 +13,11 @@ export const size = {
 export const contentType = 'image/png';
 
 export default async function Image() {
+  // Load logo
+  const logoData = await readFile(join(process.cwd(), 'public', 'logo.png'));
+  const logoBase64 = logoData.toString('base64');
+  const logoSrc = `data:image/png;base64,${logoBase64}`;
+
   return new ImageResponse(
     (
       <div
@@ -48,19 +55,16 @@ export default async function Image() {
             zIndex: 10,
           }}
         >
-          <div
+          {/* Logo */}
+          <img
+            src={logoSrc}
+            alt="The Dramaturgy Logo"
+            width="240"
+            height="80"
             style={{
-              fontSize: 96,
-              fontWeight: 900,
-              color: '#0A0A0A',
-              letterSpacing: '-0.03em',
-              lineHeight: 0.95,
-              textAlign: 'center',
-              marginBottom: 40,
+              marginBottom: 48,
             }}
-          >
-            The Dramaturgy
-          </div>
+          />
 
           <div
             style={{
