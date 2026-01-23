@@ -112,7 +112,7 @@ export default async function HomePage() {
 
       {/* Latest Articles */}
       {latestPosts.length > 0 && (
-        <section className="py-20 border-y-3 border-foreground">
+        <section className="py-20 border-t-3 border-foreground">
           <div className="container">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 mb-12">
               <h2 className="display-text">Latest Articles</h2>
@@ -170,7 +170,7 @@ export default async function HomePage() {
       )}
 
       {/* Featured Topics */}
-      <section className="py-20 bg-muted border-y-3 border-foreground">
+      <section className="py-20 bg-muted border-t-3 border-b-3 border-foreground">
         <div className="container">
           <h2 className="display-text mb-12">Explore Topics</h2>
           <div className="flex flex-wrap gap-4">

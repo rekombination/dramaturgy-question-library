@@ -47,7 +47,7 @@ export function Header() {
               </svg>
             </button>
 
-            <Link href="/" className="flex items-center">
+            <Link href="/" className="flex items-center gap-3">
               <span className="md:hidden text-lg font-normal">
                 The Dramaturgy
               </span>
@@ -59,6 +59,9 @@ export function Header() {
                 className="hidden md:block h-10 lg:h-12 w-auto"
                 priority
               />
+              <span className="hidden md:block text-lg lg:text-xl font-normal">
+                The Dramaturgy
+              </span>
             </Link>
 
             {/* Desktop Nav */}
