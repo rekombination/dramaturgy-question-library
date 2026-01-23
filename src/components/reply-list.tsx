@@ -85,7 +85,7 @@ export function ReplyList({
 
   if (replies.length === 0) {
     return (
-      <div className="border-3 border-foreground p-8 text-center text-muted-foreground">
+      <div className="border-2 border-foreground p-8 text-center text-muted-foreground">
         No answers yet. Be the first to help!
       </div>
     );
@@ -100,14 +100,14 @@ export function ReplyList({
         return (
           <div
             key={reply.id}
-            className={`border-3 ${
+            className={`border-2 ${
               isSolution
                 ? "border-primary bg-primary/5"
                 : "border-foreground"
             }`}
           >
             {/* Header */}
-            <div className={`p-4 border-b-3 ${
+            <div className={`p-4 border-b-2 ${
               isSolution ? "border-primary bg-primary/10" : "border-foreground bg-muted"
             }`}>
               <div className="flex items-start justify-between gap-4">
@@ -149,7 +149,7 @@ export function ReplyList({
             </div>
 
             {/* Footer */}
-            <div className={`p-4 border-t-3 ${
+            <div className={`p-4 border-t-2 ${
               isSolution ? "border-primary" : "border-foreground"
             } bg-muted flex items-center justify-between`}>
               <div className="text-sm text-muted-foreground">

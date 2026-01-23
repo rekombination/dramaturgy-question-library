@@ -29,7 +29,7 @@ export default async function ToolkitsPage() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="border-b-3 border-foreground py-16 md:py-24">
+      <section className="border-b-2 border-foreground py-16 md:py-24">
         <div className="container">
           <div className="max-w-3xl">
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-black tracking-tight">
@@ -47,7 +47,7 @@ export default async function ToolkitsPage() {
       <section className="py-12 md:py-20">
         <div className="container">
           {toolkits.length === 0 ? (
-            <div className="text-center py-20 border-3 border-foreground">
+            <div className="text-center py-20 border-2 border-foreground">
               <div className="text-8xl font-black text-primary">+</div>
               <h3 className="mt-6 text-2xl font-bold">No toolkits yet</h3>
               <p className="text-muted-foreground mt-2 text-lg max-w-md mx-auto">
@@ -60,9 +60,9 @@ export default async function ToolkitsPage() {
                 <Link
                   key={toolkit.id}
                   href={`/toolkits/${toolkit.slug}`}
-                  className={`group border-3 border-foreground p-8 md:p-12 hover:bg-foreground hover:text-background transition-colors ${
+                  className={`group border-2 border-foreground p-8 md:p-12 hover:bg-foreground hover:text-background transition-colors ${
                     index % 2 === 1 ? "md:border-l-0" : ""
-                  } ${index >= 2 ? "border-t-0 md:border-t-3" : ""} ${
+                  } ${index >= 2 ? "border-t-0 md:border-t-2" : ""} ${
                     index >= 2 && index % 2 === 0 ? "md:border-t-0" : ""
                   }`}
                 >
@@ -107,24 +107,24 @@ export default async function ToolkitsPage() {
       </section>
 
       {/* Info Section */}
-      <section className="border-t-3 border-foreground bg-muted py-16">
+      <section className="border-t-2 border-foreground bg-muted py-16">
         <div className="container">
           <div className="grid md:grid-cols-3 gap-0">
-            <div className="border-3 border-foreground bg-background p-8 md:p-10">
+            <div className="border-2 border-foreground bg-background p-8 md:p-10">
               <div className="text-4xl font-black text-primary mb-4">01</div>
               <h3 className="text-xl font-bold">Curated Content</h3>
               <p className="mt-2 text-muted-foreground">
                 Each toolkit is carefully assembled by experts in the field.
               </p>
             </div>
-            <div className="border-3 border-foreground border-t-0 md:border-t-3 md:border-l-0 bg-background p-8 md:p-10">
+            <div className="border-2 border-foreground border-t-0 md:border-t-2 md:border-l-0 bg-background p-8 md:p-10">
               <div className="text-4xl font-black text-primary mb-4">02</div>
               <h3 className="text-xl font-bold">Focused Topics</h3>
               <p className="mt-2 text-muted-foreground">
                 Deep dives into specific areas of dramaturgical practice.
               </p>
             </div>
-            <div className="border-3 border-foreground border-t-0 md:border-t-3 md:border-l-0 bg-background p-8 md:p-10">
+            <div className="border-2 border-foreground border-t-0 md:border-t-2 md:border-l-0 bg-background p-8 md:p-10">
               <div className="text-4xl font-black text-primary mb-4">03</div>
               <h3 className="text-xl font-bold">Practical Guides</h3>
               <p className="mt-2 text-muted-foreground">

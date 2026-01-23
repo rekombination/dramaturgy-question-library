@@ -101,7 +101,7 @@ export default async function QuestionDetailPage({
       return (
         <div className="min-h-screen py-16">
           <div className="container max-w-4xl">
-            <div className="border-3 border-foreground p-12 text-center">
+            <div className="border-2 border-foreground p-12 text-center">
               <h1 className="text-2xl font-black mb-4">Private Expert Question</h1>
               <p className="text-muted-foreground">
                 This question is only visible to the author and experts.
@@ -133,7 +133,7 @@ export default async function QuestionDetailPage({
 
         {/* Status Badges */}
         {question.status === "DRAFT" && (
-          <div className="mb-4 p-4 bg-muted border-3 border-foreground">
+          <div className="mb-4 p-4 bg-muted border-2 border-foreground">
             <p className="text-sm font-bold">
               This is a draft. Verify your email to publish it.
             </p>
@@ -141,9 +141,9 @@ export default async function QuestionDetailPage({
         )}
 
         {/* Question Card */}
-        <article className="border-3 border-foreground bg-background mb-8">
+        <article className="border-2 border-foreground bg-background mb-8">
           {/* Header */}
-          <div className="p-6 md:p-8 border-b-3 border-foreground bg-muted">
+          <div className="p-6 md:p-8 border-b-2 border-foreground bg-muted">
             <div className="flex items-start justify-between gap-4 mb-4">
               <div className="flex-1">
                 <div className="flex items-center gap-2 mb-3">
@@ -199,7 +199,7 @@ export default async function QuestionDetailPage({
 
           {/* Expert Claim Banner */}
           {question.expertClaimedById && question.expertClaimedBy && (
-            <div className="p-4 bg-primary/10 border-b-3 border-foreground">
+            <div className="p-4 bg-primary/10 border-b-2 border-foreground">
               <p className="text-sm font-bold">
                 <IconUser size={16} className="inline mr-2" />
                 Expert {question.expertClaimedBy.name} is working on this question
@@ -251,7 +251,7 @@ export default async function QuestionDetailPage({
           </div>
 
           {/* Footer Actions */}
-          <div className="p-6 md:p-8 border-t-3 border-foreground bg-muted">
+          <div className="p-6 md:p-8 border-t-2 border-foreground bg-muted">
             <QuestionActions
               questionId={question.id}
               isAuthor={isAuthor}
@@ -281,7 +281,7 @@ export default async function QuestionDetailPage({
 
         {/* Reply Form */}
         {session?.user && !question.isSolved && question.status === "PUBLISHED" && (
-          <div className="border-3 border-foreground p-6 md:p-8 bg-muted">
+          <div className="border-2 border-foreground p-6 md:p-8 bg-muted">
             <h3 className="text-xl font-black mb-4">Your Answer</h3>
             <ReplyForm
               questionId={question.id}
@@ -292,7 +292,7 @@ export default async function QuestionDetailPage({
         )}
 
         {!session?.user && (
-          <div className="border-3 border-foreground p-8 text-center">
+          <div className="border-2 border-foreground p-8 text-center">
             <p className="text-lg font-bold mb-4">Want to answer this question?</p>
             <Link
               href={`/login?callbackUrl=/questions/${question.id}`}
@@ -304,7 +304,7 @@ export default async function QuestionDetailPage({
         )}
 
         {question.isSolved && (
-          <div className="border-3 border-primary p-6 bg-primary/10 text-center">
+          <div className="border-2 border-primary p-6 bg-primary/10 text-center">
             <IconCheck size={32} className="mx-auto mb-2 text-primary" />
             <p className="font-bold">This question has been resolved</p>
           </div>

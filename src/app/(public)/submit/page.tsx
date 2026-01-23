@@ -146,7 +146,7 @@ export default function SubmitPage() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="border-b-3 border-foreground bg-primary text-primary-foreground py-12 md:py-16">
+      <section className="border-b-2 border-foreground bg-primary text-primary-foreground py-12 md:py-16">
         <div className="container">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight">
             Ask a Question
@@ -174,7 +174,7 @@ export default function SubmitPage() {
                 required
                 minLength={10}
                 maxLength={200}
-                className="h-14 text-lg border-3 border-foreground px-4"
+                className="h-14 text-lg border-2 border-foreground px-4"
               />
               <p className="text-sm text-muted-foreground">
                 Be specific and imagine you&apos;re asking another dramaturg. ({formData.title.length}/200)
@@ -187,7 +187,7 @@ export default function SubmitPage() {
                 Context Type *
               </Label>
               <Select value={formData.contextType} onValueChange={(value) => updateField("contextType", value)} required>
-                <SelectTrigger className="h-14 text-lg border-3 border-foreground px-4">
+                <SelectTrigger className="h-14 text-lg border-2 border-foreground px-4">
                   <SelectValue placeholder="Select context type" />
                 </SelectTrigger>
                 <SelectContent className="border-2 border-foreground">
@@ -216,7 +216,7 @@ export default function SubmitPage() {
                 required
                 minLength={50}
                 rows={8}
-                className="text-base border-3 border-foreground p-4 resize-none"
+                className="text-base border-2 border-foreground p-4 resize-none"
               />
               <p className="text-sm text-muted-foreground">
                 Include relevant details about your production, timeline, or constraints. (Minimum 50 characters, currently: {formData.body.length})
@@ -234,7 +234,7 @@ export default function SubmitPage() {
                 onChange={(e) => updateField("stakes", e.target.value)}
                 placeholder="What's important about this? What might be gained or lost?"
                 rows={3}
-                className="text-base border-3 border-foreground p-4 resize-none"
+                className="text-base border-2 border-foreground p-4 resize-none"
               />
             </div>
 
@@ -249,13 +249,13 @@ export default function SubmitPage() {
                 onChange={(e) => updateField("constraints", e.target.value)}
                 placeholder="Budget, time, space, or other limitations..."
                 rows={3}
-                className="text-base border-3 border-foreground p-4 resize-none"
+                className="text-base border-2 border-foreground p-4 resize-none"
               />
             </div>
 
 
             {/* Privacy Toggle */}
-            <div className="border-3 border-foreground p-6 space-y-4 bg-muted/30">
+            <div className="border-2 border-foreground p-6 space-y-4 bg-muted/30">
               <h3 className="font-bold text-lg">Privacy & Expert Options</h3>
 
               <div className="flex items-start gap-3">
@@ -308,7 +308,7 @@ export default function SubmitPage() {
             </div>
 
             {/* Guidelines reminder */}
-            <div className="bg-muted border-3 border-foreground p-6">
+            <div className="bg-muted border-2 border-foreground p-6">
               <h3 className="font-bold text-lg">Before you post</h3>
               <ul className="mt-3 space-y-2 text-muted-foreground">
                 <li className="flex items-start gap-2">
@@ -339,7 +339,7 @@ export default function SubmitPage() {
                 type="button"
                 variant="outline"
                 onClick={() => router.back()}
-                className="h-14 px-8 text-lg font-bold border-3 border-foreground hover:bg-foreground hover:text-background"
+                className="h-14 px-8 text-lg font-bold border-2 border-foreground hover:bg-foreground hover:text-background"
               >
                 Cancel
               </Button>

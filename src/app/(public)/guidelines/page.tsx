@@ -70,7 +70,7 @@ export default function GuidelinesPage() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="border-b-3 border-foreground bg-primary text-primary-foreground py-16 md:py-24">
+      <section className="border-b-2 border-foreground bg-primary text-primary-foreground py-16 md:py-24">
         <div className="container">
           <h1 className="text-5xl md:text-6xl lg:text-7xl font-black tracking-tight">
             Community
@@ -91,7 +91,7 @@ export default function GuidelinesPage() {
             {guidelines.map((guideline, index) => (
               <div
                 key={guideline.number}
-                className={`border-3 border-foreground p-8 md:p-12 ${
+                className={`border-2 border-foreground p-8 md:p-12 ${
                   index > 0 ? "border-t-0" : ""
                 } hover:bg-muted transition-colors group`}
               >
@@ -128,7 +128,7 @@ export default function GuidelinesPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="border-t-3 border-foreground bg-foreground text-background py-16 md:py-24">
+      <section className="border-t-2 border-foreground bg-foreground text-background py-16 md:py-24">
         <div className="container text-center">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-black">
             Ready to join the conversation?
@@ -145,7 +145,7 @@ export default function GuidelinesPage() {
             </a>
             <a
               href="/explore"
-              className="px-8 py-4 border-3 border-background text-background font-bold text-lg hover:bg-background hover:text-foreground transition-colors"
+              className="px-8 py-4 border-2 border-background text-background font-bold text-lg hover:bg-background hover:text-foreground transition-colors"
             >
               Browse First
             </a>

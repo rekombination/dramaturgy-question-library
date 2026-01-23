@@ -68,7 +68,7 @@ export function ReplyForm({ questionId, isExpert, hasClaimed }: ReplyFormProps) 
           onChange={(e) => setBody(e.target.value)}
           placeholder="Share your insights, experience, or suggestions..."
           rows={6}
-          className="border-3 border-foreground resize-none"
+          className="border-2 border-foreground resize-none"
           required
         />
       </div>

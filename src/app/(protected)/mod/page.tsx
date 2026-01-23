@@ -118,7 +118,7 @@ export default function ModeratorDashboard() {
         </div>
 
         {/* Filter Tabs */}
-        <div className="mb-6 flex gap-2 border-3 border-foreground p-2 bg-muted">
+        <div className="mb-6 flex gap-2 border-2 border-foreground p-2 bg-muted">
           {(["PENDING", "RESOLVED", "DISMISSED", "ALL"] as const).map((filterOption) => (
             <Button
               key={filterOption}
@@ -137,7 +137,7 @@ export default function ModeratorDashboard() {
 
         {/* Flags List */}
         {flags.length === 0 ? (
-          <div className="border-3 border-foreground p-12 text-center">
+          <div className="border-2 border-foreground p-12 text-center">
             <IconFlag size={48} className="mx-auto mb-4 text-muted-foreground" />
             <p className="text-lg font-bold">No flags to review</p>
             <p className="text-muted-foreground mt-2">
@@ -151,10 +151,10 @@ export default function ModeratorDashboard() {
             {flags.map((flag) => (
               <div
                 key={flag.id}
-                className="border-3 border-foreground bg-background"
+                className="border-2 border-foreground bg-background"
               >
                 {/* Header */}
-                <div className="p-4 border-b-3 border-foreground bg-muted flex items-center justify-between">
+                <div className="p-4 border-b-2 border-foreground bg-muted flex items-center justify-between">
                   <div>
                     <span className={`inline-block px-3 py-1 text-xs font-bold uppercase ${
                       flag.status === "PENDING"
@@ -217,7 +217,7 @@ export default function ModeratorDashboard() {
 
                 {/* Actions */}
                 {flag.status === "PENDING" && (
-                  <div className="p-4 border-t-3 border-foreground bg-muted flex gap-3">
+                  <div className="p-4 border-t-2 border-foreground bg-muted flex gap-3">
                     <Button
                       onClick={() => handleResolveFlag(flag.id, "RESOLVED")}
                       className="bg-primary text-primary-foreground font-bold hover:bg-primary/90"

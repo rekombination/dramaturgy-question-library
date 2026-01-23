@@ -123,7 +123,7 @@ export default async function BlogPostPage({ params }: Props) {
         ]}
       />
       {/* Breadcrumb Navigation */}
-      <nav className="border-b-3 border-foreground bg-foreground text-background py-4">
+      <nav className="border-b-2 border-foreground bg-foreground text-background py-4">
         <div className="container max-w-5xl">
           <div className="flex items-center gap-3 text-sm font-bold uppercase tracking-wider">
             <Link href="/" className="hover:text-primary transition-colors">
@@ -140,7 +140,7 @@ export default async function BlogPostPage({ params }: Props) {
       </nav>
 
       {/* Article Header with Cover Image */}
-      <section className="py-12 md:py-16 border-b-3 border-foreground">
+      <section className="py-12 md:py-16 border-b-2 border-foreground">
         <div className="container max-w-4xl">
           {/* Tags and Date */}
           <div className="flex items-center gap-3 mb-6">
@@ -179,7 +179,7 @@ export default async function BlogPostPage({ params }: Props) {
 
           {/* Cover Image - integrated into header */}
           {post.coverImage && (
-            <div className="mt-8 border-3 border-foreground overflow-hidden">
+            <div className="mt-8 border-2 border-foreground overflow-hidden">
               <ResponsiveImage
                 src={post.coverImage}
                 alt={post.title}
@@ -254,7 +254,7 @@ export default async function BlogPostPage({ params }: Props) {
                     </blockquote>
                   ),
                   code: ({ children }) => (
-                    <pre className="bg-foreground text-background p-6 rounded-none border-3 border-foreground my-8 overflow-x-auto">
+                    <pre className="bg-foreground text-background p-6 rounded-none border-2 border-foreground my-8 overflow-x-auto">
                       <code className="text-sm font-mono">{children}</code>
                     </pre>
                   ),
@@ -290,7 +290,7 @@ export default async function BlogPostPage({ params }: Props) {
 
       {/* Previous/Next Navigation */}
       {(prevPost || nextPost) && (
-        <section className="border-t-3 border-foreground py-8">
+        <section className="border-t-2 border-foreground py-8">
           <div className="container max-w-3xl">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Previous Post */}
@@ -298,7 +298,7 @@ export default async function BlogPostPage({ params }: Props) {
                 {prevPost && (
                   <Link
                     href={`/blog/${prevPost.slug}`}
-                    className="block border-3 border-foreground p-6 hover:bg-foreground hover:text-background transition-all group"
+                    className="block border-2 border-foreground p-6 hover:bg-foreground hover:text-background transition-all group"
                   >
                     <div className="text-sm font-bold uppercase tracking-wider text-muted-foreground group-hover:text-background/70 mb-2">
                       ← Previous
@@ -315,7 +315,7 @@ export default async function BlogPostPage({ params }: Props) {
                 {nextPost && (
                   <Link
                     href={`/blog/${nextPost.slug}`}
-                    className="block border-3 border-foreground p-6 hover:bg-foreground hover:text-background transition-all group"
+                    className="block border-2 border-foreground p-6 hover:bg-foreground hover:text-background transition-all group"
                   >
                     <div className="text-sm font-bold uppercase tracking-wider text-muted-foreground group-hover:text-background/70 mb-2 text-right">
                       Next →
@@ -332,7 +332,7 @@ export default async function BlogPostPage({ params }: Props) {
       )}
 
       {/* Footer CTA */}
-      <section className="border-t-3 border-foreground bg-primary text-primary-foreground py-16 md:py-20">
+      <section className="border-t-2 border-foreground bg-primary text-primary-foreground py-16 md:py-20">
         <div className="container max-w-4xl text-center">
           <h2 className="text-4xl md:text-5xl font-black">Have a question?</h2>
           <p className="mt-4 text-xl opacity-90">
@@ -341,13 +341,13 @@ export default async function BlogPostPage({ params }: Props) {
           <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link
               href="/submit"
-              className="px-8 py-4 border-3 border-primary-foreground bg-background text-foreground text-lg font-bold hover:bg-foreground hover:text-background transition-all text-center"
+              className="px-8 py-4 border-2 border-primary-foreground bg-background text-foreground text-lg font-bold hover:bg-foreground hover:text-background transition-all text-center"
             >
               Ask a Question
             </Link>
             <Link
               href="/explore"
-              className="px-8 py-4 border-3 border-primary-foreground text-lg font-bold hover:bg-background hover:text-foreground transition-all text-center"
+              className="px-8 py-4 border-2 border-primary-foreground text-lg font-bold hover:bg-background hover:text-foreground transition-all text-center"
             >
               Explore Questions
             </Link>

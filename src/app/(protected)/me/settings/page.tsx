@@ -80,8 +80,47 @@ export default function SettingsPage() {
           <h1 className="display-text">Settings</h1>
         </div>
 
+        {/* Sticky Save Button */}
+        <div className="sticky top-4 z-10 mb-6 border-2 border-foreground bg-background p-4 shadow-lg">
+          <div className="flex items-center justify-between">
+            <p className="text-sm font-bold text-muted-foreground">
+              Don&apos;t forget to save your changes
+            </p>
+            <div className="flex gap-3">
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                className="font-bold"
+                onClick={() => router.push("/me")}
+              >
+                Cancel
+              </Button>
+              <Button
+                onClick={handleSubmit}
+                disabled={isLoading}
+                size="sm"
+                className="font-bold"
+              >
+                {isLoading ? "Saving..." : "Save Changes"}
+              </Button>
+            </div>
+          </div>
+          {message && (
+            <div
+              className={`mt-3 p-3 border-2 ${
+                message.type === "success"
+                  ? "border-green-600 bg-green-50 text-green-800"
+                  : "border-destructive bg-destructive/10 text-destructive"
+              } font-bold text-sm`}
+            >
+              {message.text}
+            </div>
+          )}
+        </div>
+
         {/* Settings Form */}
-        <div className="border-3 border-foreground p-8 md:p-12 bg-background">
+        <div className="border-2 border-foreground p-8 md:p-12 bg-background">
           <form onSubmit={handleSubmit} className="space-y-8">
             {/* Profile Information */}
             <section>
@@ -105,7 +144,7 @@ export default function SettingsPage() {
                     id="name"
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full px-4 py-3 border-3 border-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                    className="w-full px-4 py-3 border-2 border-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                     placeholder="Your name"
                   />
                 </div>
@@ -120,7 +159,7 @@ export default function SettingsPage() {
                     id="email"
                     value={session.user.email || ""}
                     disabled
-                    className="w-full px-4 py-3 border-3 border-foreground bg-muted text-muted-foreground cursor-not-allowed"
+                    className="w-full px-4 py-3 border-2 border-foreground bg-muted text-muted-foreground cursor-not-allowed"
                   />
                   <p className="mt-2 text-xs text-muted-foreground">
                     Email cannot be changed
@@ -137,7 +176,7 @@ export default function SettingsPage() {
                     value={formData.bio}
                     onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
                     rows={4}
-                    className="w-full px-4 py-3 border-3 border-foreground focus:outline-none focus:ring-2 focus:ring-primary resize-none"
+                    className="w-full px-4 py-3 border-2 border-foreground focus:outline-none focus:ring-2 focus:ring-primary resize-none"
                     placeholder="Tell us about yourself..."
                   />
                   <p className="mt-2 text-xs text-muted-foreground">
@@ -154,7 +193,7 @@ export default function SettingsPage() {
                     type="text"
                     id="expertise"
                     placeholder="e.g., Directing, Dramaturgy, Movement (comma-separated)"
-                    className="w-full px-4 py-3 border-3 border-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                    className="w-full px-4 py-3 border-2 border-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                     onChange={(e) =>
                       setFormData({
                         ...formData,
@@ -170,7 +209,7 @@ export default function SettingsPage() {
             </section>
 
             {/* Social Media Links */}
-            <section className="border-t-3 border-foreground pt-8">
+            <section className="border-t-2 border-foreground pt-8">
               <h2 className="text-2xl font-black mb-6">Social Media Links</h2>
 
               <div className="space-y-6">
@@ -185,7 +224,7 @@ export default function SettingsPage() {
                     id="instagram"
                     value={formData.instagramUrl}
                     onChange={(e) => setFormData({ ...formData, instagramUrl: e.target.value })}
-                    className="w-full px-4 py-3 border-3 border-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                    className="w-full px-4 py-3 border-2 border-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                     placeholder="https://instagram.com/username"
                   />
                 </div>
@@ -201,7 +240,7 @@ export default function SettingsPage() {
                     id="tiktok"
                     value={formData.tiktokUrl}
                     onChange={(e) => setFormData({ ...formData, tiktokUrl: e.target.value })}
-                    className="w-full px-4 py-3 border-3 border-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                    className="w-full px-4 py-3 border-2 border-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                     placeholder="https://tiktok.com/@username"
                   />
                 </div>
@@ -217,7 +256,7 @@ export default function SettingsPage() {
                     id="youtube"
                     value={formData.youtubeUrl}
                     onChange={(e) => setFormData({ ...formData, youtubeUrl: e.target.value })}
-                    className="w-full px-4 py-3 border-3 border-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                    className="w-full px-4 py-3 border-2 border-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                     placeholder="https://youtube.com/@username"
                   />
                 </div>
@@ -233,7 +272,7 @@ export default function SettingsPage() {
                     id="vimeo"
                     value={formData.vimeoUrl}
                     onChange={(e) => setFormData({ ...formData, vimeoUrl: e.target.value })}
-                    className="w-full px-4 py-3 border-3 border-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                    className="w-full px-4 py-3 border-2 border-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                     placeholder="https://vimeo.com/username"
                   />
                 </div>
@@ -249,7 +288,7 @@ export default function SettingsPage() {
                     id="linkedin"
                     value={formData.linkedinUrl}
                     onChange={(e) => setFormData({ ...formData, linkedinUrl: e.target.value })}
-                    className="w-full px-4 py-3 border-3 border-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                    className="w-full px-4 py-3 border-2 border-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                     placeholder="https://linkedin.com/in/username"
                   />
                 </div>
@@ -265,7 +304,7 @@ export default function SettingsPage() {
                     id="website"
                     value={formData.websiteUrl}
                     onChange={(e) => setFormData({ ...formData, websiteUrl: e.target.value })}
-                    className="w-full px-4 py-3 border-3 border-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                    className="w-full px-4 py-3 border-2 border-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                     placeholder="https://yourwebsite.com"
                   />
                 </div>
@@ -273,7 +312,7 @@ export default function SettingsPage() {
             </section>
 
             {/* Account Information */}
-            <section className="border-t-3 border-foreground pt-8">
+            <section className="border-t-2 border-foreground pt-8">
               <h2 className="text-2xl font-black mb-6">Account Information</h2>
 
               <div className="space-y-4">
@@ -297,21 +336,8 @@ export default function SettingsPage() {
               </div>
             </section>
 
-            {/* Message */}
-            {message && (
-              <div
-                className={`p-4 border-3 ${
-                  message.type === "success"
-                    ? "border-primary bg-primary/10 text-primary"
-                    : "border-destructive bg-destructive/10 text-destructive"
-                } font-bold`}
-              >
-                {message.text}
-              </div>
-            )}
-
-            {/* Actions */}
-            <div className="flex flex-col sm:flex-row gap-4 pt-4">
+            {/* Actions - Bottom */}
+            <div className="flex flex-col sm:flex-row gap-4 pt-4 border-t-2 border-foreground">
               <Button type="submit" disabled={isLoading} size="lg" className="font-bold">
                 {isLoading ? "Saving..." : "Save Changes"}
               </Button>
@@ -329,7 +355,7 @@ export default function SettingsPage() {
         </div>
 
         {/* Danger Zone */}
-        <div className="mt-12 border-3 border-destructive p-8 bg-destructive/5">
+        <div className="mt-12 border-2 border-destructive p-8 bg-destructive/5">
           <h2 className="text-2xl font-black text-destructive mb-4">Danger Zone</h2>
           <p className="text-sm text-muted-foreground mb-6">
             Deleting your account is permanent and cannot be undone.

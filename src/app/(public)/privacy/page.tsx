@@ -7,7 +7,7 @@ export default function PrivacyPage() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="border-b-3 border-foreground py-12 md:py-16">
+      <section className="border-b-2 border-foreground py-12 md:py-16">
         <div className="container">
           <h1 className="text-4xl md:text-5xl font-black tracking-tight">
             Privacy Policy

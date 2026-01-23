@@ -74,7 +74,7 @@ export default async function UserDashboardPage() {
 
         {/* Stats Grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
-          <div className="border-3 border-foreground p-6 bg-background">
+          <div className="border-2 border-foreground p-6 bg-background">
             <div className="text-4xl font-black text-primary">
               {stats.totalQuestions}
             </div>
@@ -82,7 +82,7 @@ export default async function UserDashboardPage() {
               Total Questions
             </div>
           </div>
-          <div className="border-3 border-foreground p-6 bg-background">
+          <div className="border-2 border-foreground p-6 bg-background">
             <div className="text-4xl font-black text-primary">
               {stats.publishedQuestions}
             </div>
@@ -90,7 +90,7 @@ export default async function UserDashboardPage() {
               Published
             </div>
           </div>
-          <div className="border-3 border-foreground p-6 bg-background">
+          <div className="border-2 border-foreground p-6 bg-background">
             <div className="text-4xl font-black text-primary">
               {stats.totalReplies}
             </div>
@@ -98,7 +98,7 @@ export default async function UserDashboardPage() {
               Replies Given
             </div>
           </div>
-          <div className="border-3 border-foreground p-6 bg-background">
+          <div className="border-2 border-foreground p-6 bg-background">
             <div className="text-4xl font-black text-primary">
               {stats.bookmarksCount}
             </div>
@@ -110,7 +110,7 @@ export default async function UserDashboardPage() {
 
         {/* Admin Link */}
         {user.role === "ADMIN" && (
-          <div className="mb-8 border-3 border-primary p-6 bg-primary/10">
+          <div className="mb-8 border-2 border-primary p-6 bg-primary/10">
             <h3 className="font-bold text-lg mb-2">Admin Panel</h3>
             <div className="flex gap-3">
               <Link
@@ -131,7 +131,7 @@ export default async function UserDashboardPage() {
 
         {/* Moderator Link */}
         {user.role === "MODERATOR" && (
-          <div className="mb-8 border-3 border-primary p-6 bg-primary/10">
+          <div className="mb-8 border-2 border-primary p-6 bg-primary/10">
             <h3 className="font-bold text-lg mb-2">Moderator Panel</h3>
             <Link
               href="/mod"
@@ -159,7 +159,7 @@ export default async function UserDashboardPage() {
 
               <div className="space-y-4">
                 {user.questions.length === 0 ? (
-                  <div className="border-3 border-foreground p-8 text-center">
+                  <div className="border-2 border-foreground p-8 text-center">
                     <p className="text-muted-foreground mb-4">
                       You haven&apos;t asked any questions yet.
                     </p>
@@ -175,7 +175,7 @@ export default async function UserDashboardPage() {
                     <Link
                       key={question.id}
                       href={`/questions/${question.id}`}
-                      className="block border-3 border-foreground p-6 hover:bg-foreground hover:text-background transition-colors group"
+                      className="block border-2 border-foreground p-6 hover:bg-foreground hover:text-background transition-colors group"
                     >
                       <div className="flex items-start justify-between gap-4">
                         <div className="flex-1">
@@ -223,7 +223,7 @@ export default async function UserDashboardPage() {
           {/* Sidebar */}
           <div className="space-y-8">
             {/* Quick Actions */}
-            <section className="border-3 border-foreground p-6 bg-muted">
+            <section className="border-2 border-foreground p-6 bg-muted">
               <h3 className="text-xl font-black mb-4">Quick Actions</h3>
               <div className="space-y-3">
                 <Link
@@ -234,13 +234,13 @@ export default async function UserDashboardPage() {
                 </Link>
                 <Link
                   href="/explore"
-                  className="block px-4 py-3 border-3 border-foreground bg-background font-bold text-center hover:bg-foreground hover:text-background transition-colors"
+                  className="block px-4 py-3 border-2 border-foreground bg-background font-bold text-center hover:bg-foreground hover:text-background transition-colors"
                 >
                   Explore Questions
                 </Link>
                 <Link
                   href="/me/settings"
-                  className="block px-4 py-3 border-3 border-foreground bg-background font-bold text-center hover:bg-foreground hover:text-background transition-colors"
+                  className="block px-4 py-3 border-2 border-foreground bg-background font-bold text-center hover:bg-foreground hover:text-background transition-colors"
                 >
                   Settings
                 </Link>
@@ -252,7 +252,7 @@ export default async function UserDashboardPage() {
               <h3 className="text-xl font-black mb-4">Recent Bookmarks</h3>
               <div className="space-y-3">
                 {user.bookmarks.length === 0 ? (
-                  <div className="border-3 border-foreground p-4 text-sm text-muted-foreground text-center">
+                  <div className="border-2 border-foreground p-4 text-sm text-muted-foreground text-center">
                     No bookmarks yet
                   </div>
                 ) : (
@@ -260,7 +260,7 @@ export default async function UserDashboardPage() {
                     <Link
                       key={bookmark.id}
                       href={`/questions/${bookmark.question.id}`}
-                      className="block border-3 border-foreground p-4 hover:bg-foreground hover:text-background transition-colors group"
+                      className="block border-2 border-foreground p-4 hover:bg-foreground hover:text-background transition-colors group"
                     >
                       <h4 className="font-bold text-sm line-clamp-2 mb-2">
                         {bookmark.question.title}
@@ -275,7 +275,7 @@ export default async function UserDashboardPage() {
             </section>
 
             {/* User Info */}
-            <section className="border-3 border-foreground p-6 bg-foreground text-background">
+            <section className="border-2 border-foreground p-6 bg-foreground text-background">
               <h3 className="text-xl font-black mb-4">Your Profile</h3>
               <div className="space-y-2 text-sm">
                 <div>
@@ -293,7 +293,7 @@ export default async function UserDashboardPage() {
               </div>
               <Link
                 href="/me/settings"
-                className="block mt-4 px-4 py-2 border-3 border-background bg-background text-foreground font-bold text-center text-sm hover:bg-primary hover:text-primary-foreground hover:border-primary transition-colors"
+                className="block mt-4 px-4 py-2 border-2 border-background bg-background text-foreground font-bold text-center text-sm hover:bg-primary hover:text-primary-foreground hover:border-primary transition-colors"
               >
                 Edit Profile
               </Link>

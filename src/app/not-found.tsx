@@ -17,7 +17,7 @@ export default function NotFound() {
             </div>
 
             {/* Right - Message */}
-            <div className="border-3 border-foreground md:border-l-0 p-8 md:p-12 flex flex-col justify-center">
+            <div className="border-2 border-foreground md:border-l-0 p-8 md:p-12 flex flex-col justify-center">
               <p className="text-lg text-muted-foreground">
                 The page you&apos;re looking for doesn&apos;t exist, has been moved, or you don&apos;t have permission to view it.
               </p>
@@ -33,13 +33,13 @@ export default function NotFound() {
                 </Link>
                 <Link
                   href="/explore"
-                  className="block px-6 py-4 border-3 border-foreground font-bold text-center hover:bg-foreground hover:text-background transition-colors"
+                  className="block px-6 py-4 border-2 border-foreground font-bold text-center hover:bg-foreground hover:text-background transition-colors"
                 >
                   Explore Questions
                 </Link>
                 <Link
                   href="/blog"
-                  className="block px-6 py-4 border-3 border-foreground font-bold text-center hover:bg-foreground hover:text-background transition-colors"
+                  className="block px-6 py-4 border-2 border-foreground font-bold text-center hover:bg-foreground hover:text-background transition-colors"
                 >
                   Read Blog
                 </Link>

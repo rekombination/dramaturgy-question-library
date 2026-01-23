@@ -134,12 +134,12 @@ export default function AdminUsersPage() {
             placeholder="Search by email..."
             value={searchEmail}
             onChange={(e) => setSearchEmail(e.target.value)}
-            className="max-w-md border-3 border-foreground h-12 px-4"
+            className="max-w-md border-2 border-foreground h-12 px-4"
           />
         </div>
 
         {/* Users Table */}
-        <div className="border-3 border-foreground">
+        <div className="border-2 border-foreground">
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead className="bg-foreground text-background">
@@ -153,7 +153,7 @@ export default function AdminUsersPage() {
               </thead>
               <tbody>
                 {filteredUsers.map((user) => (
-                  <tr key={user.id} className="border-t-3 border-foreground">
+                  <tr key={user.id} className="border-t-2 border-foreground">
                     <td className="px-4 py-3">{user.email}</td>
                     <td className="px-4 py-3">{user.name || "-"}</td>
                     <td className="px-4 py-3">
@@ -206,25 +206,25 @@ export default function AdminUsersPage() {
 
         {/* Role Descriptions */}
         <div className="mt-8 grid md:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="border-3 border-foreground p-4 bg-muted/30">
+          <div className="border-2 border-foreground p-4 bg-muted/30">
             <h3 className="font-bold mb-2">USER</h3>
             <p className="text-sm text-muted-foreground">
               Can post questions and replies
             </p>
           </div>
-          <div className="border-3 border-foreground p-4 bg-muted/30">
+          <div className="border-2 border-foreground p-4 bg-muted/30">
             <h3 className="font-bold mb-2">EXPERT</h3>
             <p className="text-sm text-muted-foreground">
               Highlighted responses, see expert requests
             </p>
           </div>
-          <div className="border-3 border-foreground p-4 bg-muted/30">
+          <div className="border-2 border-foreground p-4 bg-muted/30">
             <h3 className="font-bold mb-2">MODERATOR</h3>
             <p className="text-sm text-muted-foreground">
               Can moderate content and manage flags
             </p>
           </div>
-          <div className="border-3 border-foreground p-4 bg-muted/30">
+          <div className="border-2 border-foreground p-4 bg-muted/30">
             <h3 className="font-bold mb-2">ADMIN</h3>
             <p className="text-sm text-muted-foreground">
               Full access to all features and settings

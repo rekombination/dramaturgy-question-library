@@ -9,7 +9,7 @@ export default function AboutPage() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="border-b-3 border-foreground bg-foreground text-background py-16 md:py-24">
+      <section className="border-b-2 border-foreground bg-foreground text-background py-16 md:py-24">
         <div className="container">
           <h1 className="text-5xl md:text-6xl lg:text-7xl font-black tracking-tight">
             About
@@ -73,7 +73,7 @@ export default function AboutPage() {
             </Link>
             <Link
               href="/explore"
-              className="px-8 py-4 border-3 border-foreground font-bold text-lg hover:bg-foreground hover:text-background transition-colors"
+              className="px-8 py-4 border-2 border-foreground font-bold text-lg hover:bg-foreground hover:text-background transition-colors"
             >
               Explore Questions
             </Link>

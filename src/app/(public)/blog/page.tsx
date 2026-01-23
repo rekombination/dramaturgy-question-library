@@ -77,7 +77,7 @@ export default async function BlogPage() {
       <BlogPostingListJsonLd posts={blogPostsSchema} />
 
       {/* Breadcrumb Navigation */}
-      <nav className="border-b-3 border-foreground bg-foreground text-background py-4">
+      <nav className="border-b-2 border-foreground bg-foreground text-background py-4">
         <div className="container max-w-6xl">
           <div className="flex items-center gap-3 text-sm font-bold uppercase tracking-wider">
             <Link href="/" className="hover:text-primary transition-colors">
@@ -90,7 +90,7 @@ export default async function BlogPage() {
       </nav>
 
       {/* Hero Section */}
-      <section className="py-16 md:py-24 border-b-3 border-foreground bg-background">
+      <section className="py-16 md:py-24 border-b-2 border-foreground bg-background">
         <div className="container max-w-6xl">
           <div className="flex items-start gap-8">
             <div className="w-16 h-16 bg-primary flex-shrink-0" />
@@ -111,7 +111,7 @@ export default async function BlogPage() {
       <section className="py-16 md:py-24">
         <div className="container max-w-6xl">
           {sortedPosts.length === 0 ? (
-            <div className="text-center py-20 border-3 border-foreground bg-background">
+            <div className="text-center py-20 border-2 border-foreground bg-background">
               <div className="text-8xl font-black text-primary">?</div>
               <h3 className="mt-6 text-2xl font-bold">No posts yet</h3>
               <p className="text-muted-foreground mt-2 text-lg">
@@ -124,13 +124,13 @@ export default async function BlogPage() {
                 <Link
                   key={post.slug}
                   href={`/blog/${post.slug}`}
-                  className={`group block bg-background border-3 border-foreground transition-all duration-300 hover:-translate-y-2 hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] ${
+                  className={`group block bg-background border-2 border-foreground transition-all duration-300 hover:-translate-y-2 hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] ${
                     index === 0 ? "md:col-span-2" : ""
                   }`}
                 >
                   <div className={`grid ${index === 0 ? "md:grid-cols-2" : "grid-cols-1"} gap-0`}>
                     {post.entry.coverImage && (
-                      <div className={`relative overflow-hidden ${index === 0 ? "aspect-[16/10]" : "aspect-video"} ${index === 0 ? "md:border-r-3" : "border-b-3"} border-foreground bg-muted`}>
+                      <div className={`relative overflow-hidden ${index === 0 ? "aspect-[16/10]" : "aspect-video"} ${index === 0 ? "md:border-r-2" : "border-b-2"} border-foreground bg-muted`}>
                         <ResponsiveImage
                           src={post.entry.coverImage}
                           alt={post.entry.title}

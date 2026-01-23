@@ -27,7 +27,7 @@ export function Header() {
 
   return (
     <>
-      <header className="sticky top-0 z-50 w-full border-b-3 border-foreground bg-background">
+      <header className="sticky top-0 z-50 w-full border-b-2 border-foreground bg-background">
         <div className="container flex h-16 md:h-20 items-center justify-between">
           <div className="flex items-center gap-4 md:gap-8">
             {/* Mobile Menu Button */}
@@ -225,7 +225,7 @@ export function Header() {
                 <Link
                   href="/submit"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="block w-full py-4 border-3 border-background bg-background text-foreground text-center font-bold text-lg hover:bg-foreground hover:text-background transition-all"
+                  className="block w-full py-4 border-2 border-background bg-background text-foreground text-center font-bold text-lg hover:bg-foreground hover:text-background transition-all"
                 >
                   Ask a Question
                 </Link>
@@ -255,14 +255,14 @@ export function Header() {
                 <Link
                   href="/signup"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="block w-full py-4 border-3 border-background bg-background text-foreground text-center font-bold text-lg hover:bg-foreground hover:text-background transition-all"
+                  className="block w-full py-4 border-2 border-background bg-background text-foreground text-center font-bold text-lg hover:bg-foreground hover:text-background transition-all"
                 >
                   Sign Up
                 </Link>
                 <Link
                   href="/login"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="block w-full py-4 border-3 border-background text-background text-center font-bold text-lg hover:bg-background hover:text-foreground transition-all"
+                  className="block w-full py-4 border-2 border-background text-background text-center font-bold text-lg hover:bg-background hover:text-foreground transition-all"
                 >
                   Sign In
                 </Link>

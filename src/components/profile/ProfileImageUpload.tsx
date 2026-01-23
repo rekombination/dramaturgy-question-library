@@ -58,7 +58,7 @@ export function ProfileImageUpload({
       <label className="block text-sm font-bold">Profile Picture</label>
       
       <div className="flex items-center gap-6">
-        <Avatar className="h-24 w-24 border-3 border-foreground">
+        <Avatar className="h-24 w-24 border-2 border-foreground">
           <AvatarImage src={displayImage || ""} alt={userName || ""} />
           <AvatarFallback className="bg-primary text-primary-foreground font-bold text-2xl">
             {userName?.charAt(0).toUpperCase() || "U"}

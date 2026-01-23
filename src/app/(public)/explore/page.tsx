@@ -75,7 +75,7 @@ function QuestionListSkeleton() {
   return (
     <div className="space-y-0">
       {[...Array(3)].map((_, i) => (
-        <div key={i} className="h-48 bg-muted animate-pulse border-b-3 border-foreground" />
+        <div key={i} className="h-48 bg-muted animate-pulse border-b-2 border-foreground" />
       ))}
     </div>
   );
@@ -86,7 +86,7 @@ async function QuestionList() {
 
   if (questions.length === 0) {
     return (
-      <div className="text-center py-20 border-3 border-foreground">
+      <div className="text-center py-20 border-2 border-foreground">
         <div className="text-8xl font-black text-primary">?</div>
         <h3 className="mt-6 text-2xl font-bold">No questions yet</h3>
         <p className="text-muted-foreground mt-2 text-lg">
@@ -117,7 +117,7 @@ export default async function ExplorePage() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="border-b-3 border-foreground py-12 md:py-16">
+      <section className="border-b-2 border-foreground py-12 md:py-16">
         <div className="container">
           <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
             <div>
@@ -139,7 +139,7 @@ export default async function ExplorePage() {
           <div className="mt-8">
             <Input
               placeholder="Search questions..."
-              className="max-w-xl h-14 text-lg border-3 border-foreground px-6 placeholder:text-muted-foreground"
+              className="max-w-xl h-14 text-lg border-2 border-foreground px-6 placeholder:text-muted-foreground"
             />
           </div>
         </div>
@@ -159,7 +159,7 @@ export default async function ExplorePage() {
           <aside className="lg:w-80 shrink-0">
             <div className="sticky top-24 space-y-8">
               {/* Popular Tags */}
-              <div className="border-3 border-foreground p-6">
+              <div className="border-2 border-foreground p-6">
                 <h3 className="font-bold text-lg uppercase tracking-wide mb-4">
                   Popular Tags
                 </h3>
@@ -192,7 +192,7 @@ export default async function ExplorePage() {
               </div>
 
               {/* Context Types */}
-              <div className="border-3 border-foreground p-6">
+              <div className="border-2 border-foreground p-6">
                 <h3 className="font-bold text-lg uppercase tracking-wide mb-4">
                   Context Types
                 </h3>

@@ -1,0 +1,127 @@
+  Für Microsoft OAuth:
+
+  1. Gehe zu: https://portal.azure.com/#view/Microsoft_AAD_RegisteredApps
+  2. Erstelle eine neue App Registration
+  3. Füge Redirect URI hinzu: https://thedramaturgy.com/api/auth/callback/microsoft-entra-id
+  4. Erstelle ein Client Secret
+  5. Füge in Vercel Environment Variables hinzu:
+    - MICROSOFT_CLIENT_ID
+    - MICROSOFT_CLIENT_SECRET
+
+  Für Apple Sign In:
+
+  1. Gehe zu: https://developer.apple.com/account/resources/identifiers/list/serviceId
+  2. Erstelle eine neue Service ID
+  3. Konfiguriere Sign In with Apple
+  4. Erstelle ein Private Key
+  5. Füge in Vercel Environment Variables hinzu:
+    - APPLE_CLIENT_ID
+    - APPLE_CLIENT_SECRET
+    
+    
+    
+    Google OAuth einrichten
+
+  Schritt 1: Google Cloud Console öffnen
+
+  1. Gehe zu: https://console.cloud.google.com/apis/credentials
+  2. Melde dich mit deinem Google Account an
+
+  Schritt 2: Projekt erstellen (falls noch nicht vorhanden)
+
+  1. Klicke oben links auf den Projekt-Dropdown
+  2. Klicke auf "New Project"
+  3. Name: The Dramaturgy (oder beliebig)
+  4. Klicke auf "Create"
+
+  Schritt 3: OAuth Consent Screen konfigurieren
+
+  1. Klicke in der linken Sidebar auf "OAuth consent screen"
+  2. Wähle "External" (für öffentliche App)
+  3. Klicke auf "Create"
+
+  App Information:
+  - App name: The Dramaturgy
+  - User support email: deine@email.com
+  - App logo: (optional - dein Logo hochladen)
+  - Application home page: https://thedramaturgy.com
+  - Application privacy policy: https://thedramaturgy.com/privacy
+  - Application terms of service: https://thedramaturgy.com/terms
+
+  Developer contact:
+  - Email: deine@email.com
+
+  4. Klicke auf "Save and Continue"
+
+  Scopes:
+  5. Klicke auf "Add or Remove Scopes"
+  6. Wähle aus:
+  - .../auth/userinfo.email
+  - .../auth/userinfo.profile
+  7. Klicke auf "Update" → "Save and Continue"
+
+  Test users: (für Development)
+  8. Füge deine Email als Test User hinzu (optional)
+  9. Klicke auf "Save and Continue"
+
+  10. Review und "Back to Dashboard"
+
+  Schritt 4: OAuth 2.0 Client ID erstellen
+
+  1. Klicke in der linken Sidebar auf "Credentials"
+  2. Klicke oben auf "+ Create Credentials"
+  3. Wähle "OAuth client ID"
+
+  Application type:
+  - Wähle "Web application"
+
+  Name:
+  - The Dramaturgy Production
+
+  Authorized JavaScript origins:
+  https://thedramaturgy.com
+
+  Authorized redirect URIs:
+  https://thedramaturgy.com/api/auth/callback/google
+
+  4. Klicke auf "Create"
+
+  Schritt 5: Credentials kopieren
+
+  Ein Popup erscheint mit:
+  - Client ID (sieht aus wie: 123456789-abc.apps.googleusercontent.com)
+  - Client Secret (sieht aus wie: GOCSPX-abc123...)
+
+  Kopiere beide Werte!
+
+  Schritt 6: In Vercel einfügen
+
+  1. Gehe zu: https://vercel.com/rekombination/dramaturgy-question-library/settings/environment-variables
+  2. Füge hinzu:
+
+  Variable 1:
+  - Key: GOOGLE_CLIENT_ID
+  - Value: [deine-client-id]
+  - Environment: Production, Preview, Development
+
+  Variable 2:
+  - Key: GOOGLE_CLIENT_SECRET
+  - Value: [dein-client-secret]
+  - Environment: Production, Preview, Development
+
+  3. Klicke auf "Save"
+
+  Schritt 7: Vercel neu deployen
+
+  Das neue Deployment übernimmt automatisch die neuen Environment Variables.
+
+  ---
+  Für lokale Entwicklung (optional):
+
+  Füge in deine lokale .env Datei ein:
+  GOOGLE_CLIENT_ID="deine-client-id"
+  GOOGLE_CLIENT_SECRET="dein-client-secret"
+
+  Und füge zu den Authorized redirect URIs hinzu:
+  http://localhost:3000/api/auth/callback/google
+UPLOADTHING_TOKEN='eyJhcGlLZXkiOiJza19saXZlXzhmM2UxNGJhYjc1ZjUwNGNkZDdiZjBkMWQ0ZWQxYWI4OGQwMWNhY2FmM2MwMzU3MmJlNGFjMjQ2ZGFiODIxNjQiLCJhcHBJZCI6Imt3N2NncWN5cnEiLCJyZWdpb25zIjpbInNlYTEiXX0='

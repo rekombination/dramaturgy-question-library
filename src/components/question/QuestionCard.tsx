@@ -19,7 +19,7 @@ const contextTypeLabels: Record<string, string> = {
 
 export function QuestionCard({ question }: QuestionCardProps) {
   return (
-    <article className="border-3 border-foreground border-t-0 first:border-t-3 p-6 md:p-8 hover:bg-muted transition-colors group">
+    <article className="border-2 border-foreground border-t-0 first:border-t-2 p-6 md:p-8 hover:bg-muted transition-colors group">
       <div className="flex flex-col md:flex-row md:items-start gap-4 md:gap-8">
         {/* Stats Column */}
         <div className="hidden md:flex flex-col items-center gap-2 text-center min-w-[80px]">

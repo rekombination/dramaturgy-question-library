@@ -17,7 +17,7 @@ export default async function HomePage() {
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
-      <section className="min-h-[80vh] flex items-center border-b-3 border-foreground">
+      <section className="min-h-[80vh] flex items-center border-b-2 border-foreground">
         <div className="container py-16 md:py-24">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
@@ -40,7 +40,7 @@ export default async function HomePage() {
                 </Link>
                 <Link
                   href="/submit"
-                  className="inline-flex items-center justify-center w-full sm:w-52 px-8 py-4 border-3 border-foreground text-lg font-bold hover:bg-foreground hover:text-background transition-colors text-center"
+                  className="inline-flex items-center justify-center w-full sm:w-52 px-8 py-4 border-2 border-foreground text-lg font-bold hover:bg-foreground hover:text-background transition-colors text-center"
                 >
                   Ask a Question
                 </Link>
@@ -54,7 +54,7 @@ export default async function HomePage() {
       </section>
 
       {/* Stats Section */}
-      <section className="border-b-3 border-foreground bg-foreground text-background">
+      <section className="border-b-2 border-foreground bg-foreground text-background">
         <div className="container py-12">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             <div>
@@ -82,7 +82,7 @@ export default async function HomePage() {
         <div className="container">
           <h2 className="display-text text-center mb-16">How It Works</h2>
           <div className="grid md:grid-cols-3 gap-0">
-            <div className="border-3 border-foreground p-8 md:p-12 hover:bg-foreground hover:text-background transition-colors group">
+            <div className="border-2 border-foreground p-8 md:p-12 hover:bg-foreground hover:text-background transition-colors group">
               <div className="text-6xl md:text-8xl font-black text-primary group-hover:text-background">01</div>
               <h3 className="mt-6 text-2xl font-bold">Ask Questions</h3>
               <p className="mt-4 text-muted-foreground group-hover:text-background/70">
@@ -90,7 +90,7 @@ export default async function HomePage() {
                 show development, or team dynamics.
               </p>
             </div>
-            <div className="border-3 border-foreground border-t-0 md:border-t-3 md:border-l-0 p-8 md:p-12 hover:bg-foreground hover:text-background transition-colors group">
+            <div className="border-2 border-foreground border-t-0 md:border-t-2 md:border-l-0 p-8 md:p-12 hover:bg-foreground hover:text-background transition-colors group">
               <div className="text-6xl md:text-8xl font-black text-primary group-hover:text-background">02</div>
               <h3 className="mt-6 text-2xl font-bold">Get Perspectives</h3>
               <p className="mt-4 text-muted-foreground group-hover:text-background/70">
@@ -98,7 +98,7 @@ export default async function HomePage() {
                 who share their knowledge freely.
               </p>
             </div>
-            <div className="border-3 border-foreground border-t-0 md:border-t-3 md:border-l-0 p-8 md:p-12 hover:bg-foreground hover:text-background transition-colors group">
+            <div className="border-2 border-foreground border-t-0 md:border-t-2 md:border-l-0 p-8 md:p-12 hover:bg-foreground hover:text-background transition-colors group">
               <div className="text-6xl md:text-8xl font-black text-primary group-hover:text-background">03</div>
               <h3 className="mt-6 text-2xl font-bold">Build Knowledge</h3>
               <p className="mt-4 text-muted-foreground group-hover:text-background/70">
@@ -112,13 +112,13 @@ export default async function HomePage() {
 
       {/* Latest Articles */}
       {latestPosts.length > 0 && (
-        <section className="py-20 border-t-3 border-foreground">
+        <section className="py-20 border-t-2 border-foreground">
           <div className="container">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 mb-12">
               <h2 className="display-text">Latest Articles</h2>
               <Link
                 href="/blog"
-                className="px-6 py-3 border-3 border-foreground font-bold hover:bg-foreground hover:text-background transition-colors"
+                className="px-6 py-3 border-2 border-foreground font-bold hover:bg-foreground hover:text-background transition-colors"
               >
                 View All
               </Link>
@@ -128,10 +128,10 @@ export default async function HomePage() {
                 <Link
                   key={post.slug}
                   href={`/blog/${post.slug}`}
-                  className="group block bg-background border-3 border-foreground transition-all duration-300 hover:-translate-y-2 hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]"
+                  className="group block bg-background border-2 border-foreground transition-all duration-300 hover:-translate-y-2 hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]"
                 >
                   {post.entry.coverImage && (
-                    <div className="aspect-video relative overflow-hidden border-b-3 border-foreground bg-muted">
+                    <div className="aspect-video relative overflow-hidden border-b-2 border-foreground bg-muted">
                       <ResponsiveImage
                         src={post.entry.coverImage}
                         alt={post.entry.title}
@@ -170,7 +170,7 @@ export default async function HomePage() {
       )}
 
       {/* Featured Topics */}
-      <section className="py-20 bg-muted border-t-3 border-b-3 border-foreground">
+      <section className="py-20 bg-muted border-t-2 border-b-2 border-foreground">
         <div className="container">
           <h2 className="display-text mb-12">Explore Topics</h2>
           <div className="flex flex-wrap gap-4">
@@ -178,7 +178,7 @@ export default async function HomePage() {
               <Link
                 key={topic}
                 href={`/explore?topic=${topic.toLowerCase()}`}
-                className="px-6 py-3 bg-background border-3 border-foreground font-bold text-lg hover:bg-foreground hover:text-background transition-colors"
+                className="px-6 py-3 bg-background border-2 border-foreground font-bold text-lg hover:bg-foreground hover:text-background transition-colors"
               >
                 {topic}
               </Link>
@@ -202,13 +202,13 @@ export default async function HomePage() {
               <div className="mt-10 flex flex-col sm:flex-row gap-4">
                 <Link
                   href="/signup"
-                  className="inline-flex items-center justify-center w-full sm:w-52 px-8 py-4 border-3 border-primary-foreground bg-background text-foreground text-lg font-bold hover:bg-foreground hover:text-background transition-all text-center"
+                  className="inline-flex items-center justify-center w-full sm:w-52 px-8 py-4 border-2 border-primary-foreground bg-background text-foreground text-lg font-bold hover:bg-foreground hover:text-background transition-all text-center"
                 >
                   Create Account
                 </Link>
                 <Link
                   href="/explore"
-                  className="inline-flex items-center justify-center w-full sm:w-52 px-8 py-4 border-3 border-primary-foreground text-primary-foreground text-lg font-bold hover:bg-background hover:text-foreground transition-all text-center"
+                  className="inline-flex items-center justify-center w-full sm:w-52 px-8 py-4 border-2 border-primary-foreground text-primary-foreground text-lg font-bold hover:bg-background hover:text-foreground transition-all text-center"
                 >
                   Browse First
                 </Link>

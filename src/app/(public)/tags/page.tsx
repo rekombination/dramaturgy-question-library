@@ -29,7 +29,7 @@ export default async function TagsPage() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="border-b-3 border-foreground bg-foreground text-background py-16 md:py-24">
+      <section className="border-b-2 border-foreground bg-foreground text-background py-16 md:py-24">
         <div className="container">
           <h1 className="text-5xl md:text-6xl lg:text-7xl font-black tracking-tight">
             Tags
@@ -65,7 +65,7 @@ export default async function TagsPage() {
                         href={`/tags/${tag.slug}`}
                         className="group"
                       >
-                        <div className="px-5 py-3 border-3 border-foreground font-bold text-lg hover:bg-foreground hover:text-background transition-colors flex items-center gap-3">
+                        <div className="px-5 py-3 border-2 border-foreground font-bold text-lg hover:bg-foreground hover:text-background transition-colors flex items-center gap-3">
                           <span>{tag.name}</span>
                           <span className="text-sm font-normal text-muted-foreground group-hover:text-background/70">
                             {tag._count.questions}
@@ -82,7 +82,7 @@ export default async function TagsPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="border-t-3 border-foreground bg-muted py-16">
+      <section className="border-t-2 border-foreground bg-muted py-16">
         <div className="container">
           <div className="flex flex-col md:flex-row items-center justify-between gap-8">
             <div>

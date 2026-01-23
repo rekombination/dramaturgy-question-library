@@ -45,7 +45,7 @@ function LoginContent() {
     return (
       <div className="min-h-[80vh] flex items-center justify-center py-8 md:py-0">
         <div className="container max-w-md">
-          <div className="border-3 border-foreground p-8 md:p-12 text-center">
+          <div className="border-2 border-foreground p-8 md:p-12 text-center">
             <div className="text-6xl font-black text-primary mb-6">✓</div>
             <h1 className="text-2xl md:text-3xl font-bold">Check your email</h1>
             <p className="mt-4 text-muted-foreground">
@@ -90,7 +90,7 @@ function LoginContent() {
           </div>
 
           {/* Right Side - Form */}
-          <div className="border-3 border-foreground lg:border-l-0 p-8 md:p-12">
+          <div className="border-2 border-foreground lg:border-l-0 p-8 md:p-12">
             <div className="lg:hidden mb-8">
               <h1 className="text-3xl font-black">Welcome back</h1>
               <p className="mt-2 text-muted-foreground">
@@ -102,7 +102,7 @@ function LoginContent() {
               <Button
                 variant="outline"
                 disabled
-                className="w-full h-14 text-base font-bold border-3 border-foreground opacity-50 cursor-not-allowed"
+                className="w-full h-14 text-base font-bold border-2 border-foreground opacity-50 cursor-not-allowed"
               >
                 <IconBrandGoogle className="mr-3" size={20} stroke={1.5} />
                 Continue with Google
@@ -110,7 +110,7 @@ function LoginContent() {
               <Button
                 variant="outline"
                 disabled
-                className="w-full h-14 text-base font-bold border-3 border-foreground opacity-50 cursor-not-allowed"
+                className="w-full h-14 text-base font-bold border-2 border-foreground opacity-50 cursor-not-allowed"
               >
                 <IconBrandWindows className="mr-3" size={20} stroke={1.5} />
                 Continue with Microsoft
@@ -118,7 +118,7 @@ function LoginContent() {
               <Button
                 variant="outline"
                 disabled
-                className="w-full h-14 text-base font-bold border-3 border-foreground opacity-50 cursor-not-allowed"
+                className="w-full h-14 text-base font-bold border-2 border-foreground opacity-50 cursor-not-allowed"
               >
                 <IconBrandApple className="mr-3" size={20} stroke={1.5} />
                 Continue with Apple
@@ -148,7 +148,7 @@ function LoginContent() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  className="h-14 text-base border-3 border-foreground px-4"
+                  className="h-14 text-base border-2 border-foreground px-4"
                 />
               </div>
               <Button
