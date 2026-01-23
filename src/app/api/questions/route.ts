@@ -66,17 +66,30 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    // Send email to experts if expert request and published
+    // Create in-app notifications for experts if expert request and published
     if (questionStatus === "PUBLISHED" && validatedData.requestExpert) {
       const experts = await prisma.user.findMany({
         where: {
           role: { in: ["EXPERT", "MODERATOR", "ADMIN"] },
-          emailVerified: { not: null },
         },
-        select: { email: true },
+        select: { id: true, email: true, emailVerified: true },
       });
 
-      const expertEmails = experts.map(e => e.email).filter(Boolean) as string[];
+      // Create in-app notifications for all experts
+      if (experts.length > 0) {
+        await prisma.notification.createMany({
+          data: experts.map(expert => ({
+            userId: expert.id,
+            type: "NEW_QUESTION",
+            questionId: question.id,
+            actorId: session.user.id,
+          }))
+        });
+      }
+
+      // Send email to experts with verified email
+      const expertsWithEmail = experts.filter(e => e.emailVerified && e.email);
+      const expertEmails = expertsWithEmail.map(e => e.email).filter(Boolean) as string[];
 
       if (expertEmails.length > 0) {
         await sendExpertRequestNotification({

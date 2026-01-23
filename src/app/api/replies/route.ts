@@ -113,6 +113,19 @@ export async function POST(request: NextRequest) {
       },
     });
 
+    // Create in-app notification for question author (if not replying to their own question)
+    if (updatedQuestion.authorId !== session.user.id) {
+      await prisma.notification.create({
+        data: {
+          userId: updatedQuestion.authorId,
+          type: "NEW_REPLY",
+          questionId: updatedQuestion.id,
+          replyId: reply.id,
+          actorId: session.user.id,
+        },
+      });
+    }
+
     // Send email notification to question author (if not replying to their own question)
     if (updatedQuestion.authorId !== session.user.id && updatedQuestion.author.email) {
       await sendNewReplyNotification({

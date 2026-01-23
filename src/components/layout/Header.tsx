@@ -13,6 +13,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { NotificationDropdown } from "@/components/notifications/NotificationDropdown";
 
 const navLinks = [
   { href: "/explore", label: "Explore" },
@@ -93,9 +94,10 @@ export function Header() {
                 <Button asChild size="lg" className="hidden md:flex font-bold">
                   <Link href="/submit">Ask Question</Link>
                 </Button>
+                <NotificationDropdown initialCount={notificationCount} />
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <button className="relative h-10 w-10 rounded-full overflow-visible focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2">
+                    <button className="h-10 w-10 rounded-full overflow-visible focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2">
                       <Avatar className="h-10 w-10 border-2 border-foreground">
                         <AvatarImage
                           src={session.user.image || ""}
@@ -105,11 +107,6 @@ export function Header() {
                           {session.user.name?.charAt(0).toUpperCase() || "U"}
                         </AvatarFallback>
                       </Avatar>
-                      {notificationCount > 0 && (
-                        <span className="absolute -top-1 -right-1 h-5 min-w-[20px] px-1 flex items-center justify-center bg-primary text-primary-foreground text-xs font-bold rounded-full border-2 border-background">
-                          {notificationCount > 99 ? "99+" : notificationCount}
-                        </span>
-                      )}
                     </button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end" className="w-56 border-2 border-foreground">
@@ -245,22 +242,19 @@ export function Header() {
                   Ask a Question
                 </Link>
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="relative">
-                      <Avatar className="h-10 w-10 border-2 border-background/30">
-                        <AvatarImage src={session.user.image || ""} alt={session.user.name || ""} />
-                        <AvatarFallback className="bg-primary text-primary-foreground font-bold">
-                          {session.user.name?.charAt(0).toUpperCase() || "U"}
-                        </AvatarFallback>
-                      </Avatar>
-                      {notificationCount > 0 && (
-                        <span className="absolute -top-1 -right-1 h-5 min-w-[20px] px-1 flex items-center justify-center bg-background text-foreground text-xs font-bold rounded-full border-2 border-foreground">
-                          {notificationCount > 99 ? "99+" : notificationCount}
-                        </span>
-                      )}
-                    </div>
+                  <Link
+                    href="/me"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="flex items-center gap-3"
+                  >
+                    <Avatar className="h-10 w-10 border-2 border-background/30">
+                      <AvatarImage src={session.user.image || ""} alt={session.user.name || ""} />
+                      <AvatarFallback className="bg-primary text-primary-foreground font-bold">
+                        {session.user.name?.charAt(0).toUpperCase() || "U"}
+                      </AvatarFallback>
+                    </Avatar>
                     <span className="font-medium">{session.user.name || session.user.email}</span>
-                  </div>
+                  </Link>
                   <button
                     onClick={() => {
                       signOut({ callbackUrl: "/" });

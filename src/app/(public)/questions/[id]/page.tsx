@@ -117,6 +117,18 @@ export default async function QuestionDetailPage({
     }
   }
 
+  // Mark notifications as read when user views the question
+  if (session?.user) {
+    await prisma.notification.updateMany({
+      where: {
+        userId: session.user.id,
+        questionId: question.id,
+        read: false,
+      },
+      data: { read: true },
+    });
+  }
+
   const isAuthor = session?.user?.id === question.authorId;
   const isExpert = session?.user?.role === "EXPERT" ||
                    session?.user?.role === "MODERATOR" ||

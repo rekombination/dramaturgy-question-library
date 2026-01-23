@@ -79,17 +79,19 @@ model User {
   linkedinUrl     String?
   websiteUrl      String?
 
-  accounts        Account[]
-  sessions        Session[]
-  questions       Question[] @relation("AuthoredQuestions")
-  expertClaims    Question[] @relation("ExpertClaims")
-  replies         Reply[]
-  votes           Vote[]
-  bookmarks       Bookmark[]
-  flags           Flag[]     @relation("Reporter")
-  resolvedFlags   Flag[]     @relation("Resolver")
-  toolkits        Toolkit[]
-  feedback        Feedback[]
+  accounts               Account[]
+  sessions               Session[]
+  questions              Question[]     @relation("AuthoredQuestions")
+  expertClaims           Question[]     @relation("ExpertClaims")
+  replies                Reply[]
+  votes                  Vote[]
+  bookmarks              Bookmark[]
+  flags                  Flag[]         @relation("Reporter")
+  resolvedFlags          Flag[]         @relation("Resolver")
+  toolkits               Toolkit[]
+  feedback               Feedback[]
+  notifications          Notification[]
+  triggeredNotifications Notification[] @relation("NotificationActor")
 
   @@index([username])
 }
@@ -150,6 +152,7 @@ model Question {
   bookmarks       Bookmark[]
   flags           Flag[]
   toolkitItems    ToolkitQuestion[]
+  notifications   Notification[]
 
   @@index([authorId])
   @@index([status])
@@ -207,7 +210,8 @@ model Reply {
 
   votes               Vote[]
   flags               Flag[]
-  solvedQuestions     Question[]  @relation("SolvedByReply")
+  solvedQuestions     Question[]     @relation("SolvedByReply")
+  notifications       Notification[]
 
   @@index([questionId])
   @@index([authorId])
@@ -344,4 +348,34 @@ model Feedback {
   @@index([userId])
   @@index([status])
   @@index([type])
+}
+
+enum NotificationType {
+  NEW_QUESTION // For experts: new question with requestExpert
+  NEW_REPLY    // For question author: new reply on their question
+}
+
+model Notification {
+  id        String           @id @default(cuid())
+  type      NotificationType
+  read      Boolean          @default(false)
+  createdAt DateTime         @default(now())
+
+  // Recipient
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Related entities
+  questionId String?
+  question   Question? @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  replyId String?
+  reply   Reply?  @relation(fields: [replyId], references: [id], onDelete: Cascade)
+
+  // Actor (who triggered this)
+  actorId String?
+  actor   User?   @relation("NotificationActor", fields: [actorId], references: [id], onDelete: SetNull)
+
+  @@index([userId, read])
+  @@index([createdAt])
 }
