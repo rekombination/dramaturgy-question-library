@@ -179,7 +179,7 @@ export function Header() {
                 height={33}
                 className="h-8 w-auto brightness-0 invert"
               />
-              <span className="text-base font-normal">
+              <span className="text-lg font-normal">
                 The Dramaturgy
               </span>
             </div>
