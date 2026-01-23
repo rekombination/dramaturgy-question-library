@@ -1,9 +1,9 @@
 import { notFound } from "next/navigation";
-import Image from "next/image";
 import Link from "next/link";
 import { reader } from "@/lib/keystatic";
 import { DocumentRenderer } from "@keystatic/core/renderer";
 import { ArticleJsonLd, BreadcrumbJsonLd } from "@/components/seo/JsonLd";
+import { ResponsiveImage } from "@/components/blog/ResponsiveImage";
 import type { Metadata } from "next";
 
 type Props = {
@@ -109,73 +109,87 @@ export default async function BlogPostPage({ params }: Props) {
           { name: post.title, url },
         ]}
       />
-      {/* Hero Section */}
-      <section className="border-b-3 border-foreground py-16 md:py-20 bg-muted">
-        <div className="container max-w-4xl">
-          <Link
-            href="/blog"
-            className="inline-flex items-center gap-2 px-4 py-2 border-3 border-foreground text-sm font-bold hover:bg-foreground hover:text-background transition-colors mb-8"
-          >
-            ← Back to Blog
-          </Link>
+      {/* Breadcrumb */}
+      <nav className="border-b border-border bg-muted/30 py-3">
+        <div className="container max-w-5xl">
+          <div className="flex items-center gap-2 text-sm">
+            <Link href="/" className="text-muted-foreground hover:text-foreground transition-colors">
+              Home
+            </Link>
+            <span className="text-muted-foreground">/</span>
+            <Link href="/blog" className="text-muted-foreground hover:text-foreground transition-colors">
+              Blog
+            </Link>
+            <span className="text-muted-foreground">/</span>
+            <span className="text-foreground font-medium truncate">{post.title}</span>
+          </div>
+        </div>
+      </nav>
 
-          {post.tags && post.tags.length > 0 && (
-            <div className="mt-6 mb-4 flex flex-wrap gap-2">
-              {post.tags.map((tag) => (
+      {/* Cover Image Hero */}
+      {post.coverImage && (
+        <section className="relative">
+          <div className="aspect-[21/9] relative overflow-hidden bg-muted">
+            <ResponsiveImage
+              src={post.coverImage}
+              alt={post.title}
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent" />
+          </div>
+        </section>
+      )}
+
+      {/* Article Header */}
+      <section className="py-12 md:py-16">
+        <div className="container max-w-4xl">
+          <div className="flex items-center gap-3 mb-6">
+            {post.tags && post.tags.length > 0 && (
+              post.tags.slice(0, 2).map((tag) => (
                 <span
                   key={tag}
                   className="px-3 py-1 bg-primary text-primary-foreground text-xs font-bold uppercase tracking-wider"
                 >
                   {tag}
                 </span>
-              ))}
-            </div>
-          )}
+              ))
+            )}
+            {post.publishedAt && (
+              <time className="text-sm text-muted-foreground">
+                {new Date(post.publishedAt).toLocaleDateString("de-DE", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })}
+              </time>
+            )}
+          </div>
 
-          <h1 className="hero-text mt-4">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight leading-[1.1]">
             {post.title}
           </h1>
 
           {post.description && (
-            <p className="mt-8 text-xl md:text-2xl text-foreground/80 leading-relaxed max-w-3xl">
+            <p className="mt-6 text-xl md:text-2xl text-muted-foreground leading-relaxed">
               {post.description}
             </p>
           )}
 
-          <div className="mt-8 flex items-center gap-4 text-sm text-muted-foreground">
-            {post.author && (
-              <span className="font-bold uppercase tracking-wider">{post.author}</span>
-            )}
-            {post.publishedAt && (
-              <>
-                <span>·</span>
-                <time>
-                  {new Date(post.publishedAt).toLocaleDateString("de-DE", {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                  })}
-                </time>
-              </>
-            )}
-          </div>
+          {post.author && (
+            <div className="mt-8 pt-8 border-t border-border">
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 rounded-full bg-primary flex items-center justify-center text-primary-foreground font-bold text-xl">
+                  {post.author.charAt(0)}
+                </div>
+                <div>
+                  <div className="font-bold">{post.author}</div>
+                  <div className="text-sm text-muted-foreground">Author</div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </section>
-
-      {/* Cover Image */}
-      {post.coverImage && (
-        <section className="border-b-3 border-foreground bg-background">
-          <div className="container max-w-5xl py-12">
-            <div className="aspect-video relative overflow-hidden border-3 border-foreground bg-muted">
-              <img
-                src={post.coverImage.replace('.jpg', '.svg')}
-                alt={post.title}
-                className="w-full h-full object-cover"
-              />
-            </div>
-          </div>
-        </section>
-      )}
 
       {/* Content */}
       <section className="py-16 md:py-24">

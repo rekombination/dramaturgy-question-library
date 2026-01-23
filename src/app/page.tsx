@@ -1,6 +1,6 @@
 import Link from "next/link";
-import Image from "next/image";
 import { reader } from "@/lib/keystatic";
+import { ResponsiveImage } from "@/components/blog/ResponsiveImage";
 
 export default async function HomePage() {
   // Get latest blog posts
@@ -143,10 +143,10 @@ export default async function HomePage() {
                 >
                   {post.entry.coverImage && (
                     <div className="aspect-video relative overflow-hidden border-b-3 border-foreground bg-muted">
-                      <img
-                        src={post.entry.coverImage.replace('.jpg', '.svg')}
+                      <ResponsiveImage
+                        src={post.entry.coverImage}
                         alt={post.entry.title}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       />
                     </div>
                   )}

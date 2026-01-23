@@ -1,7 +1,7 @@
 import Link from "next/link";
-import Image from "next/image";
 import { reader } from "@/lib/keystatic";
 import { BlogPostingListJsonLd } from "@/components/seo/JsonLd";
+import { ResponsiveImage } from "@/components/blog/ResponsiveImage";
 import type { Metadata } from "next";
 
 const siteUrl = "https://thedramaturgy.com";
@@ -76,22 +76,29 @@ export default async function BlogPage() {
       {/* Schema.org JSON-LD for blog listing */}
       <BlogPostingListJsonLd posts={blogPostsSchema} />
       {/* Hero Section */}
-      <section className="border-b-3 border-foreground bg-foreground text-background py-16 md:py-24">
-        <div className="container">
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-black tracking-tight">
-            Blog
-          </h1>
-          <p className="mt-6 text-xl md:text-2xl text-background/70 max-w-2xl">
-            Articles, insights, and resources for dramaturgical practice.
-          </p>
+      <section className="py-20 md:py-32 bg-background relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-primary opacity-10" />
+        <div className="container relative">
+          <div className="max-w-4xl">
+            <div className="inline-block px-4 py-2 bg-primary text-primary-foreground text-sm font-bold uppercase tracking-wider mb-6">
+              The Dramaturgy Blog
+            </div>
+            <h1 className="hero-text">
+              Insights &<br />
+              Resources
+            </h1>
+            <p className="mt-8 text-xl md:text-2xl text-muted-foreground max-w-2xl leading-relaxed">
+              Practical articles and in-depth explorations of dramaturgical practice, collaborative creation, and theatrical craft.
+            </p>
+          </div>
         </div>
       </section>
 
       {/* Posts Grid */}
-      <section className="py-20">
+      <section className="py-16 md:py-24 bg-muted/30">
         <div className="container">
           {sortedPosts.length === 0 ? (
-            <div className="text-center py-20 border-3 border-foreground bg-muted">
+            <div className="text-center py-20 border-3 border-foreground bg-background">
               <div className="text-8xl font-black text-primary">?</div>
               <h3 className="mt-6 text-2xl font-bold">No posts yet</h3>
               <p className="text-muted-foreground mt-2 text-lg">
@@ -99,56 +106,56 @@ export default async function BlogPage() {
               </p>
             </div>
           ) : (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-0">
+            <div className="grid md:grid-cols-2 gap-8">
               {sortedPosts.map((post, index) => (
                 <Link
                   key={post.slug}
                   href={`/blog/${post.slug}`}
-                  className={`group block border-3 border-foreground hover:bg-foreground hover:text-background transition-all hover-lift ${
-                    index > 0 ? "border-t-0 md:border-t-3" : ""
-                  } ${
-                    index % 3 !== 0 && index > 0 ? "md:border-l-0" : ""
+                  className={`group block bg-background border-3 border-foreground transition-all duration-300 hover:-translate-y-2 hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] ${
+                    index === 0 ? "md:col-span-2" : ""
                   }`}
                 >
-                  {post.entry.coverImage && (
-                    <div className="aspect-video relative overflow-hidden border-b-3 border-foreground bg-muted">
-                      <img
-                        src={post.entry.coverImage.replace('.jpg', '.svg')}
-                        alt={post.entry.title}
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                  )}
-                  <div className="p-8">
-                    {post.entry.publishedAt && (
-                      <p className="text-sm uppercase tracking-wider mb-3 text-muted-foreground group-hover:text-background/70">
-                        {new Date(post.entry.publishedAt).toLocaleDateString("de-DE", {
-                          year: "numeric",
-                          month: "long",
-                          day: "numeric",
-                        })}
-                      </p>
-                    )}
-                    <h2 className="text-2xl font-black mb-3 group-hover:text-primary transition-colors">
-                      {post.entry.title}
-                    </h2>
-                    {post.entry.description && (
-                      <p className="text-muted-foreground group-hover:text-background/80 line-clamp-3 mb-4">
-                        {post.entry.description}
-                      </p>
-                    )}
-                    {post.entry.tags && post.entry.tags.length > 0 && (
-                      <div className="flex flex-wrap gap-2">
-                        {post.entry.tags.slice(0, 3).map((tag) => (
-                          <span
-                            key={tag}
-                            className="px-3 py-1 border-2 border-foreground group-hover:border-background text-xs font-bold uppercase tracking-wider"
-                          >
-                            {tag}
-                          </span>
-                        ))}
+                  <div className={`grid ${index === 0 ? "md:grid-cols-2" : "grid-cols-1"} gap-0`}>
+                    {post.entry.coverImage && (
+                      <div className={`relative overflow-hidden ${index === 0 ? "aspect-[16/10]" : "aspect-video"} border-b-3 md:border-b-0 ${index === 0 ? "md:border-r-3" : ""} border-foreground`}>
+                        <ResponsiveImage
+                          src={post.entry.coverImage}
+                          alt={post.entry.title}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        />
                       </div>
                     )}
+                    <div className={`p-8 ${index === 0 ? "md:p-12" : ""} flex flex-col`}>
+                      <div className="flex items-center gap-3 mb-4">
+                        {post.entry.publishedAt && (
+                          <time className="text-sm text-muted-foreground">
+                            {new Date(post.entry.publishedAt).toLocaleDateString("de-DE", {
+                              year: "numeric",
+                              month: "short",
+                              day: "numeric",
+                            })}
+                          </time>
+                        )}
+                        {post.entry.tags && post.entry.tags.length > 0 && (
+                          <>
+                            <span className="text-muted-foreground">·</span>
+                            <span className="text-sm text-primary font-bold">{post.entry.tags[0]}</span>
+                          </>
+                        )}
+                      </div>
+                      <h2 className={`font-black leading-tight mb-4 group-hover:text-primary transition-colors ${index === 0 ? "text-3xl md:text-4xl" : "text-2xl"}`}>
+                        {post.entry.title}
+                      </h2>
+                      {post.entry.description && (
+                        <p className={`text-muted-foreground leading-relaxed mb-6 flex-grow ${index === 0 ? "text-lg line-clamp-3" : "line-clamp-2"}`}>
+                          {post.entry.description}
+                        </p>
+                      )}
+                      <div className="inline-flex items-center gap-2 text-sm font-bold text-foreground group-hover:gap-4 transition-all">
+                        Read Article
+                        <span className="text-primary">→</span>
+                      </div>
+                    </div>
                   </div>
                 </Link>
               ))}
