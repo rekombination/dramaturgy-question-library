@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { signIn } from "next-auth/react";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
@@ -9,6 +10,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 export default function SignUpPage() {
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get("callbackUrl") || "/";
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
@@ -22,7 +25,7 @@ export default function SignUpPage() {
       const result = await signIn("resend", {
         email,
         redirect: false,
-        callbackUrl: "/"
+        callbackUrl
       });
 
       if (result?.error) {
@@ -117,7 +120,7 @@ export default function SignUpPage() {
             <div className="space-y-4">
               <Button
                 variant="outline"
-                onClick={() => signIn("google", { callbackUrl: "/" })}
+                onClick={() => signIn("google", { callbackUrl })}
                 className="w-full h-14 text-base font-bold border-3 border-foreground hover:bg-foreground hover:text-background"
               >
                 <svg className="mr-3 h-5 w-5" viewBox="0 0 24 24">
@@ -142,7 +145,7 @@ export default function SignUpPage() {
               </Button>
               <Button
                 variant="outline"
-                onClick={() => signIn("github", { callbackUrl: "/" })}
+                onClick={() => signIn("github", { callbackUrl })}
                 className="w-full h-14 text-base font-bold border-3 border-foreground hover:bg-foreground hover:text-background"
               >
                 <svg className="mr-3 h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
