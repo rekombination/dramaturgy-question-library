@@ -21,21 +21,14 @@ const Toaster = ({ ...props }: ToasterProps) => {
       }}
       toastOptions={{
         classNames: {
-          toast: "border-2 shadow-lg",
-          success: "border-green-600 bg-green-50 dark:bg-green-950/30 text-green-900 dark:text-green-100",
-          error: "border-red-600 bg-red-50 dark:bg-red-950/30 text-red-900 dark:text-red-100",
-          warning: "border-amber-600 bg-amber-50 dark:bg-amber-950/30 text-amber-900 dark:text-amber-100",
-          info: "border-blue-600 bg-blue-50 dark:bg-blue-950/30 text-blue-900 dark:text-blue-100",
+          toast: "rounded-lg shadow-xl backdrop-blur-sm",
+          success: "border-l-4 border-green-600 bg-white/95 dark:bg-gray-900/95 text-green-900 dark:text-green-100",
+          error: "border-l-4 border-red-600 bg-white/95 dark:bg-gray-900/95 text-red-900 dark:text-red-100",
+          warning: "border-l-4 border-amber-600 bg-white/95 dark:bg-gray-900/95 text-amber-900 dark:text-amber-100",
+          info: "border-l-4 border-blue-600 bg-white/95 dark:bg-gray-900/95 text-blue-900 dark:text-blue-100",
         },
       }}
-      style={
-        {
-          "--normal-bg": "var(--popover)",
-          "--normal-text": "var(--popover-foreground)",
-          "--normal-border": "var(--border)",
-          "--border-radius": "var(--radius)",
-        } as React.CSSProperties
-      }
+      position="top-right"
       {...props}
     />
   )

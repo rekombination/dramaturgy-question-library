@@ -144,7 +144,7 @@ export function ReplyList({
                 </div>
 
                 {isSolution && (
-                  <span className="inline-flex items-center gap-1 px-3 py-1 bg-primary text-primary-foreground text-xs font-bold uppercase">
+                  <span className="inline-flex items-center gap-1 px-3 py-1 bg-green-600 text-white text-xs font-bold uppercase rounded">
                     <IconCheck size={16} />
                     This Helped
                   </span>
@@ -161,8 +161,8 @@ export function ReplyList({
 
             {/* Footer */}
             <div className={`p-4 border-t-2 ${
-              isSolution ? "border-primary" : "border-foreground"
-            } bg-muted flex items-center justify-between`}>
+              isSolution ? "border-green-600 bg-green-50 dark:bg-green-950/30" : "border-foreground bg-muted"
+            } flex items-center justify-between`}>
               <div className="text-sm text-muted-foreground">
                 {reply._count.votes} votes
               </div>

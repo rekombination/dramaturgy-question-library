@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { IconHandStop } from "@tabler/icons-react";
+import { IconHandStop, IconTrash } from "@tabler/icons-react";
 
 interface QuestionActionsProps {
   questionId: string;
@@ -23,6 +23,7 @@ export function QuestionActions({
 }: QuestionActionsProps) {
   const router = useRouter();
   const [isClaimLoading, setIsClaimLoading] = useState(false);
+  const [isDeleteLoading, setIsDeleteLoading] = useState(false);
 
   const handleClaimQuestion = async () => {
     setIsClaimLoading(true);
@@ -45,8 +46,34 @@ export function QuestionActions({
     }
   };
 
+  const handleDeleteQuestion = async () => {
+    if (!confirm("Are you sure you want to delete this question? This action cannot be undone.")) {
+      return;
+    }
+
+    setIsDeleteLoading(true);
+    try {
+      const response = await fetch(`/api/questions/${questionId}`, {
+        method: "DELETE",
+      });
+
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.error || "Failed to delete question");
+      }
+
+      toast.success("Question deleted successfully");
+      router.push("/explore");
+      router.refresh();
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Failed to delete question");
+    } finally {
+      setIsDeleteLoading(false);
+    }
+  };
+
   return (
-    <div className="flex items-center gap-4">
+    <div className="flex items-center gap-4 flex-wrap">
       {canClaim && (
         <Button
           onClick={handleClaimQuestion}
@@ -62,6 +89,17 @@ export function QuestionActions({
           <IconHandStop size={18} />
           You have claimed this question
         </span>
+      )}
+      {isAuthor && (
+        <Button
+          onClick={handleDeleteQuestion}
+          disabled={isDeleteLoading}
+          variant="outline"
+          className="border-red-600 text-red-600 hover:bg-red-50 dark:hover:bg-red-950/30 font-bold"
+        >
+          <IconTrash className="mr-2" size={18} />
+          {isDeleteLoading ? "Deleting..." : "Delete Question"}
+        </Button>
       )}
     </div>
   );
