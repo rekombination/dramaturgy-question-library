@@ -212,7 +212,7 @@ export default async function BlogPostPage({ params }: Props) {
                       5: "text-xl md:text-2xl font-bold mt-6 mb-3",
                       6: "text-lg md:text-xl font-bold mt-4 mb-2",
                     };
-                    const Tag = `h${level}` as keyof JSX.IntrinsicElements;
+                    const Tag = `h${level}` as "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
                     return <Tag className={styles[level as keyof typeof styles]}>{children}</Tag>;
                   },
                   list: ({ children, type }) => {
