@@ -138,7 +138,7 @@ export function Header() {
                     <DropdownMenuSeparator />
                     <DropdownMenuItem
                       className="font-medium text-primary cursor-pointer"
-                      onSelect={() => signOut()}
+                      onSelect={() => signOut({ callbackUrl: "/" })}
                     >
                       Sign out
                     </DropdownMenuItem>
@@ -241,7 +241,7 @@ export function Header() {
                   </div>
                   <button
                     onClick={() => {
-                      signOut();
+                      signOut({ callbackUrl: "/" });
                       setMobileMenuOpen(false);
                     }}
                     className="text-sm font-bold text-primary hover:underline"

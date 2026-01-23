@@ -105,16 +105,20 @@ export function FeedbackModal({ open, onOpenChange }: FeedbackModalProps) {
               <SelectTrigger className="h-12 text-base border-2 border-foreground">
                 <SelectValue placeholder="Select feedback type" />
               </SelectTrigger>
-              <SelectContent className="border-2 border-foreground">
+              <SelectContent className="border-2 border-foreground bg-background">
                 {feedbackTypes.map((type) => {
                   const Icon = type.icon;
                   return (
-                    <SelectItem key={type.value} value={type.value} className="text-base">
-                      <div className="flex items-center gap-2">
-                        <Icon size={18} />
-                        <div>
-                          <div className="font-medium">{type.label}</div>
-                          <div className="text-xs text-muted-foreground">{type.description}</div>
+                    <SelectItem
+                      key={type.value}
+                      value={type.value}
+                      className="text-base py-3 cursor-pointer focus:bg-primary focus:text-primary-foreground data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
+                    >
+                      <div className="flex items-start gap-3">
+                        <Icon size={20} className="shrink-0 mt-0.5" />
+                        <div className="flex-1 min-w-0">
+                          <div className="font-bold">{type.label}</div>
+                          <div className="text-xs opacity-80 mt-0.5">{type.description}</div>
                         </div>
                       </div>
                     </SelectItem>
