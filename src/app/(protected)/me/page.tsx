@@ -108,6 +108,19 @@ export default async function UserDashboardPage() {
           </div>
         </div>
 
+        {/* Admin Link */}
+        {user.role === "ADMIN" && (
+          <div className="mb-8 border-3 border-primary p-6 bg-primary/10">
+            <h3 className="font-bold text-lg mb-2">Admin Panel</h3>
+            <Link
+              href="/admin/users"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-foreground text-background font-bold text-sm hover:bg-foreground/90 transition-colors"
+            >
+              Manage Users & Roles
+            </Link>
+          </div>
+        )}
+
         <div className="grid lg:grid-cols-3 gap-8">
           {/* Main Content */}
           <div className="lg:col-span-2 space-y-8">
