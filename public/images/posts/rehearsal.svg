@@ -1,9 +1,0 @@
-<svg width="1200" height="630" xmlns="http://www.w3.org/2000/svg">
-  <rect width="1200" height="630" fill="#0A0A0A"/>
-  <circle cx="300" cy="315" r="100" fill="none" stroke="#FFFEF8" stroke-width="4"/>
-  <circle cx="600" cy="315" r="100" fill="none" stroke="#FFFEF8" stroke-width="4"/>
-  <circle cx="900" cy="315" r="100" fill="none" stroke="#C8372D" stroke-width="6"/>
-  <rect x="0" y="570" width="60" height="60" fill="#C8372D"/>
-  <text x="600" y="500" font-family="Arial, sans-serif" font-size="42" font-weight="900" text-anchor="middle" fill="#FFFEF8">THE DRAMATURG</text>
-  <text x="600" y="560" font-family="Arial, sans-serif" font-size="32" font-weight="400" text-anchor="middle" fill="#FFFEF8">in the rehearsal room</text>
-</svg>

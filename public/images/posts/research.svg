@@ -1,8 +1,0 @@
-<svg width="1200" height="630" xmlns="http://www.w3.org/2000/svg">
-  <rect width="1200" height="630" fill="#F5F5F0"/>
-  <rect x="100" y="100" width="300" height="400" fill="#FFFFFF" stroke="#0A0A0A" stroke-width="3"/>
-  <rect x="450" y="150" width="300" height="350" fill="#FFFFFF" stroke="#0A0A0A" stroke-width="3"/>
-  <rect x="800" y="120" width="300" height="380" fill="#FFFFFF" stroke="#0A0A0A" stroke-width="3"/>
-  <rect x="0" y="0" width="60" height="60" fill="#C8372D"/>
-  <text x="600" y="590" font-family="Arial, sans-serif" font-size="42" font-weight="900" text-anchor="middle" fill="#0A0A0A">RESEARCHING FOR PRODUCTIONS</text>
-</svg>

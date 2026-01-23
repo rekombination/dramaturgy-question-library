@@ -1,3 +1,7 @@
+'use client';
+
+import { useState, useEffect } from 'react';
+
 interface ResponsiveImageProps {
   src: string;
   alt: string;
@@ -5,10 +9,32 @@ interface ResponsiveImageProps {
   priority?: boolean;
 }
 
-export function ResponsiveImage({ src, alt, className = "" }: ResponsiveImageProps) {
-  // Convert /images/posts/dramarurgy.jpg to base name
-  const baseName = src.replace(/^\/images\/posts\//, '').replace(/\.(jpg|jpeg|png)$/, '');
+export function ResponsiveImage({ src, alt, className = "", priority = false }: ResponsiveImageProps) {
+  const [hasOptimizedVersions, setHasOptimizedVersions] = useState(true);
 
+  // Convert /images/posts/dramarurgy.jpg to base name
+  const baseName = src.replace(/^\/images\/posts\//, '').replace(/\.(jpg|jpeg|png)$/i, '');
+
+  // Check if optimized versions exist by trying to load one
+  useEffect(() => {
+    const checkImage = new Image();
+    checkImage.src = `/images/posts/${baseName}-sm.webp`;
+    checkImage.onerror = () => setHasOptimizedVersions(false);
+  }, [baseName]);
+
+  // If no optimized versions exist, just return a regular img tag
+  if (!hasOptimizedVersions) {
+    return (
+      <img
+        src={src}
+        alt={alt}
+        loading={priority ? "eager" : "lazy"}
+        className={className}
+      />
+    );
+  }
+
+  // Otherwise, return the full picture element with all optimized versions
   return (
     <picture>
       <source
@@ -32,7 +58,7 @@ export function ResponsiveImage({ src, alt, className = "" }: ResponsiveImagePro
       <img
         src={src}
         alt={alt}
-        loading="lazy"
+        loading={priority ? "eager" : "lazy"}
         className={className}
       />
     </picture>
