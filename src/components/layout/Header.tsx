@@ -168,9 +168,18 @@ export function Header() {
         <div className="flex flex-col h-full">
           {/* Mobile Menu Header */}
           <div className="flex items-center justify-between px-6 py-5 border-b border-background/20">
-            <span className="text-base font-black uppercase tracking-tight">
-              THE DRAMATURGY
-            </span>
+            <div className="flex items-center gap-3">
+              <Image
+                src="/logo.png"
+                alt="The Dramaturgy"
+                width={100}
+                height={33}
+                className="h-8 w-auto brightness-0 invert"
+              />
+              <span className="text-base font-black uppercase tracking-tight">
+                THE DRAMATURGY
+              </span>
+            </div>
             <button
               onClick={() => setMobileMenuOpen(false)}
               className="h-10 w-10 flex items-center justify-center hover:bg-background/10 transition-colors"
