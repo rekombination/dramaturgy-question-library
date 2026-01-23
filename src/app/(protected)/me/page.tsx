@@ -112,11 +112,32 @@ export default async function UserDashboardPage() {
         {user.role === "ADMIN" && (
           <div className="mb-8 border-3 border-primary p-6 bg-primary/10">
             <h3 className="font-bold text-lg mb-2">Admin Panel</h3>
+            <div className="flex gap-3">
+              <Link
+                href="/admin/users"
+                className="inline-flex items-center gap-2 px-4 py-2 bg-foreground text-background font-bold text-sm hover:bg-foreground/90 transition-colors"
+              >
+                Manage Users & Roles
+              </Link>
+              <Link
+                href="/mod"
+                className="inline-flex items-center gap-2 px-4 py-2 bg-foreground text-background font-bold text-sm hover:bg-foreground/90 transition-colors"
+              >
+                Moderation Dashboard
+              </Link>
+            </div>
+          </div>
+        )}
+
+        {/* Moderator Link */}
+        {user.role === "MODERATOR" && (
+          <div className="mb-8 border-3 border-primary p-6 bg-primary/10">
+            <h3 className="font-bold text-lg mb-2">Moderator Panel</h3>
             <Link
-              href="/admin/users"
+              href="/mod"
               className="inline-flex items-center gap-2 px-4 py-2 bg-foreground text-background font-bold text-sm hover:bg-foreground/90 transition-colors"
             >
-              Manage Users & Roles
+              Moderation Dashboard
             </Link>
           </div>
         )}

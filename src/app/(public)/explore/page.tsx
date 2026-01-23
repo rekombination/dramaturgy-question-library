@@ -15,7 +15,7 @@ export const metadata = {
 async function getQuestions(): Promise<QuestionWithRelations[]> {
   // Use mock data in local development
   if (process.env.USE_MOCK_DATA === "true") {
-    return mockQuestions as QuestionWithRelations[];
+    return mockQuestions as any;
   }
 
   const session = await auth();

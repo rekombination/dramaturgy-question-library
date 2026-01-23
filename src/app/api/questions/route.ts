@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { z } from "zod";
+import { sendExpertRequestNotification } from "@/lib/email";
 
 const questionSchema = z.object({
   title: z.string().min(10, "Title must be at least 10 characters").max(200, "Title must be less than 200 characters"),
@@ -64,6 +65,28 @@ export async function POST(request: NextRequest) {
         },
       },
     });
+
+    // Send email to experts if expert request and published
+    if (questionStatus === "PUBLISHED" && validatedData.requestExpert) {
+      const experts = await prisma.user.findMany({
+        where: {
+          role: { in: ["EXPERT", "MODERATOR", "ADMIN"] },
+          emailVerified: { not: null },
+        },
+        select: { email: true },
+      });
+
+      const expertEmails = experts.map(e => e.email).filter(Boolean) as string[];
+
+      if (expertEmails.length > 0) {
+        await sendExpertRequestNotification({
+          expertEmails,
+          questionTitle: validatedData.title,
+          questionId: question.id,
+          questionAuthorName: question.author.name || "A community member",
+        });
+      }
+    }
 
     const message = questionStatus === "PUBLISHED"
       ? "Question published successfully!"

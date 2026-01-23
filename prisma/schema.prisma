@@ -80,7 +80,8 @@ model User {
 
   accounts        Account[]
   sessions        Session[]
-  questions       Question[]
+  questions       Question[] @relation("AuthoredQuestions")
+  expertClaims    Question[] @relation("ExpertClaims")
   replies         Reply[]
   votes           Vote[]
   bookmarks       Bookmark[]
@@ -110,7 +111,7 @@ model Question {
   id              String         @id @default(cuid())
   title           String
   body            String         @db.Text
-  status          QuestionStatus @default(PENDING)
+  status          QuestionStatus @default(DRAFT)
   contextType     ContextType    @default(OTHER)
   stakes          String?        @db.Text
   constraints     String?        @db.Text
@@ -123,8 +124,19 @@ model Question {
   createdAt       DateTime       @default(now())
   updatedAt       DateTime       @updatedAt
 
+  // Question closing
+  isSolved        Boolean        @default(false)
+  solvedAt        DateTime?
+  solvedByReplyId String?
+  solvedByReply   Reply?         @relation("SolvedByReply", fields: [solvedByReplyId], references: [id])
+
+  // Expert claim system
+  expertClaimedAt DateTime?
+  expertClaimedById String?
+  expertClaimedBy User?          @relation("ExpertClaims", fields: [expertClaimedById], references: [id])
+
   authorId        String
-  author          User           @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  author          User           @relation("AuthoredQuestions", fields: [authorId], references: [id], onDelete: Cascade)
 
   tags            QuestionTag[]
   replies         Reply[]
@@ -138,6 +150,8 @@ model Question {
   @@index([contextType])
   @@index([createdAt])
   @@index([isPrivate])
+  @@index([isSolved])
+  @@index([expertClaimedById])
 }
 
 model Tag {
@@ -173,7 +187,7 @@ enum ReplyStatus {
 model Reply {
   id                  String      @id @default(cuid())
   body                String      @db.Text
-  status              ReplyStatus @default(PENDING)
+  status              ReplyStatus @default(PUBLISHED)
   isExpertPerspective Boolean     @default(false)
   voteCount           Int         @default(0)
   createdAt           DateTime    @default(now())
@@ -187,6 +201,7 @@ model Reply {
 
   votes               Vote[]
   flags               Flag[]
+  solvedQuestions     Question[]  @relation("SolvedByReply")
 
   @@index([questionId])
   @@index([authorId])
