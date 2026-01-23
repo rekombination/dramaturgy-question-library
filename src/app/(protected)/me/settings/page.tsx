@@ -5,6 +5,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { ProfileImageUpload } from "@/components/profile/ProfileImageUpload";
 import {
   IconBrandInstagram,
   IconBrandTiktok,
@@ -22,6 +23,7 @@ export default function SettingsPage() {
 
   const [formData, setFormData] = useState({
     name: session?.user?.name || "",
+    image: session?.user?.image || "",
     bio: "",
     expertiseAreas: [] as string[],
     instagramUrl: "",
@@ -86,6 +88,13 @@ export default function SettingsPage() {
               <h2 className="text-2xl font-black mb-6">Profile Information</h2>
 
               <div className="space-y-6">
+                {/* Profile Image */}
+                <ProfileImageUpload
+                  currentImage={formData.image}
+                  userName={session.user.name}
+                  onUploadComplete={(url) => setFormData({ ...formData, image: url })}
+                />
+
                 {/* Name */}
                 <div>
                   <label htmlFor="name" className="block text-sm font-bold mb-2">

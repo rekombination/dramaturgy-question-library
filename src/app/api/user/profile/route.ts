@@ -13,6 +13,7 @@ export async function PATCH(request: NextRequest) {
     const body = await request.json();
     const {
       name,
+      image,
       bio,
       expertiseAreas,
       instagramUrl,
@@ -28,6 +29,7 @@ export async function PATCH(request: NextRequest) {
       where: { id: session.user.id },
       data: {
         name: name || session.user.name,
+        image: image || session.user.image,
         bio: bio || null,
         expertiseAreas: expertiseAreas || [],
         instagramUrl: instagramUrl || null,
@@ -44,6 +46,7 @@ export async function PATCH(request: NextRequest) {
       user: {
         id: updatedUser.id,
         name: updatedUser.name,
+        image: updatedUser.image,
         bio: updatedUser.bio,
         expertiseAreas: updatedUser.expertiseAreas,
         instagramUrl: updatedUser.instagramUrl,
