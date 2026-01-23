@@ -46,7 +46,6 @@ export default function SubmitPage() {
   const router = useRouter();
   const { data: session, status } = useSession();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [showAuthPrompt, setShowAuthPrompt] = useState(false);
 
   const [formData, setFormData] = useState<QuestionDraft>({
     title: "",
@@ -99,12 +98,9 @@ export default function SubmitPage() {
     }
 
     if (!session) {
-      // Save current form data and show auth prompt
+      // Save current form data and redirect to sign up
       sessionStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
-      setShowAuthPrompt(true);
-      toast.error("Authentication required", {
-        description: "Please sign in to post your question. Your draft will be saved.",
-      });
+      router.push(`/signup?callbackUrl=${encodeURIComponent("/submit")}`);
       return;
     }
 
@@ -160,37 +156,6 @@ export default function SubmitPage() {
           </p>
         </div>
       </section>
-
-      {/* Auth Prompt */}
-      {showAuthPrompt && !session && (
-        <div className="border-b-3 border-foreground bg-foreground text-background">
-          <div className="container py-6">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-              <div>
-                <h3 className="font-bold text-lg">Sign in to post your question</h3>
-                <p className="text-background/80 mt-1">
-                  Your draft has been saved and will be restored after you sign in.
-                </p>
-              </div>
-              <div className="flex gap-3">
-                <Button
-                  onClick={() => router.push(`/login?callbackUrl=${encodeURIComponent("/submit")}`)}
-                  className="bg-primary text-primary-foreground hover:bg-primary/90"
-                >
-                  Sign In
-                </Button>
-                <Button
-                  onClick={() => router.push(`/signup?callbackUrl=${encodeURIComponent("/submit")}`)}
-                  variant="outline"
-                  className="border-3 border-background text-background hover:bg-background hover:text-foreground"
-                >
-                  Sign Up
-                </Button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* Form Section */}
       <section className="py-12 md:py-16">
