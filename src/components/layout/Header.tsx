@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useSession, signOut } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import {
@@ -47,9 +48,17 @@ export function Header() {
             </button>
 
             <Link href="/" className="flex items-center">
-              <span className="text-lg md:text-xl font-black uppercase tracking-tight">
+              <span className="md:hidden text-lg font-black uppercase tracking-tight">
                 THE DRAMATURGY
               </span>
+              <Image
+                src="/logo.png"
+                alt="The Dramaturgy"
+                width={160}
+                height={53}
+                className="hidden md:block h-10 lg:h-12 w-auto"
+                priority
+              />
             </Link>
 
             {/* Desktop Nav */}
