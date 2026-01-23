@@ -14,11 +14,12 @@ export async function GET() {
 
     let count = 0;
 
-    // For experts: count questions with status OPEN
+    // For experts: count published questions that are not solved
     if (userRole === "EXPERT" || userRole === "MODERATOR" || userRole === "ADMIN") {
       count = await prisma.question.count({
         where: {
-          status: "OPEN",
+          status: "PUBLISHED",
+          isSolved: false,
         },
       });
     } else {
