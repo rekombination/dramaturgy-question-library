@@ -29,6 +29,15 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const validatedData = questionSchema.parse(body);
 
+    // Get user to check email verification status
+    const user = await prisma.user.findUnique({
+      where: { id: session.user.id },
+      select: { emailVerified: true },
+    });
+
+    // Determine status: PUBLISHED if email verified, DRAFT if not
+    const questionStatus = user?.emailVerified ? "PUBLISHED" : "DRAFT";
+
     // Create question
     const question = await prisma.question.create({
       data: {
@@ -41,7 +50,7 @@ export async function POST(request: NextRequest) {
         sensitivityNote: validatedData.sensitivityNote,
         isPrivate: validatedData.isPrivate,
         requestExpert: validatedData.requestExpert,
-        status: "PENDING", // Questions start as pending for moderation
+        status: questionStatus,
         authorId: session.user.id,
       },
       include: {
@@ -56,10 +65,15 @@ export async function POST(request: NextRequest) {
       },
     });
 
+    const message = questionStatus === "PUBLISHED"
+      ? "Question published successfully!"
+      : "Question saved as draft. Please verify your email to publish it.";
+
     return NextResponse.json({
       success: true,
       question,
-      message: "Question submitted successfully! It will be reviewed by moderators.",
+      message,
+      status: questionStatus,
     });
   } catch (error) {
     if (error instanceof z.ZodError) {

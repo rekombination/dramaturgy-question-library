@@ -253,20 +253,6 @@ export default function SubmitPage() {
               />
             </div>
 
-            {/* Optional: What have you tried */}
-            <div className="space-y-3">
-              <Label htmlFor="tried" className="text-lg font-bold">
-                What Have You Tried? <span className="text-muted-foreground font-normal">(Optional)</span>
-              </Label>
-              <Textarea
-                id="tried"
-                value={formData.tried}
-                onChange={(e) => updateField("tried", e.target.value)}
-                placeholder="What approaches have you already considered or attempted?"
-                rows={3}
-                className="text-base border-3 border-foreground p-4 resize-none"
-              />
-            </div>
 
             {/* Privacy Toggle */}
             <div className="border-3 border-foreground p-6 space-y-4 bg-muted/30">
