@@ -115,6 +115,8 @@ model Question {
   id              String         @id @default(cuid())
   title           String
   body            String         @db.Text
+  images          String[]       @default([])
+  videos          String[]       @default([])
   status          QuestionStatus @default(DRAFT)
   contextType     ContextType    @default(OTHER)
   stakes          String?        @db.Text

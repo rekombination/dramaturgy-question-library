@@ -17,6 +17,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { toast } from "sonner";
+import { IconX, IconPhoto, IconVideo, IconEye } from "@tabler/icons-react";
+import { QuestionPreviewModal } from "@/components/question/QuestionPreviewModal";
 
 const contextTypes = [
   { value: "REHEARSAL", label: "Rehearsal" },
@@ -28,6 +30,13 @@ const contextTypes = [
   { value: "OTHER", label: "Other" },
 ];
 
+interface UploadedFile {
+  url: string;
+  type: "image" | "video";
+  size: number;
+  name: string;
+}
+
 interface QuestionDraft {
   title: string;
   body: string;
@@ -38,6 +47,8 @@ interface QuestionDraft {
   sensitivityNote?: string;
   isPrivate: boolean;
   requestExpert: boolean;
+  images?: string[];
+  videos?: string[];
 }
 
 const STORAGE_KEY = "pending_question_draft";
@@ -46,6 +57,9 @@ export default function SubmitPage() {
   const router = useRouter();
   const { data: session, status } = useSession();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [uploadedFiles, setUploadedFiles] = useState<UploadedFile[]>([]);
+  const [isUploading, setIsUploading] = useState(false);
+  const [showPreview, setShowPreview] = useState(false);
 
   const [formData, setFormData] = useState<QuestionDraft>({
     title: "",
@@ -57,6 +71,8 @@ export default function SubmitPage() {
     sensitivityNote: "",
     isPrivate: false,
     requestExpert: false,
+    images: [],
+    videos: [],
   });
 
   // Load draft from sessionStorage on mount
@@ -87,6 +103,73 @@ export default function SubmitPage() {
     value: QuestionDraft[K]
   ) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
+
+    const file = files[0];
+    const maxSize = 15 * 1024 * 1024; // 15MB
+
+    if (file.size > maxSize) {
+      toast.error("File too large", {
+        description: "Maximum file size is 15MB",
+      });
+      return;
+    }
+
+    setIsUploading(true);
+
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const response = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || "Upload failed");
+      }
+
+      const data: UploadedFile = await response.json();
+      setUploadedFiles((prev) => [...prev, data]);
+
+      // Update form data
+      if (data.type === "image") {
+        setFormData((prev) => ({
+          ...prev,
+          images: [...(prev.images || []), data.url],
+        }));
+      } else {
+        setFormData((prev) => ({
+          ...prev,
+          videos: [...(prev.videos || []), data.url],
+        }));
+      }
+
+      toast.success("File uploaded successfully");
+    } catch (error) {
+      toast.error("Upload failed", {
+        description: error instanceof Error ? error.message : "Please try again",
+      });
+    } finally {
+      setIsUploading(false);
+      // Reset input
+      e.target.value = "";
+    }
+  };
+
+  const removeFile = (url: string) => {
+    setUploadedFiles((prev) => prev.filter((f) => f.url !== url));
+    setFormData((prev) => ({
+      ...prev,
+      images: prev.images?.filter((u) => u !== url) || [],
+      videos: prev.videos?.filter((u) => u !== url) || [],
+    }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -217,6 +300,80 @@ export default function SubmitPage() {
               </p>
             </div>
 
+            {/* Media Upload */}
+            <div className="space-y-3">
+              <Label className="text-lg font-bold">
+                Images & Videos <span className="text-muted-foreground font-normal">(Optional, max 15MB each)</span>
+              </Label>
+
+              <div className="border-2 border-dashed border-foreground/30 p-6 space-y-4">
+                <div className="flex items-center gap-4">
+                  <input
+                    type="file"
+                    id="file-upload"
+                    accept="image/*,video/*"
+                    onChange={handleFileUpload}
+                    disabled={isUploading}
+                    className="hidden"
+                  />
+                  <Button
+                    type="button"
+                    onClick={() => document.getElementById("file-upload")?.click()}
+                    disabled={isUploading}
+                    variant="outline"
+                    className="border-2 border-foreground font-bold"
+                  >
+                    {isUploading ? (
+                      <>Uploading...</>
+                    ) : (
+                      <>
+                        <IconPhoto className="mr-2" size={18} />
+                        Upload File
+                      </>
+                    )}
+                  </Button>
+                  <p className="text-sm text-muted-foreground">
+                    Images (JPG, PNG, GIF, WebP) or Videos (MP4, MOV, AVI, WebM)
+                  </p>
+                </div>
+
+                {/* Uploaded Files */}
+                {uploadedFiles.length > 0 && (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    {uploadedFiles.map((file) => (
+                      <div
+                        key={file.url}
+                        className="relative border-2 border-foreground p-3 bg-background"
+                      >
+                        <div className="flex items-start gap-3">
+                          <div className="shrink-0">
+                            {file.type === "image" ? (
+                              <IconPhoto size={24} className="text-primary" />
+                            ) : (
+                              <IconVideo size={24} className="text-primary" />
+                            )}
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <p className="text-sm font-medium truncate">{file.name}</p>
+                            <p className="text-xs text-muted-foreground">
+                              {(file.size / (1024 * 1024)).toFixed(2)} MB
+                            </p>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => removeFile(file.url)}
+                            className="shrink-0 p-1 hover:bg-destructive hover:text-destructive-foreground transition-colors"
+                          >
+                            <IconX size={18} />
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+
             {/* Optional: Stakes */}
             <div className="space-y-3">
               <Label htmlFor="stakes" className="text-lg font-bold">
@@ -332,6 +489,16 @@ export default function SubmitPage() {
               <Button
                 type="button"
                 variant="outline"
+                onClick={() => setShowPreview(true)}
+                disabled={!isFormValid}
+                className="h-14 px-8 text-lg font-bold border-2 border-foreground hover:bg-foreground hover:text-background"
+              >
+                <IconEye className="mr-2" size={20} />
+                Preview
+              </Button>
+              <Button
+                type="button"
+                variant="outline"
                 onClick={() => router.back()}
                 className="h-14 px-8 text-lg font-bold border-2 border-foreground hover:bg-foreground hover:text-background"
               >
@@ -347,6 +514,14 @@ export default function SubmitPage() {
           </form>
         </div>
       </section>
+
+      {/* Preview Modal */}
+      <QuestionPreviewModal
+        open={showPreview}
+        onOpenChange={setShowPreview}
+        data={formData}
+        authorName={session?.user?.name || session?.user?.email || "You"}
+      />
     </div>
   );
 }
