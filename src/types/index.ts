@@ -11,7 +11,7 @@ import type {
 
 // Extended types with relations
 export type QuestionWithRelations = Question & {
-  author: Pick<User, "id" | "name" | "image" | "role">;
+  author: Pick<User, "id" | "name" | "username" | "image" | "role">;
   tags: { tag: Tag }[];
   _count?: {
     replies: number;
@@ -21,7 +21,7 @@ export type QuestionWithRelations = Question & {
 };
 
 export type QuestionDetail = Question & {
-  author: Pick<User, "id" | "name" | "image" | "role" | "bio" | "expertiseAreas">;
+  author: Pick<User, "id" | "name" | "username" | "image" | "role" | "bio" | "expertiseAreas">;
   tags: { tag: Tag }[];
   replies: ReplyWithAuthor[];
   _count: {
@@ -32,14 +32,14 @@ export type QuestionDetail = Question & {
 };
 
 export type ReplyWithAuthor = Reply & {
-  author: Pick<User, "id" | "name" | "image" | "role">;
+  author: Pick<User, "id" | "name" | "username" | "image" | "role">;
   _count?: {
     votes: number;
   };
 };
 
 export type ToolkitWithQuestions = Toolkit & {
-  createdBy: Pick<User, "id" | "name" | "image">;
+  createdBy: Pick<User, "id" | "name" | "username" | "image">;
   questions: {
     position: number;
     note: string | null;
