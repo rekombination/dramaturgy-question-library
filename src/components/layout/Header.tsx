@@ -29,11 +29,11 @@ export function Header() {
     <>
       <header className="sticky top-0 z-50 w-full border-b-3 border-foreground bg-background">
         <div className="container flex h-16 md:h-20 items-center justify-between">
-          <div className="flex items-center gap-8">
+          <div className="flex items-center gap-4 md:gap-8">
             {/* Mobile Menu Button */}
             <button
               onClick={() => setMobileMenuOpen(true)}
-              className="md:hidden h-10 w-10 flex items-center justify-center hover:bg-muted transition-colors"
+              className="md:hidden h-10 w-10 flex items-center justify-center hover:bg-muted transition-colors -ml-2"
               aria-label="Open menu"
             >
               <svg
