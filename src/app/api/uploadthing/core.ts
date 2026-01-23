@@ -16,6 +16,7 @@ export const ourFileRouter = {
       return { uploadedBy: metadata.userId, url: file.url };
     }),
 
+  // Question media upload (images and videos)
   questionMedia: f({
     image: { maxFileSize: "16MB", maxFileCount: 10 },
     video: { maxFileSize: "16MB", maxFileCount: 10 }
