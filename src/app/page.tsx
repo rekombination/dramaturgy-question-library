@@ -1,11 +1,9 @@
 import Link from "next/link";
 import { reader } from "@/lib/keystatic";
 import { ResponsiveImage } from "@/components/blog/ResponsiveImage";
-import { getRandomQuote } from "@/data/quotes";
+import { RandomQuote } from "@/components/home/RandomQuote";
 
 export default async function HomePage() {
-  // Get random quote
-  const quote = getRandomQuote();
 
   // Get latest blog posts
   const posts = await reader.collections.posts.all();
@@ -49,20 +47,7 @@ export default async function HomePage() {
               </div>
             </div>
             <div className="hidden lg:block">
-              <div className="relative">
-                <div className="absolute -top-8 -left-8 w-32 h-32 bg-primary" />
-                <div className="relative bg-foreground text-background p-12">
-                  <blockquote className="text-2xl font-bold leading-relaxed">
-                    „{quote.text}"
-                  </blockquote>
-                  <div className="mt-6 flex items-center gap-4">
-                    <div className="h-px flex-1 bg-background/30" />
-                    <div className="text-right">
-                      <div className="text-sm font-bold">{quote.author}</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <RandomQuote />
             </div>
           </div>
         </div>
