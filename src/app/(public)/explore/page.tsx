@@ -5,6 +5,7 @@ import { auth } from "@/lib/auth";
 import { QuestionCard } from "@/components/question/QuestionCard";
 import { Input } from "@/components/ui/input";
 import type { QuestionWithRelations, Tag } from "@/types";
+import { mockQuestions, mockTags } from "@/lib/mocks/data";
 
 export const metadata = {
   title: "Explore Questions",
@@ -12,6 +13,11 @@ export const metadata = {
 };
 
 async function getQuestions(): Promise<QuestionWithRelations[]> {
+  // Use mock data in local development
+  if (process.env.USE_MOCK_DATA === "true") {
+    return mockQuestions as QuestionWithRelations[];
+  }
+
   const session = await auth();
 
   // Build where clause based on user authentication and role
@@ -52,6 +58,11 @@ async function getQuestions(): Promise<QuestionWithRelations[]> {
 }
 
 async function getTags() {
+  // Use mock data in local development
+  if (process.env.USE_MOCK_DATA === "true") {
+    return mockTags;
+  }
+
   return prisma.tag.findMany({
     include: {
       _count: { select: { questions: true } },
