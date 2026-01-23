@@ -30,7 +30,7 @@ export function QuestionCard({ question }: QuestionCardProps) {
             votes
           </div>
           <div className="w-full h-px bg-foreground/20 my-2" />
-          <div className="text-lg font-bold">
+          <div className="text-2xl font-black">
             {question._count?.replies || 0}
           </div>
           <div className="text-xs uppercase tracking-wider text-muted-foreground">
