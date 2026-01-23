@@ -341,13 +341,13 @@ export default async function BlogPostPage({ params }: Props) {
           <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link
               href="/submit"
-              className="px-8 py-4 bg-white text-primary text-lg font-bold hover:bg-white/90 transition-colors text-center"
+              className="px-8 py-4 border-3 border-primary-foreground bg-background text-foreground text-lg font-bold hover:bg-foreground hover:text-background transition-all text-center"
             >
               Ask a Question
             </Link>
             <Link
               href="/explore"
-              className="px-8 py-4 border-3 border-primary-foreground text-lg font-bold hover:bg-white/10 transition-colors text-center"
+              className="px-8 py-4 border-3 border-primary-foreground text-lg font-bold hover:bg-background hover:text-foreground transition-all text-center"
             >
               Explore Questions
             </Link>
