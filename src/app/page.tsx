@@ -132,14 +132,12 @@ export default async function HomePage() {
                 View All
               </Link>
             </div>
-            <div className="grid md:grid-cols-3 gap-0">
-              {latestPosts.map((post, index) => (
+            <div className="grid md:grid-cols-3 gap-8">
+              {latestPosts.map((post) => (
                 <Link
                   key={post.slug}
                   href={`/blog/${post.slug}`}
-                  className={`group block border-3 border-foreground hover:bg-foreground hover:text-background transition-all hover-lift ${
-                    index > 0 ? "border-t-0 md:border-t-3 md:border-l-0" : ""
-                  }`}
+                  className="group block border-3 border-foreground hover:bg-foreground hover:text-background transition-all hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]"
                 >
                   {post.entry.coverImage && (
                     <div className="aspect-video relative overflow-hidden border-b-3 border-foreground bg-muted">

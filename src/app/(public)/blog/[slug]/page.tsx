@@ -129,7 +129,7 @@ export default async function BlogPostPage({ params }: Props) {
       {/* Cover Image Hero */}
       {post.coverImage && (
         <section className="relative border-b-3 border-foreground">
-          <div className="aspect-[21/9] relative overflow-hidden bg-muted">
+          <div className="aspect-[5/2] md:aspect-[21/9] relative overflow-hidden bg-muted">
             <ResponsiveImage
               src={post.coverImage}
               alt={post.title}
@@ -225,6 +225,9 @@ export default async function BlogPostPage({ params }: Props) {
                         {children}
                       </Component>
                     );
+                  },
+                  "list-item-content": ({ children }) => {
+                    return <>{children}</>;
                   },
                   blockquote: ({ children }) => (
                     <blockquote className="border-l-4 border-primary pl-6 py-4 my-8 bg-muted/30 text-xl italic">
