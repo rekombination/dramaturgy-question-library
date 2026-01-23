@@ -202,7 +202,7 @@ export default async function BlogPostPage({ params }: Props) {
               renderers={{
                 block: {
                   paragraph: ({ children }) => (
-                    <p className="text-lg leading-relaxed mb-6 text-foreground">{children}</p>
+                    <p className="text-lg leading-relaxed mb-2 text-foreground">{children}</p>
                   ),
                   heading: ({ level, children }) => {
                     const styles = {
