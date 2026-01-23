@@ -162,13 +162,9 @@ export default function SettingsPage() {
 
                 <div className="flex items-center justify-between p-4 bg-muted">
                   <div>
-                    <div className="font-bold">Member Since</div>
+                    <div className="font-bold">Account Status</div>
                     <div className="text-sm text-muted-foreground">
-                      {new Date(session.user.createdAt || "").toLocaleDateString("de-DE", {
-                        year: "numeric",
-                        month: "long",
-                        day: "numeric",
-                      })}
+                      Active
                     </div>
                   </div>
                 </div>
