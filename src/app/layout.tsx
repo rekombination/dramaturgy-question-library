@@ -59,12 +59,21 @@ export const metadata: Metadata = {
     title: "The Dramaturgy | Community for Dramaturgical Questions",
     description:
       "The Dramaturgy is a community platform for dramaturgical questions and knowledge sharing in theatre and performing arts.",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "The Dramaturgy - Community for Dramaturgical Questions",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "The Dramaturgy | Community for Dramaturgical Questions",
     description:
       "The Dramaturgy is a community platform for dramaturgical questions and knowledge sharing in theatre and performing arts.",
+    images: ["/og-image.png"],
   },
   robots: {
     index: true,
