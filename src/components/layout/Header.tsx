@@ -218,7 +218,7 @@ export function Header() {
                 <Link
                   href="/submit"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="block w-full py-4 bg-primary text-primary-foreground text-center font-bold text-lg"
+                  className="block w-full py-4 border-3 border-background bg-background text-foreground text-center font-bold text-lg hover:bg-foreground hover:text-background transition-all"
                 >
                   Ask a Question
                 </Link>
@@ -248,14 +248,14 @@ export function Header() {
                 <Link
                   href="/signup"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="block w-full py-4 bg-primary text-primary-foreground text-center font-bold text-lg"
+                  className="block w-full py-4 border-3 border-background bg-background text-foreground text-center font-bold text-lg hover:bg-foreground hover:text-background transition-all"
                 >
                   Sign Up
                 </Link>
                 <Link
                   href="/login"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="block w-full py-4 border-3 border-background text-background text-center font-bold text-lg hover:bg-background hover:text-foreground transition-colors"
+                  className="block w-full py-4 border-3 border-background text-background text-center font-bold text-lg hover:bg-background hover:text-foreground transition-all"
                 >
                   Sign In
                 </Link>
