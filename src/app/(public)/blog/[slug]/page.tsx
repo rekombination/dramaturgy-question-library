@@ -127,24 +127,10 @@ export default async function BlogPostPage({ params }: Props) {
         </div>
       </nav>
 
-      {/* Cover Image Hero */}
-      {post.coverImage && (
-        <section className="relative border-b-3 border-foreground">
-          <div className="aspect-[3/1] md:aspect-[4/1] relative overflow-hidden bg-muted">
-            <ResponsiveImage
-              src={post.coverImage}
-              alt={post.title}
-              className="w-full h-full object-cover"
-              priority={true}
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent" />
-          </div>
-        </section>
-      )}
-
-      {/* Article Header */}
+      {/* Article Header with Cover Image */}
       <section className="py-12 md:py-16 border-b-3 border-foreground">
         <div className="container max-w-4xl">
+          {/* Tags and Date */}
           <div className="flex items-center gap-3 mb-6">
             {post.tags && post.tags.length > 0 && (
               post.tags.slice(0, 2).map((tag) => (
@@ -167,16 +153,31 @@ export default async function BlogPostPage({ params }: Props) {
             )}
           </div>
 
+          {/* Title */}
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight leading-[1.1]">
             {post.title}
           </h1>
 
+          {/* Description */}
           {post.description && (
             <p className="mt-6 text-xl md:text-2xl text-muted-foreground leading-relaxed">
               {post.description}
             </p>
           )}
 
+          {/* Cover Image - integrated into header */}
+          {post.coverImage && (
+            <div className="mt-8 border-3 border-foreground overflow-hidden">
+              <ResponsiveImage
+                src={post.coverImage}
+                alt={post.title}
+                className="w-full h-auto"
+                priority={true}
+              />
+            </div>
+          )}
+
+          {/* Author */}
           {post.author && (
             <div className="mt-8 pt-8 border-t border-border">
               <div className="flex items-center gap-3">
