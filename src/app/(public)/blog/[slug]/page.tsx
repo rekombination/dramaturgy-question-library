@@ -1,3 +1,4 @@
+import React from "react";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { reader } from "@/lib/keystatic";
@@ -219,15 +220,20 @@ export default async function BlogPostPage({ params }: Props) {
                     const Component = type === "ordered" ? "ol" : "ul";
                     const listClass = type === "ordered"
                       ? "my-8 space-y-3 text-lg pl-8 list-decimal list-outside marker:text-primary marker:font-bold"
-                      : "my-8 space-y-3 text-lg pl-0 [&>li]:relative [&>li]:pl-6 [&>li:before]:content-['→'] [&>li:before]:absolute [&>li:before]:left-0 [&>li:before]:text-primary [&>li:before]:font-black";
+                      : "my-8 space-y-3 text-lg pl-0";
+
+                    // Wrap each child in <li> tags
+                    const listItems = React.Children.map(children, (child, index) => (
+                      <li key={index} className={type === "unordered" ? "relative pl-6 before:content-['→'] before:absolute before:left-0 before:text-primary before:font-black" : ""}>
+                        {child}
+                      </li>
+                    ));
+
                     return (
                       <Component className={listClass}>
-                        {children}
+                        {listItems}
                       </Component>
                     );
-                  },
-                  "list-item-content": ({ children }) => {
-                    return <>{children}</>;
                   },
                   blockquote: ({ children }) => (
                     <blockquote className="border-l-4 border-primary pl-6 py-4 my-8 bg-muted/30 text-xl italic">
