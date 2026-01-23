@@ -41,7 +41,7 @@ async function getQuestions(): Promise<QuestionWithRelations[]> {
     where: whereClause,
     include: {
       author: {
-        select: { id: true, name: true, image: true, role: true },
+        select: { id: true, name: true, username: true, image: true, role: true },
       },
       tags: {
         include: { tag: true },

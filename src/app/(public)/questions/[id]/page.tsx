@@ -22,6 +22,7 @@ export default async function QuestionDetailPage({
         select: {
           id: true,
           name: true,
+          username: true,
           image: true,
           role: true,
           expertiseAreas: true,
@@ -31,6 +32,7 @@ export default async function QuestionDetailPage({
         select: {
           id: true,
           name: true,
+          username: true,
           image: true,
           role: true,
         },
@@ -49,6 +51,7 @@ export default async function QuestionDetailPage({
             select: {
               id: true,
               name: true,
+              username: true,
               image: true,
               role: true,
             },
@@ -178,7 +181,16 @@ export default async function QuestionDetailPage({
             <div className="flex items-center gap-3 text-sm">
               <div className="flex items-center gap-2">
                 <IconUser size={18} />
-                <span className="font-bold">{question.author.name || "Anonymous"}</span>
+                {question.author.username ? (
+                  <Link
+                    href={`/profile/${question.author.username}`}
+                    className="font-bold hover:text-primary transition-colors"
+                  >
+                    {question.author.username}
+                  </Link>
+                ) : (
+                  <span className="font-bold">{question.author.name || "Anonymous"}</span>
+                )}
                 {question.author.role !== "USER" && (
                   <span className="px-2 py-0.5 bg-primary text-primary-foreground text-xs font-bold uppercase">
                     {question.author.role}
@@ -202,7 +214,7 @@ export default async function QuestionDetailPage({
             <div className="p-4 bg-primary/10 border-b-2 border-foreground">
               <p className="text-sm font-bold">
                 <IconUser size={16} className="inline mr-2" />
-                Expert {question.expertClaimedBy.name} is working on this question
+                Expert {question.expertClaimedBy.username || question.expertClaimedBy.name} is working on this question
               </p>
             </div>
           )}

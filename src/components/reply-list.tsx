@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { IconCheck, IconUser, IconStar } from "@tabler/icons-react";
@@ -114,7 +115,16 @@ export function ReplyList({
                 <div className="flex items-center gap-3 flex-1">
                   <div className="flex items-center gap-2">
                     <IconUser size={18} />
-                    <span className="font-bold">{reply.author.name || "Anonymous"}</span>
+                    {reply.author.username ? (
+                      <Link
+                        href={`/profile/${reply.author.username}`}
+                        className="font-bold hover:text-primary transition-colors"
+                      >
+                        {reply.author.username}
+                      </Link>
+                    ) : (
+                      <span className="font-bold">{reply.author.name || "Anonymous"}</span>
+                    )}
                     {reply.author.role !== "USER" && (
                       <span className="px-2 py-0.5 bg-primary text-primary-foreground text-xs font-bold uppercase">
                         {reply.author.role}

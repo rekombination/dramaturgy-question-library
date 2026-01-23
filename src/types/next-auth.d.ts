@@ -7,6 +7,7 @@ declare module "next-auth" {
       id: string;
       role: UserRole;
       trustLevel: TrustLevel;
+      username: string | null;
     } & DefaultSession["user"];
   }
 }

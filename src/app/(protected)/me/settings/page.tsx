@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -12,7 +12,10 @@ import {
   IconBrandYoutube,
   IconBrandVimeo,
   IconBrandLinkedin,
-  IconWorld
+  IconWorld,
+  IconCheck,
+  IconX,
+  IconLoader2
 } from "@tabler/icons-react";
 
 export default function SettingsPage() {
@@ -23,6 +26,7 @@ export default function SettingsPage() {
 
   const [formData, setFormData] = useState({
     name: session?.user?.name || "",
+    username: session?.user?.username || "",
     image: session?.user?.image || "",
     bio: "",
     expertiseAreas: [] as string[],
@@ -33,6 +37,61 @@ export default function SettingsPage() {
     linkedinUrl: "",
     websiteUrl: "",
   });
+
+  const [usernameValidation, setUsernameValidation] = useState<{
+    checking: boolean;
+    valid: boolean | null;
+    message: string;
+  }>({
+    checking: false,
+    valid: null,
+    message: "",
+  });
+
+  // Username validation
+  useEffect(() => {
+    const originalUsername = session?.user?.username || "";
+
+    // Skip validation if username hasn't changed or is empty
+    if (!formData.username || formData.username === originalUsername) {
+      setUsernameValidation({ checking: false, valid: null, message: "" });
+      return;
+    }
+
+    if (formData.username.length < 3) {
+      setUsernameValidation({ checking: false, valid: null, message: "" });
+      return;
+    }
+
+    const timeoutId = setTimeout(async () => {
+      setUsernameValidation({ checking: true, valid: null, message: "" });
+      try {
+        const response = await fetch("/api/user/check-username", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            username: formData.username,
+            currentUserId: session?.user?.id
+          }),
+        });
+
+        const data = await response.json();
+        setUsernameValidation({
+          checking: false,
+          valid: data.valid,
+          message: data.message,
+        });
+      } catch (error) {
+        setUsernameValidation({
+          checking: false,
+          valid: false,
+          message: "Failed to validate username",
+        });
+      }
+    }, 300);
+
+    return () => clearTimeout(timeoutId);
+  }, [formData.username, session?.user?.id, session?.user?.username]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -147,6 +206,55 @@ export default function SettingsPage() {
                     className="w-full px-4 py-3 border-2 border-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                     placeholder="Your name"
                   />
+                </div>
+
+                {/* Username */}
+                <div>
+                  <label htmlFor="username" className="block text-sm font-bold mb-2">
+                    Username
+                  </label>
+                  <div className="relative">
+                    <input
+                      type="text"
+                      id="username"
+                      value={formData.username}
+                      onChange={(e) => setFormData({ ...formData, username: e.target.value.toLowerCase() })}
+                      className="w-full px-4 py-3 pr-10 border-2 border-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                      placeholder="your-username"
+                      minLength={3}
+                      maxLength={30}
+                    />
+                    {usernameValidation.checking && (
+                      <IconLoader2
+                        className="absolute right-3 top-1/2 -translate-y-1/2 animate-spin text-muted-foreground"
+                        size={20}
+                      />
+                    )}
+                    {!usernameValidation.checking && usernameValidation.valid === true && (
+                      <IconCheck
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-green-600"
+                        size={20}
+                      />
+                    )}
+                    {!usernameValidation.checking && usernameValidation.valid === false && (
+                      <IconX
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-destructive"
+                        size={20}
+                      />
+                    )}
+                  </div>
+                  {usernameValidation.message && (
+                    <p
+                      className={`text-sm mt-1 font-medium ${
+                        usernameValidation.valid ? "text-green-600" : "text-destructive"
+                      }`}
+                    >
+                      {usernameValidation.message}
+                    </p>
+                  )}
+                  <p className="text-sm text-muted-foreground mt-1">
+                    Your username will be used in your profile URL: /profile/{formData.username || "username"}
+                  </p>
                 </div>
 
                 {/* Email (read-only) */}

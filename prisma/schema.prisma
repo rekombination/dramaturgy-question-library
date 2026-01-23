@@ -59,6 +59,7 @@ enum TrustLevel {
 model User {
   id              String     @id @default(cuid())
   name            String?
+  username        String?    @unique
   email           String?    @unique
   emailVerified   DateTime?
   image           String?
@@ -88,6 +89,8 @@ model User {
   flags           Flag[]     @relation("Reporter")
   resolvedFlags   Flag[]     @relation("Resolver")
   toolkits        Toolkit[]
+
+  @@index([username])
 }
 
 enum QuestionStatus {

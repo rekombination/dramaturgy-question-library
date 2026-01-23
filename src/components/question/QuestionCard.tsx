@@ -84,7 +84,16 @@ export function QuestionCard({ question }: QuestionCardProps) {
                 </AvatarFallback>
               </Avatar>
               <div className="flex items-center gap-2">
-                <span className="font-medium">{question.author.name || "Anonymous"}</span>
+                {question.author.username ? (
+                  <Link
+                    href={`/profile/${question.author.username}`}
+                    className="font-medium hover:text-primary transition-colors"
+                  >
+                    {question.author.username}
+                  </Link>
+                ) : (
+                  <span className="font-medium">{question.author.name || "Anonymous"}</span>
+                )}
                 {question.author.role === "EXPERT" && (
                   <span className="px-2 py-0.5 bg-primary text-primary-foreground text-xs font-bold uppercase">
                     Expert

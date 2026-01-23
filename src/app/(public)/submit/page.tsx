@@ -124,14 +124,8 @@ export default function SubmitPage() {
       // Clear draft from sessionStorage
       sessionStorage.removeItem(STORAGE_KEY);
 
-      toast.success("Question submitted!", {
-        description: data.message || "Your question has been submitted for review.",
-      });
-
-      // Redirect after short delay
-      setTimeout(() => {
-        router.push("/explore");
-      }, 1500);
+      // Redirect immediately
+      router.push("/explore");
     } catch (error) {
       console.error("Submission error:", error);
       toast.error("Submission failed", {
