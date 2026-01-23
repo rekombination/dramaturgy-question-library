@@ -142,7 +142,7 @@ export default async function BlogPostPage({ params }: Props) {
       )}
 
       {/* Article Header */}
-      <section className="py-12 md:py-16">
+      <section className="py-12 md:py-16 border-b-3 border-foreground">
         <div className="container max-w-4xl">
           <div className="flex items-center gap-3 mb-6">
             {post.tags && post.tags.length > 0 && (
@@ -156,7 +156,7 @@ export default async function BlogPostPage({ params }: Props) {
               ))
             )}
             {post.publishedAt && (
-              <time className="text-sm text-muted-foreground">
+              <time className="text-sm text-muted-foreground uppercase tracking-wider">
                 {new Date(post.publishedAt).toLocaleDateString("de-DE", {
                   year: "numeric",
                   month: "long",
@@ -195,8 +195,76 @@ export default async function BlogPostPage({ params }: Props) {
       {/* Content */}
       <section className="py-16 md:py-24">
         <div className="container max-w-3xl">
-          <article className="prose prose-lg prose-headings:font-black prose-headings:tracking-tight prose-h2:text-3xl prose-h2:mt-12 prose-h2:mb-6 prose-h3:text-2xl prose-h3:mt-8 prose-h3:mb-4 prose-p:text-lg prose-p:leading-relaxed prose-p:mb-6 prose-a:text-primary prose-a:font-bold prose-a:no-underline hover:prose-a:underline prose-ul:my-6 prose-ul:space-y-2 prose-li:text-lg prose-strong:font-bold prose-strong:text-foreground max-w-none">
-            <DocumentRenderer document={content} />
+          <article className="blog-content">
+            <DocumentRenderer
+              document={content}
+              renderers={{
+                block: {
+                  paragraph: ({ children }) => (
+                    <p className="text-lg leading-relaxed mb-6 text-foreground">{children}</p>
+                  ),
+                  heading: ({ level, children }) => {
+                    const styles = {
+                      1: "text-5xl md:text-6xl font-black tracking-tight leading-tight mt-16 mb-8",
+                      2: "text-4xl md:text-5xl font-black tracking-tight leading-tight mt-12 mb-6",
+                      3: "text-3xl md:text-4xl font-black tracking-tight leading-tight mt-10 mb-5",
+                      4: "text-2xl md:text-3xl font-bold tracking-tight mt-8 mb-4",
+                      5: "text-xl md:text-2xl font-bold mt-6 mb-3",
+                      6: "text-lg md:text-xl font-bold mt-4 mb-2",
+                    };
+                    const Tag = `h${level}` as keyof JSX.IntrinsicElements;
+                    return <Tag className={styles[level as keyof typeof styles]}>{children}</Tag>;
+                  },
+                  list: ({ children, type }) => {
+                    const Component = type === "ordered" ? "ol" : "ul";
+                    return (
+                      <Component className="my-8 space-y-3 text-lg pl-6">
+                        {children}
+                      </Component>
+                    );
+                  },
+                  "list-item": ({ children }) => (
+                    <li className="relative pl-2">
+                      <span className="absolute left-[-1.5rem] text-primary font-black">→</span>
+                      {children}
+                    </li>
+                  ),
+                  blockquote: ({ children }) => (
+                    <blockquote className="border-l-4 border-primary pl-6 py-4 my-8 bg-muted/30 text-xl italic">
+                      {children}
+                    </blockquote>
+                  ),
+                  code: ({ children }) => (
+                    <pre className="bg-foreground text-background p-6 rounded-none border-3 border-foreground my-8 overflow-x-auto">
+                      <code className="text-sm font-mono">{children}</code>
+                    </pre>
+                  ),
+                },
+                inline: {
+                  link: ({ children, href }) => (
+                    <a
+                      href={href}
+                      className="text-primary font-bold no-underline hover:underline transition-all"
+                      target={href.startsWith('http') ? '_blank' : undefined}
+                      rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                    >
+                      {children}
+                    </a>
+                  ),
+                  bold: ({ children }) => (
+                    <strong className="font-black text-foreground">{children}</strong>
+                  ),
+                  italic: ({ children }) => (
+                    <em className="italic">{children}</em>
+                  ),
+                  code: ({ children }) => (
+                    <code className="bg-muted px-2 py-1 font-mono text-sm border border-border">
+                      {children}
+                    </code>
+                  ),
+                },
+              }}
+            />
           </article>
         </div>
       </section>
