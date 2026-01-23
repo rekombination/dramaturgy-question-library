@@ -91,6 +91,18 @@ export default async function BlogPostPage({ params }: Props) {
       : `${siteUrl}${post.coverImage}`
     : undefined;
 
+  // Get all posts for prev/next navigation
+  const allPosts = await reader.collections.posts.all();
+  const sortedPosts = allPosts.sort((a, b) => {
+    const dateA = a.entry.publishedAt ? new Date(a.entry.publishedAt).getTime() : 0;
+    const dateB = b.entry.publishedAt ? new Date(b.entry.publishedAt).getTime() : 0;
+    return dateB - dateA;
+  });
+
+  const currentIndex = sortedPosts.findIndex(p => p.slug === slug);
+  const prevPost = currentIndex < sortedPosts.length - 1 ? sortedPosts[currentIndex + 1] : null;
+  const nextPost = currentIndex > 0 ? sortedPosts[currentIndex - 1] : null;
+
   return (
     <div className="min-h-screen">
       {/* Schema.org JSON-LD */}
@@ -276,6 +288,49 @@ export default async function BlogPostPage({ params }: Props) {
         </div>
       </section>
 
+      {/* Previous/Next Navigation */}
+      {(prevPost || nextPost) && (
+        <section className="border-t-3 border-foreground py-8">
+          <div className="container max-w-3xl">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Previous Post */}
+              <div className={`${!prevPost ? 'md:col-start-2' : ''}`}>
+                {prevPost && (
+                  <Link
+                    href={`/blog/${prevPost.slug}`}
+                    className="block border-3 border-foreground p-6 hover:bg-foreground hover:text-background transition-all group"
+                  >
+                    <div className="text-sm font-bold uppercase tracking-wider text-muted-foreground group-hover:text-background/70 mb-2">
+                      ← Previous
+                    </div>
+                    <div className="font-black text-lg">
+                      {prevPost.entry.title}
+                    </div>
+                  </Link>
+                )}
+              </div>
+
+              {/* Next Post */}
+              <div>
+                {nextPost && (
+                  <Link
+                    href={`/blog/${nextPost.slug}`}
+                    className="block border-3 border-foreground p-6 hover:bg-foreground hover:text-background transition-all group"
+                  >
+                    <div className="text-sm font-bold uppercase tracking-wider text-muted-foreground group-hover:text-background/70 mb-2 text-right">
+                      Next →
+                    </div>
+                    <div className="font-black text-lg text-right">
+                      {nextPost.entry.title}
+                    </div>
+                  </Link>
+                )}
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Footer CTA */}
       <section className="border-t-3 border-foreground bg-primary text-primary-foreground py-16 md:py-20">
         <div className="container max-w-4xl text-center">
@@ -283,16 +338,16 @@ export default async function BlogPostPage({ params }: Props) {
           <p className="mt-4 text-xl opacity-90">
             Join the community and start a conversation.
           </p>
-          <div className="mt-8 flex flex-col sm:flex-row justify-center gap-4">
+          <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link
               href="/submit"
-              className="px-8 py-4 bg-white text-primary text-lg font-bold hover:bg-white/90 transition-colors"
+              className="px-8 py-4 bg-white text-primary text-lg font-bold hover:bg-white/90 transition-colors text-center"
             >
               Ask a Question
             </Link>
             <Link
               href="/explore"
-              className="px-8 py-4 border-3 border-primary-foreground text-lg font-bold hover:bg-white/10 transition-colors"
+              className="px-8 py-4 border-3 border-primary-foreground text-lg font-bold hover:bg-white/10 transition-colors text-center"
             >
               Explore Questions
             </Link>
