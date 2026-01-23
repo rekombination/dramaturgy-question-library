@@ -22,11 +22,11 @@ const siteUrl = "https://thedramaturgy.com";
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Dramaturgy Question Library | thedramaturgy.com",
-    template: "%s | thedramaturgy.com",
+    default: "The Dramaturgy | Community for Dramaturgical Questions",
+    template: "%s | The Dramaturgy",
   },
   description:
-    "A community platform for dramaturgical questions and knowledge sharing in theatre and performing arts. Ask questions, get expert perspectives, and build your dramaturgical toolkit.",
+    "The Dramaturgy is a community platform for dramaturgical questions and knowledge sharing in theatre and performing arts. Ask questions, get expert perspectives, and build your dramaturgical toolkit.",
   keywords: [
     "dramaturgy",
     "dramaturg",
@@ -56,9 +56,9 @@ export const metadata: Metadata = {
     alternateLocale: ["de_DE"],
     url: siteUrl,
     siteName: "The Dramaturgy",
-    title: "Dramaturgy Question Library",
+    title: "The Dramaturgy | Community for Dramaturgical Questions",
     description:
-      "A community platform for dramaturgical questions and knowledge sharing in theatre and performing arts.",
+      "The Dramaturgy is a community platform for dramaturgical questions and knowledge sharing in theatre and performing arts.",
     images: [
       {
         url: "/og-image.png",
@@ -70,9 +70,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Dramaturgy Question Library",
+    title: "The Dramaturgy | Community for Dramaturgical Questions",
     description:
-      "A community platform for dramaturgical questions and knowledge sharing in theatre and performing arts.",
+      "The Dramaturgy is a community platform for dramaturgical questions and knowledge sharing in theatre and performing arts.",
     images: ["/og-image.png"],
   },
   robots: {
