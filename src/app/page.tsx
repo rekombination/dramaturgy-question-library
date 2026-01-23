@@ -24,14 +24,14 @@ export default async function HomePage() {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
               <h1 className="hero-text">
-                The Questions
+                Questions
                 <br />
-                <span className="text-primary">That Shape</span>
+                <span className="text-primary">that Shape</span>
                 <br />
-                Theatre
+                Performance
               </h1>
               <p className="mt-8 text-xl md:text-2xl max-w-lg">
-                A community platform for dramaturgical questions, insights, and knowledge sharing.
+                A community space for dramaturgical questions, insights, and shared practice.
               </p>
               <div className="mt-10 flex flex-col sm:flex-row gap-4">
                 <Link
@@ -53,13 +53,12 @@ export default async function HomePage() {
                 <div className="absolute -top-8 -left-8 w-32 h-32 bg-primary" />
                 <div className="relative bg-foreground text-background p-12">
                   <blockquote className="text-2xl font-bold leading-relaxed">
-                    &ldquo;{quote.text}&rdquo;
+                    „{quote.text}"
                   </blockquote>
                   <div className="mt-6 flex items-center gap-4">
                     <div className="h-px flex-1 bg-background/30" />
                     <div className="text-right">
                       <div className="text-sm font-bold">{quote.author}</div>
-                      <div className="text-xs text-background/70 mt-1">{quote.source}</div>
                     </div>
                   </div>
                 </div>
