@@ -306,7 +306,7 @@ export default async function QuestionDetailPage({
         {question.isSolved && (
           <div className="border-3 border-primary p-6 bg-primary/10 text-center">
             <IconCheck size={32} className="mx-auto mb-2 text-primary" />
-            <p className="font-bold">This question has been marked as solved</p>
+            <p className="font-bold">This question has been resolved</p>
           </div>
         )}
       </div>

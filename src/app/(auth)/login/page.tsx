@@ -52,7 +52,7 @@ function LoginContent() {
               We&apos;ve sent a magic link to <strong className="text-foreground">{email}</strong>
             </p>
             <p className="mt-2 text-sm text-muted-foreground">
-              Click the link in your email to sign in. The link will expire in 24 hours.
+              Click the link in your email to sign in. The link will expire in 1 hour.
             </p>
             <button
               onClick={() => setEmailSent(false)}

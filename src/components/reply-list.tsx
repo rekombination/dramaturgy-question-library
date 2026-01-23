@@ -42,7 +42,7 @@ export function ReplyList({
   const router = useRouter();
   const [solvingReplyId, setSolvingReplyId] = useState<string | null>(null);
 
-  const handleMarkAsSolution = async (replyId: string) => {
+  const handleMarkAsHelpful = async (replyId: string) => {
     setSolvingReplyId(replyId);
     try {
       const response = await fetch(`/api/questions/${questionId}/solve`, {
@@ -53,19 +53,19 @@ export function ReplyList({
 
       if (!response.ok) {
         const data = await response.json();
-        throw new Error(data.error || "Failed to mark as solution");
+        throw new Error(data.error || "Failed to mark as helpful");
       }
 
-      toast.success("Marked as solution!");
+      toast.success("Marked as helpful!");
       router.refresh();
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Failed to mark as solution");
+      toast.error(error instanceof Error ? error.message : "Failed to mark as helpful");
     } finally {
       setSolvingReplyId(null);
     }
   };
 
-  const handleUnmarkSolution = async () => {
+  const handleUnmarkHelpful = async () => {
     try {
       const response = await fetch(`/api/questions/${questionId}/solve`, {
         method: "DELETE",
@@ -73,13 +73,13 @@ export function ReplyList({
 
       if (!response.ok) {
         const data = await response.json();
-        throw new Error(data.error || "Failed to unmark solution");
+        throw new Error(data.error || "Failed to unmark");
       }
 
-      toast.success("Solution unmarked");
+      toast.success("Unmarked");
       router.refresh();
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Failed to unmark solution");
+      toast.error(error instanceof Error ? error.message : "Failed to unmark");
     }
   };
 
@@ -135,7 +135,7 @@ export function ReplyList({
                 {isSolution && (
                   <span className="inline-flex items-center gap-1 px-3 py-1 bg-primary text-primary-foreground text-xs font-bold uppercase">
                     <IconCheck size={16} />
-                    Solution
+                    This Helped
                   </span>
                 )}
               </div>
@@ -158,24 +158,24 @@ export function ReplyList({
 
               {isQuestionAuthor && !isSolved && (
                 <Button
-                  onClick={() => handleMarkAsSolution(reply.id)}
+                  onClick={() => handleMarkAsHelpful(reply.id)}
                   disabled={solvingReplyId === reply.id}
                   size="sm"
                   className="bg-primary text-primary-foreground font-bold hover:bg-primary/90"
                 >
                   <IconCheck className="mr-2" size={16} />
-                  {solvingReplyId === reply.id ? "Marking..." : "Mark as Solution"}
+                  {solvingReplyId === reply.id ? "Marking..." : "This Helped Me"}
                 </Button>
               )}
 
               {isQuestionAuthor && isSolution && (
                 <Button
-                  onClick={handleUnmarkSolution}
+                  onClick={handleUnmarkHelpful}
                   size="sm"
                   variant="outline"
                   className="border-2 border-foreground font-bold"
                 >
-                  Unmark Solution
+                  Unmark
                 </Button>
               )}
             </div>
