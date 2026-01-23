@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useSession, signOut } from "next-auth/react";
@@ -24,6 +24,16 @@ const navLinks = [
 export function Header() {
   const { data: session, status } = useSession();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [notificationCount, setNotificationCount] = useState(0);
+
+  useEffect(() => {
+    if (session?.user) {
+      fetch("/api/notifications/count")
+        .then((res) => res.json())
+        .then((data) => setNotificationCount(data.count || 0))
+        .catch(() => setNotificationCount(0));
+    }
+  }, [session]);
 
   return (
     <>
@@ -85,7 +95,7 @@ export function Header() {
                 </Button>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <button className="relative h-10 w-10 rounded-full overflow-hidden focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2">
+                    <button className="relative h-10 w-10 rounded-full overflow-visible focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2">
                       <Avatar className="h-10 w-10 border-2 border-foreground">
                         <AvatarImage
                           src={session.user.image || ""}
@@ -95,6 +105,11 @@ export function Header() {
                           {session.user.name?.charAt(0).toUpperCase() || "U"}
                         </AvatarFallback>
                       </Avatar>
+                      {notificationCount > 0 && (
+                        <span className="absolute -top-1 -right-1 h-5 min-w-[20px] px-1 flex items-center justify-center bg-primary text-primary-foreground text-xs font-bold rounded-full border-2 border-background">
+                          {notificationCount > 99 ? "99+" : notificationCount}
+                        </span>
+                      )}
                     </button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end" className="w-56 border-2 border-foreground">
@@ -231,12 +246,19 @@ export function Header() {
                 </Link>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <Avatar className="h-10 w-10 border-2 border-background/30">
-                      <AvatarImage src={session.user.image || ""} alt={session.user.name || ""} />
-                      <AvatarFallback className="bg-primary text-primary-foreground font-bold">
-                        {session.user.name?.charAt(0).toUpperCase() || "U"}
-                      </AvatarFallback>
-                    </Avatar>
+                    <div className="relative">
+                      <Avatar className="h-10 w-10 border-2 border-background/30">
+                        <AvatarImage src={session.user.image || ""} alt={session.user.name || ""} />
+                        <AvatarFallback className="bg-primary text-primary-foreground font-bold">
+                          {session.user.name?.charAt(0).toUpperCase() || "U"}
+                        </AvatarFallback>
+                      </Avatar>
+                      {notificationCount > 0 && (
+                        <span className="absolute -top-1 -right-1 h-5 min-w-[20px] px-1 flex items-center justify-center bg-background text-foreground text-xs font-bold rounded-full border-2 border-foreground">
+                          {notificationCount > 99 ? "99+" : notificationCount}
+                        </span>
+                      )}
+                    </div>
                     <span className="font-medium">{session.user.name || session.user.email}</span>
                   </div>
                   <button

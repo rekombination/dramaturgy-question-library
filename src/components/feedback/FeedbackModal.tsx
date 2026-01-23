@@ -21,7 +21,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { toast } from "sonner";
-import { IconBug, IconBulb, IconSparkles, IconHelp } from "@tabler/icons-react";
+import { IconBug, IconBulb, IconSparkles, IconHelp, IconCheck } from "@tabler/icons-react";
 
 interface FeedbackModalProps {
   open: boolean;
@@ -38,6 +38,7 @@ const feedbackTypes = [
 export function FeedbackModal({ open, onOpenChange }: FeedbackModalProps) {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
   const [formData, setFormData] = useState({
     type: "",
     title: "",
@@ -69,14 +70,13 @@ export function FeedbackModal({ open, onOpenChange }: FeedbackModalProps) {
         throw new Error(data.error || "Failed to submit feedback");
       }
 
-      toast.success("Thank you for your feedback!");
+      setIsSuccess(true);
       setFormData({
         type: "",
         title: "",
         description: "",
         url: "",
       });
-      onOpenChange(false);
       router.refresh();
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "Failed to submit feedback");
@@ -85,17 +85,44 @@ export function FeedbackModal({ open, onOpenChange }: FeedbackModalProps) {
     }
   };
 
-  return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-2xl border-2 border-foreground max-h-[90vh] overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle className="text-2xl font-black">Send Feedback</DialogTitle>
-          <DialogDescription className="text-base">
-            Help us improve The Dramaturgy by sharing your thoughts, reporting bugs, or suggesting features.
-          </DialogDescription>
-        </DialogHeader>
+  const handleClose = () => {
+    setIsSuccess(false);
+    onOpenChange(false);
+  };
 
-        <form onSubmit={handleSubmit} className="space-y-6 mt-4">
+  return (
+    <Dialog open={open} onOpenChange={handleClose}>
+      <DialogContent className="sm:max-w-2xl border-2 border-foreground max-h-[90vh] overflow-y-auto">
+        {isSuccess ? (
+          <div className="py-12 text-center space-y-6">
+            <div className="flex justify-center">
+              <div className="h-20 w-20 bg-primary rounded-full flex items-center justify-center">
+                <IconCheck size={48} className="text-primary-foreground" />
+              </div>
+            </div>
+            <div className="space-y-3">
+              <h2 className="text-3xl font-black">Thank You!</h2>
+              <p className="text-lg text-muted-foreground max-w-md mx-auto">
+                Your feedback has been received. We appreciate you taking the time to help us improve The Dramaturgy.
+              </p>
+            </div>
+            <Button
+              onClick={handleClose}
+              className="h-12 px-8 font-bold bg-primary text-primary-foreground"
+            >
+              Close
+            </Button>
+          </div>
+        ) : (
+          <>
+            <DialogHeader>
+              <DialogTitle className="text-2xl font-black">Send Feedback</DialogTitle>
+              <DialogDescription className="text-base">
+                Help us improve The Dramaturgy by sharing your thoughts, reporting bugs, or suggesting features.
+              </DialogDescription>
+            </DialogHeader>
+
+            <form onSubmit={handleSubmit} className="space-y-6 mt-4">
           {/* Feedback Type */}
           <div className="space-y-3">
             <Label htmlFor="type" className="text-sm font-bold">
@@ -204,6 +231,8 @@ export function FeedbackModal({ open, onOpenChange }: FeedbackModalProps) {
             </Button>
           </div>
         </form>
+          </>
+        )}
       </DialogContent>
     </Dialog>
   );

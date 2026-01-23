@@ -75,7 +75,47 @@ function QuestionListSkeleton() {
   return (
     <div className="space-y-0">
       {[...Array(3)].map((_, i) => (
-        <div key={i} className="h-48 bg-muted animate-pulse border-b-2 border-foreground" />
+        <div key={i} className="border-b-2 border-foreground p-6 md:p-8">
+          <div className="flex items-start gap-4">
+            {/* Avatar skeleton */}
+            <div className="h-10 w-10 md:h-12 md:w-12 rounded-full bg-muted animate-pulse shrink-0" />
+
+            <div className="flex-1 space-y-4">
+              {/* Author and metadata skeleton */}
+              <div className="flex flex-wrap items-center gap-2">
+                <div className="h-5 w-24 bg-muted animate-pulse rounded" />
+                <div className="h-4 w-4 bg-muted animate-pulse rounded-full" />
+                <div className="h-5 w-20 bg-muted animate-pulse rounded" />
+              </div>
+
+              {/* Title skeleton */}
+              <div className="space-y-2">
+                <div className="h-7 w-3/4 bg-muted animate-pulse rounded" />
+                <div className="h-7 w-1/2 bg-muted animate-pulse rounded" />
+              </div>
+
+              {/* Body skeleton */}
+              <div className="space-y-2">
+                <div className="h-4 w-full bg-muted animate-pulse rounded" />
+                <div className="h-4 w-5/6 bg-muted animate-pulse rounded" />
+              </div>
+
+              {/* Tags skeleton */}
+              <div className="flex flex-wrap gap-2">
+                <div className="h-6 w-16 bg-muted animate-pulse rounded" />
+                <div className="h-6 w-20 bg-muted animate-pulse rounded" />
+                <div className="h-6 w-14 bg-muted animate-pulse rounded" />
+              </div>
+
+              {/* Stats skeleton */}
+              <div className="flex items-center gap-6 pt-2">
+                <div className="h-5 w-16 bg-muted animate-pulse rounded" />
+                <div className="h-5 w-16 bg-muted animate-pulse rounded" />
+                <div className="h-5 w-16 bg-muted animate-pulse rounded" />
+              </div>
+            </div>
+          </div>
+        </div>
       ))}
     </div>
   );
