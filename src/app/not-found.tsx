@@ -39,7 +39,7 @@ export default function NotFound() {
                 </Link>
                 <Link
                   href="/tags"
-                  className="block px-6 py-4 border-3 border-foreground border-t-0 font-bold text-center hover:bg-foreground hover:text-background transition-colors"
+                  className="block px-6 py-4 border-3 border-foreground font-bold text-center hover:bg-foreground hover:text-background transition-colors"
                 >
                   Browse Tags
                 </Link>

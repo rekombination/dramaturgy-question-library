@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import Link from "next/link";
 import { prisma } from "@/lib/db";
+import { auth } from "@/lib/auth";
 import { QuestionCard } from "@/components/question/QuestionCard";
 import { Input } from "@/components/ui/input";
 import type { QuestionWithRelations, Tag } from "@/types";
@@ -11,8 +12,27 @@ export const metadata = {
 };
 
 async function getQuestions(): Promise<QuestionWithRelations[]> {
+  const session = await auth();
+
+  // Build where clause based on user authentication and role
+  let whereClause: any = { status: "PUBLISHED" };
+
+  if (!session?.user) {
+    // Non-authenticated users: only see public questions
+    whereClause.isPrivate = false;
+  } else if (session.user.role === "EXPERT" || session.user.role === "MODERATOR" || session.user.role === "ADMIN") {
+    // Experts, moderators, and admins: see all published questions (no additional filter)
+    // whereClause already has status: "PUBLISHED"
+  } else {
+    // Regular users: see public questions OR their own questions
+    whereClause.OR = [
+      { isPrivate: false },
+      { authorId: session.user.id },
+    ];
+  }
+
   const questions = await prisma.question.findMany({
-    where: { status: "PUBLISHED" },
+    where: whereClause,
     include: {
       author: {
         select: { id: true, name: true, image: true, role: true },
