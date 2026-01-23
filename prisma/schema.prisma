@@ -108,6 +108,7 @@ model Question {
   constraints     String?        @db.Text
   tried           String?        @db.Text
   sensitivityNote String?        @db.Text
+  isPrivate       Boolean        @default(false)
   requestExpert   Boolean        @default(false)
   voteCount       Int            @default(0)
   replyCount      Int            @default(0)
@@ -128,6 +129,7 @@ model Question {
   @@index([status])
   @@index([contextType])
   @@index([createdAt])
+  @@index([isPrivate])
 }
 
 model Tag {
