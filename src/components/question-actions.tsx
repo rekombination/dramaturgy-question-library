@@ -95,7 +95,7 @@ export function QuestionActions({
           onClick={handleDeleteQuestion}
           disabled={isDeleteLoading}
           variant="outline"
-          className="border-red-600 text-red-600 hover:bg-red-50 dark:hover:bg-red-950/30 font-bold"
+          className="border-red-600 text-red-600 hover:bg-red-600 hover:text-white font-bold"
         >
           <IconTrash className="mr-2" size={18} />
           {isDeleteLoading ? "Deleting..." : "Delete Question"}

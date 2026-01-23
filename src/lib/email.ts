@@ -68,8 +68,8 @@ function emailTemplate(content: string): string {
     .button {
       display: inline-block;
       background-color: #C8372D;
-      color: #ffffff;
-      text-decoration: none;
+      color: #ffffff !important;
+      text-decoration: none !important;
       padding: 14px 28px;
       font-weight: 700;
       margin: 20px 0;
@@ -78,6 +78,10 @@ function emailTemplate(content: string): string {
     }
     .button:hover {
       background-color: #B12F26;
+      color: #ffffff !important;
+    }
+    .button:visited {
+      color: #ffffff !important;
     }
     .footer {
       padding: 24px;

@@ -104,13 +104,13 @@ export function ReplyList({
             key={reply.id}
             className={`border-2 ${
               isSolution
-                ? "border-primary bg-primary/5"
+                ? "border-green-600 bg-green-50 dark:bg-green-950/20"
                 : "border-foreground"
             }`}
           >
             {/* Header */}
             <div className={`p-4 border-b-2 ${
-              isSolution ? "border-primary bg-primary/10" : "border-foreground bg-muted"
+              isSolution ? "border-green-600 bg-green-100 dark:bg-green-950/30" : "border-foreground bg-muted"
             }`}>
               <div className="flex items-start justify-between gap-4">
                 <div className="flex items-center gap-3 flex-1">
