@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
+import sharp from "sharp";
 
 const MAX_FILE_SIZE = 15 * 1024 * 1024; // 15MB in bytes
 
@@ -60,8 +61,47 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Upload to Vercel Blob
     const { put } = await import("@vercel/blob");
+
+    // For images, convert to AVIF and WebP
+    if (isImage) {
+      const buffer = await file.arrayBuffer();
+      const baseFilename = file.name.replace(/\.[^/.]+$/, "");
+
+      // Convert to AVIF (best compression, modern browsers)
+      const avifBuffer = await sharp(buffer)
+        .avif({ quality: 80, effort: 4 })
+        .toBuffer();
+
+      // Convert to WebP (good compression, wider support)
+      const webpBuffer = await sharp(buffer)
+        .webp({ quality: 85, effort: 4 })
+        .toBuffer();
+
+      // Upload both formats
+      const [avifBlob, webpBlob] = await Promise.all([
+        put(`${baseFilename}.avif`, avifBuffer, {
+          access: "public",
+          addRandomSuffix: true,
+          contentType: "image/avif",
+        }),
+        put(`${baseFilename}.webp`, webpBuffer, {
+          access: "public",
+          addRandomSuffix: true,
+          contentType: "image/webp",
+        }),
+      ]);
+
+      return NextResponse.json({
+        url: avifBlob.url, // Use AVIF as primary
+        webpUrl: webpBlob.url, // Fallback to WebP
+        type: "image",
+        size: avifBuffer.length,
+        name: file.name,
+      });
+    }
+
+    // For videos, upload as-is
     const blob = await put(file.name, file, {
       access: "public",
       addRandomSuffix: true,
@@ -69,7 +109,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({
       url: blob.url,
-      type: isImage ? "image" : "video",
+      type: "video",
       size: file.size,
       name: file.name,
     });

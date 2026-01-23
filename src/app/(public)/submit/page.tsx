@@ -109,8 +109,19 @@ export default function SubmitPage() {
     const files = e.target.files;
     if (!files || files.length === 0) return;
 
+    const maxFiles = 10;
     const maxSize = 15 * 1024 * 1024; // 15MB
     const filesToUpload = Array.from(files);
+
+    // Check total file count (existing + new)
+    const totalFiles = uploadedFiles.length + filesToUpload.length;
+    if (totalFiles > maxFiles) {
+      toast.error(`Maximum ${maxFiles} files allowed`, {
+        description: `You can only upload ${maxFiles - uploadedFiles.length} more file(s)`,
+      });
+      e.target.value = "";
+      return;
+    }
 
     // Check file sizes first
     const oversizedFiles = filesToUpload.filter((file) => file.size > maxSize);
@@ -314,7 +325,7 @@ export default function SubmitPage() {
             {/* Media Upload */}
             <div className="space-y-3">
               <Label className="text-lg font-bold">
-                Images & Videos <span className="text-muted-foreground font-normal">(Optional, max 15MB each)</span>
+                Images & Videos <span className="text-muted-foreground font-normal">(Optional, max 10 files, 15MB each)</span>
               </Label>
 
               <div className="border-2 border-dashed border-foreground/30 p-6 space-y-4">
