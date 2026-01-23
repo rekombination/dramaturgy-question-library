@@ -1,8 +1,12 @@
 import Link from "next/link";
 import { reader } from "@/lib/keystatic";
 import { ResponsiveImage } from "@/components/blog/ResponsiveImage";
+import { getRandomQuote } from "@/data/quotes";
 
 export default async function HomePage() {
+  // Get random quote
+  const quote = getRandomQuote();
+
   // Get latest blog posts
   const posts = await reader.collections.posts.all();
   const latestPosts = posts
@@ -49,11 +53,14 @@ export default async function HomePage() {
                 <div className="absolute -top-8 -left-8 w-32 h-32 bg-primary" />
                 <div className="relative bg-foreground text-background p-12">
                   <blockquote className="text-2xl font-bold leading-relaxed">
-                    &ldquo;Dramaturgy is asking the questions that need to be asked.&rdquo;
+                    &ldquo;{quote.text}&rdquo;
                   </blockquote>
                   <div className="mt-6 flex items-center gap-4">
                     <div className="h-px flex-1 bg-background/30" />
-                    <span className="text-sm uppercase tracking-wider">Community Wisdom</span>
+                    <div className="text-right">
+                      <div className="text-sm font-bold">{quote.author}</div>
+                      <div className="text-xs text-background/70 mt-1">{quote.source}</div>
+                    </div>
                   </div>
                 </div>
               </div>
