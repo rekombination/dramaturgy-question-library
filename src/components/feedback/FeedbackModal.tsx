@@ -21,7 +21,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { toast } from "sonner";
-import { IconBug, IconBulb, IconSparkles, IconHelp, IconCheck } from "@tabler/icons-react";
+import { IconCheck } from "@tabler/icons-react";
 
 interface FeedbackModalProps {
   open: boolean;
@@ -29,10 +29,10 @@ interface FeedbackModalProps {
 }
 
 const feedbackTypes = [
-  { value: "BUG", label: "Bug Report", icon: IconBug, description: "Something isn't working correctly" },
-  { value: "FEATURE", label: "Feature Request", icon: IconBulb, description: "Suggest a new feature" },
-  { value: "IMPROVEMENT", label: "Improvement", icon: IconSparkles, description: "Suggest an enhancement" },
-  { value: "OTHER", label: "Other", icon: IconHelp, description: "General feedback" },
+  { value: "BUG", label: "Bug Report" },
+  { value: "FEATURE", label: "Feature Request" },
+  { value: "IMPROVEMENT", label: "Improvement" },
+  { value: "OTHER", label: "Other" },
 ];
 
 export function FeedbackModal({ open, onOpenChange }: FeedbackModalProps) {
@@ -133,24 +133,15 @@ export function FeedbackModal({ open, onOpenChange }: FeedbackModalProps) {
                 <SelectValue placeholder="Select feedback type" />
               </SelectTrigger>
               <SelectContent className="border-2 border-foreground bg-background">
-                {feedbackTypes.map((type) => {
-                  const Icon = type.icon;
-                  return (
-                    <SelectItem
-                      key={type.value}
-                      value={type.value}
-                      className="text-base py-3 cursor-pointer focus:bg-primary focus:text-primary-foreground data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
-                    >
-                      <div className="flex items-start gap-3">
-                        <Icon size={20} className="shrink-0 mt-0.5" />
-                        <div className="flex-1 min-w-0">
-                          <div className="font-bold">{type.label}</div>
-                          <div className="text-xs opacity-80 mt-0.5">{type.description}</div>
-                        </div>
-                      </div>
-                    </SelectItem>
-                  );
-                })}
+                {feedbackTypes.map((type) => (
+                  <SelectItem
+                    key={type.value}
+                    value={type.value}
+                    className="text-base cursor-pointer focus:bg-primary focus:text-primary-foreground data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
+                  >
+                    {type.label}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </div>
