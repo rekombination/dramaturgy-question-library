@@ -145,7 +145,7 @@ export function Header() {
               </>
             ) : (
               <>
-                <Button asChild variant="ghost" className="hidden sm:flex font-bold">
+                <Button asChild variant="ghost" size="lg" className="hidden sm:flex font-bold">
                   <Link href="/login">Sign In</Link>
                 </Button>
                 <Button asChild size="lg" className="font-bold">
