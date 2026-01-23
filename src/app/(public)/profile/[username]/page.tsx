@@ -162,7 +162,7 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
                   {socialLinks.map(({ url, icon: Icon, label }) => (
                     <a
                       key={label}
-                      href={url}
+                      href={url || "#"}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex items-center gap-2 px-3 py-2 border-2 border-foreground hover:bg-foreground hover:text-background transition-colors"
