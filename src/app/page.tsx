@@ -2,6 +2,7 @@ import Link from "next/link";
 import { reader } from "@/lib/keystatic";
 import { ResponsiveImage } from "@/components/blog/ResponsiveImage";
 import { RandomQuote } from "@/components/home/RandomQuote";
+import { prisma } from "@/lib/db";
 
 export default async function HomePage() {
 
@@ -14,6 +15,49 @@ export default async function HomePage() {
       return dateB - dateA;
     })
     .slice(0, 3);
+
+  // Get latest published questions
+  const latestQuestions = await prisma.question.findMany({
+    where: {
+      status: "PUBLISHED",
+      isPrivate: false,
+    },
+    select: {
+      id: true,
+      title: true,
+      body: true,
+      createdAt: true,
+      voteCount: true,
+      replyCount: true,
+      contextType: true,
+      author: {
+        select: {
+          name: true,
+          username: true,
+        },
+      },
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+    take: 3,
+  });
+
+  // Get stats
+  const [totalQuestions, totalAnswers, totalUsers] = await Promise.all([
+    prisma.question.count({
+      where: {
+        status: "PUBLISHED",
+        isPrivate: false,
+      },
+    }),
+    prisma.reply.count({
+      where: {
+        status: "PUBLISHED",
+      },
+    }),
+    prisma.user.count(),
+  ]);
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
@@ -58,24 +102,76 @@ export default async function HomePage() {
         <div className="container py-12">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             <div>
-              <div className="text-4xl md:text-5xl font-black text-primary">?</div>
-              <div className="mt-2 text-sm uppercase tracking-wider">Questions Waiting</div>
+              <div className="text-4xl md:text-5xl font-black text-primary">{totalQuestions}</div>
+              <div className="mt-2 text-sm uppercase tracking-wider">Questions</div>
             </div>
             <div>
-              <div className="text-4xl md:text-5xl font-black">Open</div>
-              <div className="mt-2 text-sm uppercase tracking-wider">Community</div>
+              <div className="text-4xl md:text-5xl font-black">{totalAnswers}</div>
+              <div className="mt-2 text-sm uppercase tracking-wider">Answers</div>
             </div>
             <div>
-              <div className="text-4xl md:text-5xl font-black text-primary">Free</div>
+              <div className="text-4xl md:text-5xl font-black text-primary">{totalUsers}</div>
+              <div className="mt-2 text-sm uppercase tracking-wider">Community Members</div>
+            </div>
+            <div>
+              <div className="text-4xl md:text-5xl font-black">Free</div>
               <div className="mt-2 text-sm uppercase tracking-wider">To Join</div>
-            </div>
-            <div>
-              <div className="text-4xl md:text-5xl font-black">Now</div>
-              <div className="mt-2 text-sm uppercase tracking-wider">Get Started</div>
             </div>
           </div>
         </div>
       </section>
+
+      {/* Latest Questions */}
+      {latestQuestions.length > 0 && (
+        <section className="py-20 border-b-2 border-foreground">
+          <div className="container">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 mb-12">
+              <h2 className="display-text">Latest Questions</h2>
+              <Link
+                href="/explore"
+                className="px-6 py-3 border-2 border-foreground font-bold hover:bg-foreground hover:text-background transition-colors"
+              >
+                View All
+              </Link>
+            </div>
+            <div className="grid gap-6">
+              {latestQuestions.map((question) => (
+                <Link
+                  key={question.id}
+                  href={`/questions/${question.id}`}
+                  className="group block border-2 border-foreground hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transition-all duration-300"
+                >
+                  <div className="p-6 md:p-8">
+                    <div className="flex items-start justify-between gap-4 mb-4">
+                      <h3 className="text-xl md:text-2xl font-black group-hover:text-primary transition-colors flex-1">
+                        {question.title}
+                      </h3>
+                      <span className="px-3 py-1 bg-muted text-xs font-bold uppercase tracking-wider shrink-0">
+                        {question.contextType.replace("_", " ")}
+                      </span>
+                    </div>
+                    <p className="text-muted-foreground line-clamp-2 mb-4">
+                      {question.body}
+                    </p>
+                    <div className="flex items-center gap-6 text-sm text-muted-foreground">
+                      <div>
+                        by <span className="font-bold text-foreground">{question.author.name}</span>
+                      </div>
+                      <div className="flex items-center gap-4">
+                        <span>{question.replyCount} answers</span>
+                        <span>{question.voteCount} votes</span>
+                      </div>
+                      <div className="ml-auto text-xs">
+                        {new Date(question.createdAt).toLocaleDateString("de-DE")}
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* How it Works */}
       <section className="py-20 md:py-32">

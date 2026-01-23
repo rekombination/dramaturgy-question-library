@@ -14,6 +14,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { NotificationDropdown } from "@/components/notifications/NotificationDropdown";
+import { IconUserPlus } from "@tabler/icons-react";
+import { toast } from "sonner";
 
 const navLinks = [
   { href: "/explore", label: "Explore" },
@@ -35,6 +37,12 @@ export function Header() {
         .catch(() => setNotificationCount(0));
     }
   }, [session]);
+
+  const handleInviteFriends = () => {
+    const url = `${window.location.origin}/signup`;
+    navigator.clipboard.writeText(url);
+    toast.success("Invite link copied to clipboard!");
+  };
 
   return (
     <>
@@ -128,6 +136,13 @@ export function Header() {
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
                       <Link href="/me/settings" className="font-medium">Settings</Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                      className="font-medium cursor-pointer"
+                      onSelect={handleInviteFriends}
+                    >
+                      <IconUserPlus className="mr-2" size={16} />
+                      Invite Friends
                     </DropdownMenuItem>
                     {(session.user.role === "EXPERT" ||
                       session.user.role === "MODERATOR" ||
