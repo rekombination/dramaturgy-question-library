@@ -15,6 +15,7 @@ interface Reply {
   author: {
     id: string;
     name: string | null;
+    username: string | null;
     image: string | null;
     role: string;
   };
