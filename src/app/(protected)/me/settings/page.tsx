@@ -5,6 +5,14 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import {
+  IconBrandInstagram,
+  IconBrandTiktok,
+  IconBrandYoutube,
+  IconBrandVimeo,
+  IconBrandLinkedin,
+  IconWorld
+} from "@tabler/icons-react";
 
 export default function SettingsPage() {
   const { data: session, update } = useSession();
@@ -159,8 +167,9 @@ export default function SettingsPage() {
               <div className="space-y-6">
                 {/* Instagram */}
                 <div>
-                  <label htmlFor="instagram" className="block text-sm font-bold mb-2">
-                    📸 Instagram
+                  <label htmlFor="instagram" className="flex items-center gap-2 text-sm font-bold mb-2">
+                    <IconBrandInstagram size={20} />
+                    Instagram
                   </label>
                   <input
                     type="url"
@@ -174,8 +183,9 @@ export default function SettingsPage() {
 
                 {/* TikTok */}
                 <div>
-                  <label htmlFor="tiktok" className="block text-sm font-bold mb-2">
-                    🎵 TikTok
+                  <label htmlFor="tiktok" className="flex items-center gap-2 text-sm font-bold mb-2">
+                    <IconBrandTiktok size={20} />
+                    TikTok
                   </label>
                   <input
                     type="url"
@@ -189,8 +199,9 @@ export default function SettingsPage() {
 
                 {/* YouTube */}
                 <div>
-                  <label htmlFor="youtube" className="block text-sm font-bold mb-2">
-                    🎬 YouTube
+                  <label htmlFor="youtube" className="flex items-center gap-2 text-sm font-bold mb-2">
+                    <IconBrandYoutube size={20} />
+                    YouTube
                   </label>
                   <input
                     type="url"
@@ -204,8 +215,9 @@ export default function SettingsPage() {
 
                 {/* Vimeo */}
                 <div>
-                  <label htmlFor="vimeo" className="block text-sm font-bold mb-2">
-                    🎥 Vimeo
+                  <label htmlFor="vimeo" className="flex items-center gap-2 text-sm font-bold mb-2">
+                    <IconBrandVimeo size={20} />
+                    Vimeo
                   </label>
                   <input
                     type="url"
@@ -219,8 +231,9 @@ export default function SettingsPage() {
 
                 {/* LinkedIn */}
                 <div>
-                  <label htmlFor="linkedin" className="block text-sm font-bold mb-2">
-                    💼 LinkedIn
+                  <label htmlFor="linkedin" className="flex items-center gap-2 text-sm font-bold mb-2">
+                    <IconBrandLinkedin size={20} />
+                    LinkedIn
                   </label>
                   <input
                     type="url"
@@ -234,8 +247,9 @@ export default function SettingsPage() {
 
                 {/* Website */}
                 <div>
-                  <label htmlFor="website" className="block text-sm font-bold mb-2">
-                    🌐 Website / Portfolio
+                  <label htmlFor="website" className="flex items-center gap-2 text-sm font-bold mb-2">
+                    <IconWorld size={20} />
+                    Website / Portfolio
                   </label>
                   <input
                     type="url"
