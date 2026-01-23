@@ -48,8 +48,8 @@ export function Header() {
             </button>
 
             <Link href="/" className="flex items-center">
-              <span className="md:hidden text-lg font-black uppercase tracking-tight">
-                THE DRAMATURGY
+              <span className="md:hidden text-lg font-normal">
+                The Dramaturgy
               </span>
               <Image
                 src="/logo.png"
@@ -176,8 +176,8 @@ export function Header() {
                 height={33}
                 className="h-8 w-auto brightness-0 invert"
               />
-              <span className="text-base font-black uppercase tracking-tight">
-                THE DRAMATURGY
+              <span className="text-base font-normal">
+                The Dramaturgy
               </span>
             </div>
             <button
