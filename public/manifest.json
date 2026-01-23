@@ -1,11 +1,11 @@
 {
-  "name": "The Dramaturgy - Question Library",
-  "short_name": "Dramaturgy Q",
-  "description": "A community platform for dramaturgical questions and knowledge sharing",
+  "name": "The Dramaturgy",
+  "short_name": "The Dramaturgy",
+  "description": "Questions that Shape Performance - A community platform for dramaturgical questions and knowledge sharing",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#0a0a0a",
+  "background_color": "#FFFEF8",
+  "theme_color": "#C8372D",
   "orientation": "portrait-primary",
   "scope": "/",
   "icons": [
