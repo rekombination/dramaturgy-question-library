@@ -128,7 +128,7 @@ export default async function HomePage() {
                 <Link
                   key={post.slug}
                   href={`/blog/${post.slug}`}
-                  className="group block border-3 border-foreground hover:bg-foreground hover:text-background transition-all hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]"
+                  className="group block bg-background border-3 border-foreground transition-all duration-300 hover:-translate-y-2 hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]"
                 >
                   {post.entry.coverImage && (
                     <div className="aspect-video relative overflow-hidden border-b-3 border-foreground bg-muted">
@@ -141,7 +141,7 @@ export default async function HomePage() {
                   )}
                   <div className="p-6 md:p-8 min-h-[280px] flex flex-col">
                     {post.entry.publishedAt && (
-                      <p className="text-sm text-muted-foreground group-hover:text-background/70 mb-3 uppercase tracking-wider">
+                      <p className="text-sm text-muted-foreground mb-3 uppercase tracking-wider">
                         {new Date(post.entry.publishedAt).toLocaleDateString("de-DE", {
                           year: "numeric",
                           month: "long",
@@ -149,17 +149,17 @@ export default async function HomePage() {
                         })}
                       </p>
                     )}
-                    <h3 className="text-xl md:text-2xl font-black mb-3 leading-tight flex-grow">
+                    <h3 className="text-xl md:text-2xl font-black mb-3 leading-tight flex-grow group-hover:text-primary transition-colors">
                       {post.entry.title}
                     </h3>
                     {post.entry.description && (
-                      <p className="text-muted-foreground group-hover:text-background/80 line-clamp-2 mb-4">
+                      <p className="text-muted-foreground line-clamp-2 mb-4">
                         {post.entry.description}
                       </p>
                     )}
-                    <div className="mt-auto inline-flex items-center gap-2 text-sm font-bold text-primary group-hover:text-background">
+                    <div className="mt-auto inline-flex items-center gap-2 text-sm font-bold text-foreground group-hover:gap-4 transition-all">
                       Read More
-                      <span className="group-hover:translate-x-1 transition-transform">→</span>
+                      <span className="text-primary">→</span>
                     </div>
                   </div>
                 </Link>
