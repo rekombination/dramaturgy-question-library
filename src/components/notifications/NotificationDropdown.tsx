@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import { IconBell } from "@tabler/icons-react";
 
 interface Notification {
   id: string;
@@ -163,7 +164,7 @@ export function NotificationDropdown({ initialCount }: NotificationDropdownProps
           </div>
         ) : notifications.length === 0 ? (
           <div className="p-8 text-center">
-            <div className="text-4xl mb-2">🔔</div>
+            <IconBell className="h-12 w-12 mx-auto mb-2 text-muted-foreground" stroke={1.5} />
             <p className="text-sm text-muted-foreground">No notifications yet</p>
           </div>
         ) : (

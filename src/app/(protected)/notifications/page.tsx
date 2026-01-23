@@ -6,6 +6,7 @@ import Link from "next/link";
 import { formatDistanceToNow, isToday, isYesterday, isThisWeek } from "date-fns";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import { IconBell } from "@tabler/icons-react";
 
 interface Notification {
   id: string;
@@ -204,7 +205,7 @@ export default function NotificationsPage() {
           </div>
         ) : notifications.length === 0 ? (
           <div className="border-2 border-foreground p-12 text-center">
-            <div className="text-6xl mb-4">🔔</div>
+            <IconBell className="h-16 w-16 mx-auto mb-4 text-muted-foreground" stroke={1.5} />
             <h2 className="text-2xl font-bold mb-2">No notifications</h2>
             <p className="text-muted-foreground mb-6">
               {filter === "unread"
