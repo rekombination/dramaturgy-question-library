@@ -41,7 +41,7 @@ function emailTemplate(content: string): string {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
       line-height: 1.6;
       color: #1a1a1a;
-      background-color: #f8f8f8;
+      background-color: #FFFEF8;
       margin: 0;
       padding: 20px;
     }
@@ -49,53 +49,71 @@ function emailTemplate(content: string): string {
       max-width: 600px;
       margin: 0 auto;
       background-color: #ffffff;
-      border: 3px solid #1a1a1a;
+      border: 3px solid #0A0A0A;
     }
     .header {
-      background-color: #1a1a1a;
-      color: #ffffff;
-      padding: 24px;
+      background-color: #ffffff;
+      padding: 32px 24px;
       text-align: center;
+      border-bottom: 3px solid #0A0A0A;
     }
-    .header h1 {
-      margin: 0;
-      font-size: 24px;
-      font-weight: 900;
+    .logo {
+      max-width: 160px;
+      height: auto;
     }
     .content {
       padding: 32px 24px;
+      background-color: #ffffff;
     }
     .button {
       display: inline-block;
-      background-color: #ff6b35;
+      background-color: #C8372D;
       color: #ffffff;
       text-decoration: none;
-      padding: 12px 24px;
+      padding: 14px 28px;
       font-weight: 700;
-      margin: 16px 0;
-      border: 3px solid #1a1a1a;
+      margin: 20px 0;
+      border: 3px solid #0A0A0A;
+      font-size: 16px;
     }
     .button:hover {
-      background-color: #ff5722;
+      background-color: #B12F26;
     }
     .footer {
       padding: 24px;
       text-align: center;
-      font-size: 14px;
+      font-size: 13px;
       color: #666;
-      border-top: 3px solid #1a1a1a;
-      background-color: #f8f8f8;
+      border-top: 3px solid #0A0A0A;
+      background-color: #FFFEF8;
     }
     .footer a {
-      color: #ff6b35;
+      color: #C8372D;
       text-decoration: none;
+      font-weight: 600;
+    }
+    h2 {
+      margin: 0 0 16px 0;
+      font-size: 24px;
+      font-weight: 900;
+      color: #0A0A0A;
+    }
+    h3 {
+      margin: 16px 0 8px 0;
+      font-size: 18px;
+      font-weight: 700;
+      color: #0A0A0A;
+    }
+    p {
+      margin: 0 0 16px 0;
+      color: #333;
     }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="header">
-      <h1>THE DRAMATURGY</h1>
+      <img src="${SITE_URL}/logo.png" alt="The Dramaturgy" class="logo" width="160" height="53" />
     </div>
     <div class="content">
       ${content}

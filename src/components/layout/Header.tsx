@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { useSession, signOut } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import {
@@ -17,7 +16,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 const navLinks = [
   { href: "/explore", label: "Explore" },
   { href: "/toolkits", label: "Toolkits" },
-  { href: "/tags", label: "Tags" },
   { href: "/blog", label: "Blog" },
   { href: "/guidelines", label: "Guidelines" },
 ];
@@ -49,14 +47,9 @@ export function Header() {
             </button>
 
             <Link href="/" className="flex items-center">
-              <Image
-                src="/logo.png"
-                alt="The Dramaturgy"
-                width={160}
-                height={53}
-                className="h-10 md:h-12 w-auto"
-                priority
-              />
+              <span className="text-lg md:text-xl font-black uppercase tracking-tight">
+                THE DRAMATURGY
+              </span>
             </Link>
 
             {/* Desktop Nav */}
@@ -166,13 +159,9 @@ export function Header() {
         <div className="flex flex-col h-full">
           {/* Mobile Menu Header */}
           <div className="flex items-center justify-between px-6 py-5 border-b border-background/20">
-            <Image
-              src="/logo.png"
-              alt="The Dramaturgy"
-              width={120}
-              height={40}
-              className="h-8 w-auto brightness-0 invert"
-            />
+            <span className="text-base font-black uppercase tracking-tight">
+              THE DRAMATURGY
+            </span>
             <button
               onClick={() => setMobileMenuOpen(false)}
               className="h-10 w-10 flex items-center justify-center hover:bg-background/10 transition-colors"

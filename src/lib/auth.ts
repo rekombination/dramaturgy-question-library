@@ -15,6 +15,9 @@ console.log("[Auth] EMAIL_FROM:", process.env.EMAIL_FROM);
 export const { handlers, auth, signIn, signOut } = NextAuth({
   adapter: PrismaAdapter(prisma),
   debug: process.env.NODE_ENV === "development",
+  session: {
+    maxAge: 30 * 24 * 60 * 60, // 30 days
+  },
   providers: [
     Google({
       clientId: process.env.GOOGLE_CLIENT_ID,
@@ -34,6 +37,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     Resend({
       apiKey: process.env.RESEND_API_KEY,
       from: process.env.EMAIL_FROM || "noreply@example.com",
+      maxAge: 60 * 60, // 1 hour (in seconds)
       sendVerificationRequest: async ({ identifier: email, url }) => {
         console.log("[Auth] Sending magic link to:", email);
 
@@ -56,29 +60,23 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
                   <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #FFFEF8; padding: 40px 20px;">
                     <tr>
                       <td align="center">
-                        <table width="100%" style="max-width: 500px; background-color: #0A0A0A; border: 3px solid #0A0A0A;">
+                        <table width="100%" style="max-width: 500px; background-color: #FFFFFF; border: 3px solid #0A0A0A;">
                           <!-- Header -->
                           <tr>
-                            <td style="padding: 40px 40px 30px 40px; text-align: center;">
-                              <svg width="120" height="50" viewBox="0 0 431 180" style="display: inline-block;">
-                                <circle cx="325" cy="45" r="45" fill="#C8372D"/>
-                                <path d="M 0 180 L 0 90 A 90 90 0 0 1 180 90 L 180 180 L 135 180 L 135 90 A 45 45 0 0 0 45 90 L 45 180 Z" fill="#FFFEF8"/>
-                                <rect x="220" y="85" width="80" height="20" fill="#FFFEF8"/>
-                                <rect x="220" y="120" width="80" height="20" fill="#FFFEF8"/>
-                                <rect x="220" y="155" width="80" height="20" fill="#FFFEF8"/>
-                              </svg>
+                            <td style="padding: 32px 40px; text-align: center; border-bottom: 3px solid #0A0A0A;">
+                              <img src="https://thedramaturgy.com/logo.png" alt="The Dramaturgy" width="140" height="46" style="display: inline-block; max-width: 140px; height: auto;" />
                             </td>
                           </tr>
                           <!-- Content -->
                           <tr>
-                            <td style="padding: 0 40px 40px 40px; text-align: center;">
-                              <h1 style="margin: 0 0 20px 0; font-size: 28px; font-weight: 900; color: #FFFEF8;">
-                                Sign in to<br><span style="color: #C8372D;">The Dramaturgy</span>
+                            <td style="padding: 40px; text-align: center;">
+                              <h1 style="margin: 0 0 16px 0; font-size: 26px; font-weight: 900; color: #0A0A0A;">
+                                Sign in to The Dramaturgy
                               </h1>
-                              <p style="margin: 0 0 30px 0; font-size: 16px; color: #A0A0A0; line-height: 1.5;">
+                              <p style="margin: 0 0 28px 0; font-size: 16px; color: #333; line-height: 1.5;">
                                 Click the button below to securely sign in to your account.
                               </p>
-                              <a href="${url}" style="display: inline-block; padding: 16px 32px; background-color: #C8372D; color: #FFFFFF; text-decoration: none; font-weight: bold; font-size: 16px;">
+                              <a href="${url}" style="display: inline-block; padding: 14px 32px; background-color: #C8372D; color: #FFFFFF; text-decoration: none; font-weight: bold; font-size: 16px; border: 3px solid #0A0A0A;">
                                 Sign In
                               </a>
                             </td>
@@ -89,7 +87,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
                           <tr>
                             <td style="padding: 30px 20px; text-align: center;">
                               <p style="margin: 0 0 10px 0; font-size: 13px; color: #6B6B6B;">
-                                This link expires in 24 hours.
+                                This link expires in 1 hour.
                               </p>
                               <p style="margin: 0; font-size: 13px; color: #6B6B6B;">
                                 If you didn't request this email, you can safely ignore it.

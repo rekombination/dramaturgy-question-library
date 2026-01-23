@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function NotFound() {
   return (
-    <div className="min-h-[80vh] flex items-center">
+    <div className="min-h-[80vh] flex items-center py-8 md:py-0">
       <div className="container">
         <div className="max-w-3xl mx-auto">
           <div className="grid md:grid-cols-2 gap-0">
@@ -38,10 +38,10 @@ export default function NotFound() {
                   Explore Questions
                 </Link>
                 <Link
-                  href="/tags"
+                  href="/blog"
                   className="block px-6 py-4 border-3 border-foreground font-bold text-center hover:bg-foreground hover:text-background transition-colors"
                 >
-                  Browse Tags
+                  Read Blog
                 </Link>
               </div>
             </div>

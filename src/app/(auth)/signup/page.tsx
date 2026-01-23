@@ -43,7 +43,7 @@ function SignUpContent() {
 
   if (emailSent) {
     return (
-      <div className="min-h-[80vh] flex items-center justify-center">
+      <div className="min-h-[80vh] flex items-center justify-center py-8 md:py-0">
         <div className="container max-w-md">
           <div className="border-3 border-foreground p-8 md:p-12 text-center">
             <div className="text-6xl font-black text-primary mb-6">✓</div>
@@ -67,7 +67,7 @@ function SignUpContent() {
   }
 
   return (
-    <div className="min-h-[80vh] flex items-center">
+    <div className="min-h-[80vh] flex items-center py-8 md:py-0">
       <div className="container">
         <div className="grid lg:grid-cols-2 gap-0 max-w-5xl mx-auto">
           {/* Left Side - Branding */}
