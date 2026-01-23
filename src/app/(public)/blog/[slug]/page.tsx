@@ -217,18 +217,15 @@ export default async function BlogPostPage({ params }: Props) {
                   },
                   list: ({ children, type }) => {
                     const Component = type === "ordered" ? "ol" : "ul";
+                    const listClass = type === "ordered"
+                      ? "my-8 space-y-3 text-lg pl-8 list-decimal list-outside marker:text-primary marker:font-bold"
+                      : "my-8 space-y-3 text-lg pl-0 [&>li]:relative [&>li]:pl-6 [&>li:before]:content-['→'] [&>li:before]:absolute [&>li:before]:left-0 [&>li:before]:text-primary [&>li:before]:font-black";
                     return (
-                      <Component className="my-8 space-y-3 text-lg pl-6">
+                      <Component className={listClass}>
                         {children}
                       </Component>
                     );
                   },
-                  "list-item": ({ children }) => (
-                    <li className="relative pl-2">
-                      <span className="absolute left-[-1.5rem] text-primary font-black">→</span>
-                      {children}
-                    </li>
-                  ),
                   blockquote: ({ children }) => (
                     <blockquote className="border-l-4 border-primary pl-6 py-4 my-8 bg-muted/30 text-xl italic">
                       {children}
