@@ -4,7 +4,7 @@ import { useCallback, useState } from "react";
 import Image from "next/image";
 import { useDropzone } from "@uploadthing/react";
 import { generateClientDropzoneAccept } from "uploadthing/client";
-import { useUploadThing } from "@/lib/uploadthing-client";
+import { useUploadThing } from "@/lib/uploadthing";
 import { Button } from "./button";
 import { cn } from "@/lib/utils";
 
