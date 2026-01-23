@@ -121,8 +121,8 @@ function SignUpContent() {
             <div className="space-y-4">
               <Button
                 variant="outline"
-                onClick={() => signIn("google", { callbackUrl })}
-                className="w-full h-14 text-base font-bold border-3 border-foreground hover:bg-foreground hover:text-background"
+                disabled
+                className="w-full h-14 text-base font-bold border-3 border-foreground opacity-50 cursor-not-allowed"
               >
                 <IconBrandGoogle className="mr-3" size={20} stroke={1.5} />
                 Continue with Google
