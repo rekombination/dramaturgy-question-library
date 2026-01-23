@@ -70,6 +70,14 @@ model User {
   createdAt       DateTime   @default(now())
   updatedAt       DateTime   @updatedAt
 
+  // Social Media Links
+  instagramUrl    String?
+  tiktokUrl       String?
+  youtubeUrl      String?
+  vimeoUrl        String?
+  linkedinUrl     String?
+  websiteUrl      String?
+
   accounts        Account[]
   sessions        Session[]
   questions       Question[]

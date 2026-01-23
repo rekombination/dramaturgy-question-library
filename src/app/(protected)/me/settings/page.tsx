@@ -16,6 +16,12 @@ export default function SettingsPage() {
     name: session?.user?.name || "",
     bio: "",
     expertiseAreas: [] as string[],
+    instagramUrl: "",
+    tiktokUrl: "",
+    youtubeUrl: "",
+    vimeoUrl: "",
+    linkedinUrl: "",
+    websiteUrl: "",
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -142,6 +148,103 @@ export default function SettingsPage() {
                   <p className="mt-2 text-xs text-muted-foreground">
                     Separate multiple areas with commas
                   </p>
+                </div>
+              </div>
+            </section>
+
+            {/* Social Media Links */}
+            <section className="border-t-3 border-foreground pt-8">
+              <h2 className="text-2xl font-black mb-6">Social Media Links</h2>
+
+              <div className="space-y-6">
+                {/* Instagram */}
+                <div>
+                  <label htmlFor="instagram" className="block text-sm font-bold mb-2">
+                    📸 Instagram
+                  </label>
+                  <input
+                    type="url"
+                    id="instagram"
+                    value={formData.instagramUrl}
+                    onChange={(e) => setFormData({ ...formData, instagramUrl: e.target.value })}
+                    className="w-full px-4 py-3 border-3 border-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                    placeholder="https://instagram.com/username"
+                  />
+                </div>
+
+                {/* TikTok */}
+                <div>
+                  <label htmlFor="tiktok" className="block text-sm font-bold mb-2">
+                    🎵 TikTok
+                  </label>
+                  <input
+                    type="url"
+                    id="tiktok"
+                    value={formData.tiktokUrl}
+                    onChange={(e) => setFormData({ ...formData, tiktokUrl: e.target.value })}
+                    className="w-full px-4 py-3 border-3 border-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                    placeholder="https://tiktok.com/@username"
+                  />
+                </div>
+
+                {/* YouTube */}
+                <div>
+                  <label htmlFor="youtube" className="block text-sm font-bold mb-2">
+                    🎬 YouTube
+                  </label>
+                  <input
+                    type="url"
+                    id="youtube"
+                    value={formData.youtubeUrl}
+                    onChange={(e) => setFormData({ ...formData, youtubeUrl: e.target.value })}
+                    className="w-full px-4 py-3 border-3 border-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                    placeholder="https://youtube.com/@username"
+                  />
+                </div>
+
+                {/* Vimeo */}
+                <div>
+                  <label htmlFor="vimeo" className="block text-sm font-bold mb-2">
+                    🎥 Vimeo
+                  </label>
+                  <input
+                    type="url"
+                    id="vimeo"
+                    value={formData.vimeoUrl}
+                    onChange={(e) => setFormData({ ...formData, vimeoUrl: e.target.value })}
+                    className="w-full px-4 py-3 border-3 border-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                    placeholder="https://vimeo.com/username"
+                  />
+                </div>
+
+                {/* LinkedIn */}
+                <div>
+                  <label htmlFor="linkedin" className="block text-sm font-bold mb-2">
+                    💼 LinkedIn
+                  </label>
+                  <input
+                    type="url"
+                    id="linkedin"
+                    value={formData.linkedinUrl}
+                    onChange={(e) => setFormData({ ...formData, linkedinUrl: e.target.value })}
+                    className="w-full px-4 py-3 border-3 border-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                    placeholder="https://linkedin.com/in/username"
+                  />
+                </div>
+
+                {/* Website */}
+                <div>
+                  <label htmlFor="website" className="block text-sm font-bold mb-2">
+                    🌐 Website / Portfolio
+                  </label>
+                  <input
+                    type="url"
+                    id="website"
+                    value={formData.websiteUrl}
+                    onChange={(e) => setFormData({ ...formData, websiteUrl: e.target.value })}
+                    className="w-full px-4 py-3 border-3 border-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                    placeholder="https://yourwebsite.com"
+                  />
                 </div>
               </div>
             </section>
