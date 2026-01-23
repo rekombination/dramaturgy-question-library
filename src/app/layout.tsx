@@ -5,6 +5,7 @@ import { Providers } from "./providers";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { MobileNav } from "@/components/layout/MobileNav";
+import { FeedbackButton } from "@/components/feedback/FeedbackButton";
 import { OrganizationJsonLd, WebSiteJsonLd } from "@/components/seo/JsonLd";
 
 const geistSans = Geist({
@@ -134,6 +135,7 @@ export default function RootLayout({
           <main className="flex-1 pb-16 md:pb-0">{children}</main>
           <Footer className="hidden md:block" />
           <MobileNav />
+          <FeedbackButton />
         </Providers>
       </body>
     </html>

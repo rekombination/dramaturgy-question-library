@@ -1,12 +1,20 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useSession } from "next-auth/react";
 import { cn } from "@/lib/utils";
+import { FeedbackModal } from "@/components/feedback/FeedbackModal";
+import { IconMessageCircle } from "@tabler/icons-react";
 
 interface FooterProps {
   className?: string;
 }
 
 export function Footer({ className }: FooterProps) {
+  const { data: session } = useSession();
+  const [feedbackOpen, setFeedbackOpen] = useState(false);
   return (
     <footer className={cn("border-t-2 border-foreground bg-foreground text-background", className)}>
       <div className="container py-12 md:py-16">
@@ -95,6 +103,15 @@ export function Footer({ className }: FooterProps) {
             &copy; {new Date().getFullYear()} The Dramaturgy. All rights reserved.
           </p>
           <div className="flex items-center gap-6">
+            {session && (
+              <button
+                onClick={() => setFeedbackOpen(true)}
+                className="text-sm font-bold text-background hover:text-primary transition-colors inline-flex items-center gap-2"
+              >
+                <IconMessageCircle size={18} />
+                Send Feedback
+              </button>
+            )}
             <Link
               href="/submit"
               className="text-sm font-bold text-primary hover:text-background transition-colors"
@@ -110,6 +127,8 @@ export function Footer({ className }: FooterProps) {
           </div>
         </div>
       </div>
+
+      {session && <FeedbackModal open={feedbackOpen} onOpenChange={setFeedbackOpen} />}
     </footer>
   );
 }
