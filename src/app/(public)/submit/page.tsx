@@ -109,49 +109,60 @@ export default function SubmitPage() {
     const files = e.target.files;
     if (!files || files.length === 0) return;
 
-    const file = files[0];
     const maxSize = 15 * 1024 * 1024; // 15MB
+    const filesToUpload = Array.from(files);
 
-    if (file.size > maxSize) {
-      toast.error("File too large", {
-        description: "Maximum file size is 15MB",
+    // Check file sizes first
+    const oversizedFiles = filesToUpload.filter((file) => file.size > maxSize);
+    if (oversizedFiles.length > 0) {
+      toast.error(`${oversizedFiles.length} file(s) exceed 15MB limit`, {
+        description: oversizedFiles.map((f) => f.name).join(", "),
       });
-      return;
+      // Continue with valid files
+      const validFiles = filesToUpload.filter((file) => file.size <= maxSize);
+      if (validFiles.length === 0) {
+        e.target.value = "";
+        return;
+      }
     }
 
+    const validFiles = filesToUpload.filter((file) => file.size <= maxSize);
     setIsUploading(true);
 
     try {
-      const formData = new FormData();
-      formData.append("file", file);
+      // Upload files sequentially
+      for (const file of validFiles) {
+        const formData = new FormData();
+        formData.append("file", file);
 
-      const response = await fetch("/api/upload", {
-        method: "POST",
-        body: formData,
-      });
+        const response = await fetch("/api/upload", {
+          method: "POST",
+          body: formData,
+        });
 
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.error || "Upload failed");
+        if (!response.ok) {
+          const error = await response.json();
+          throw new Error(error.error || "Upload failed");
+        }
+
+        const data: UploadedFile = await response.json();
+        setUploadedFiles((prev) => [...prev, data]);
+
+        // Update form data
+        if (data.type === "image") {
+          setFormData((prev) => ({
+            ...prev,
+            images: [...(prev.images || []), data.url],
+          }));
+        } else {
+          setFormData((prev) => ({
+            ...prev,
+            videos: [...(prev.videos || []), data.url],
+          }));
+        }
       }
 
-      const data: UploadedFile = await response.json();
-      setUploadedFiles((prev) => [...prev, data]);
-
-      // Update form data
-      if (data.type === "image") {
-        setFormData((prev) => ({
-          ...prev,
-          images: [...(prev.images || []), data.url],
-        }));
-      } else {
-        setFormData((prev) => ({
-          ...prev,
-          videos: [...(prev.videos || []), data.url],
-        }));
-      }
-
-      toast.success("File uploaded successfully");
+      toast.success(`${validFiles.length} file(s) uploaded successfully`);
     } catch (error) {
       toast.error("Upload failed", {
         description: error instanceof Error ? error.message : "Please try again",
@@ -312,6 +323,7 @@ export default function SubmitPage() {
                     type="file"
                     id="file-upload"
                     accept="image/*,video/*"
+                    multiple
                     onChange={handleFileUpload}
                     disabled={isUploading}
                     className="hidden"
@@ -328,44 +340,58 @@ export default function SubmitPage() {
                     ) : (
                       <>
                         <IconPhoto className="mr-2" size={18} />
-                        Upload File
+                        Upload Files
                       </>
                     )}
                   </Button>
                   <p className="text-sm text-muted-foreground">
-                    Images (JPG, PNG, GIF, WebP) or Videos (MP4, MOV, AVI, WebM)
+                    Select multiple images or videos (max 15MB each)
                   </p>
                 </div>
 
                 {/* Uploaded Files */}
                 {uploadedFiles.length > 0 && (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                     {uploadedFiles.map((file) => (
                       <div
                         key={file.url}
-                        className="relative border-2 border-foreground p-3 bg-background"
+                        className="relative border-2 border-foreground bg-background overflow-hidden group"
                       >
-                        <div className="flex items-start gap-3">
-                          <div className="shrink-0">
-                            {file.type === "image" ? (
-                              <IconPhoto size={24} className="text-primary" />
-                            ) : (
-                              <IconVideo size={24} className="text-primary" />
-                            )}
+                        {/* Preview */}
+                        <div className="aspect-video bg-muted flex items-center justify-center overflow-hidden">
+                          {file.type === "image" ? (
+                            <img
+                              src={file.url}
+                              alt={file.name}
+                              className="w-full h-full object-cover"
+                            />
+                          ) : (
+                            <video
+                              src={file.url}
+                              className="w-full h-full object-cover"
+                              controls
+                            />
+                          )}
+                        </div>
+
+                        {/* File Info */}
+                        <div className="p-3 border-t-2 border-foreground">
+                          <div className="flex items-start justify-between gap-2">
+                            <div className="flex-1 min-w-0">
+                              <p className="text-sm font-medium truncate">{file.name}</p>
+                              <p className="text-xs text-muted-foreground">
+                                {(file.size / (1024 * 1024)).toFixed(2)} MB
+                              </p>
+                            </div>
+                            <button
+                              type="button"
+                              onClick={() => removeFile(file.url)}
+                              className="shrink-0 p-1.5 bg-destructive text-destructive-foreground hover:bg-destructive/90 transition-colors"
+                              aria-label="Remove file"
+                            >
+                              <IconX size={16} />
+                            </button>
                           </div>
-                          <div className="flex-1 min-w-0">
-                            <p className="text-sm font-medium truncate">{file.name}</p>
-                            <p className="text-xs text-muted-foreground">
-                              {(file.size / (1024 * 1024)).toFixed(2)} MB
-                            </p>
-                          </div>
-                          <button
-                            type="button"
-                            onClick={() => removeFile(file.url)}
-                            className="shrink-0 p-1 hover:bg-destructive hover:text-destructive-foreground transition-colors"
-                          >
-                            <IconX size={18} />
-                          </button>
                         </div>
                       </div>
                     ))}

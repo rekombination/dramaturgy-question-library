@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
-import { put } from "@vercel/blob";
 
 const MAX_FILE_SIZE = 15 * 1024 * 1024; // 15MB in bytes
 
@@ -52,7 +51,17 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Check if Vercel Blob is available
+    if (!process.env.BLOB_READ_WRITE_TOKEN) {
+      console.error("BLOB_READ_WRITE_TOKEN not configured");
+      return NextResponse.json(
+        { error: "File upload is not configured. Please contact support." },
+        { status: 503 }
+      );
+    }
+
     // Upload to Vercel Blob
+    const { put } = await import("@vercel/blob");
     const blob = await put(file.name, file, {
       access: "public",
       addRandomSuffix: true,
@@ -66,8 +75,9 @@ export async function POST(request: NextRequest) {
     });
   } catch (error) {
     console.error("Upload error:", error);
+    const errorMessage = error instanceof Error ? error.message : "Failed to upload file";
     return NextResponse.json(
-      { error: "Failed to upload file" },
+      { error: errorMessage },
       { status: 500 }
     );
   }
