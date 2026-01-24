@@ -47,6 +47,31 @@ export function QuestionActions({
     }
   };
 
+  const handleUnclaimQuestion = async () => {
+    if (!confirm("Are you sure you want to unclaim this question? Other experts will be able to claim it.")) {
+      return;
+    }
+
+    setIsClaimLoading(true);
+    try {
+      const response = await fetch(`/api/questions/${questionId}/claim`, {
+        method: "DELETE",
+      });
+
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.error || "Failed to unclaim question");
+      }
+
+      toast.success("You have unclaimed this question");
+      router.refresh();
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Failed to unclaim question");
+    } finally {
+      setIsClaimLoading(false);
+    }
+  };
+
   const handleDeleteQuestion = async () => {
     if (!confirm("Are you sure you want to delete this question? This action cannot be undone.")) {
       return;
@@ -86,10 +111,20 @@ export function QuestionActions({
         </Button>
       )}
       {hasClaimed && (
-        <span className="inline-flex items-center gap-2 px-4 py-2 bg-primary/20 text-primary font-bold text-sm">
-          <IconHandStop size={18} />
-          You have claimed this question
-        </span>
+        <>
+          <span className="inline-flex items-center gap-2 px-4 py-2 bg-primary/20 text-primary font-bold text-sm">
+            <IconHandStop size={18} />
+            You have claimed this question
+          </span>
+          <Button
+            onClick={handleUnclaimQuestion}
+            disabled={isClaimLoading}
+            variant="outline"
+            className="border-2 border-foreground font-bold hover:bg-muted"
+          >
+            {isClaimLoading ? "Unclaiming..." : "Unclaim Question"}
+          </Button>
+        </>
       )}
       {isAuthor && (
         <>
