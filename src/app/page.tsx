@@ -98,24 +98,24 @@ export default async function HomePage() {
       </section>
 
       {/* Stats Section */}
-      <section className="border-b-2 border-foreground bg-foreground text-background">
+      <section className="border-b-2 border-foreground bg-foreground text-white">
         <div className="container py-12">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             <div>
-              <div className="text-4xl md:text-5xl font-black text-background">{totalQuestions}</div>
-              <div className="mt-2 text-sm uppercase tracking-wider text-background">Questions</div>
+              <div className="text-4xl md:text-5xl font-black text-white">{totalQuestions}</div>
+              <div className="mt-2 text-sm font-bold uppercase tracking-wider text-white">Questions</div>
             </div>
             <div>
-              <div className="text-4xl md:text-5xl font-black text-background">{totalAnswers}</div>
-              <div className="mt-2 text-sm uppercase tracking-wider text-background">Answers</div>
+              <div className="text-4xl md:text-5xl font-black text-white">{totalAnswers}</div>
+              <div className="mt-2 text-sm font-bold uppercase tracking-wider text-white">Answers</div>
             </div>
             <div>
-              <div className="text-4xl md:text-5xl font-black text-background">{totalUsers}</div>
-              <div className="mt-2 text-sm uppercase tracking-wider text-background">Community Members</div>
+              <div className="text-4xl md:text-5xl font-black text-white">{totalUsers}</div>
+              <div className="mt-2 text-sm font-bold uppercase tracking-wider text-white">Community Members</div>
             </div>
             <div>
-              <div className="text-4xl md:text-5xl font-black text-background">Free</div>
-              <div className="mt-2 text-sm uppercase tracking-wider text-background">To Join</div>
+              <div className="text-4xl md:text-5xl font-black text-white">Free</div>
+              <div className="mt-2 text-sm font-bold uppercase tracking-wider text-white">To Join</div>
             </div>
           </div>
         </div>
