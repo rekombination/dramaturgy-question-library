@@ -14,6 +14,8 @@ const questionSchema = z.object({
   sensitivityNote: z.string().optional(),
   isPrivate: z.boolean().default(false),
   requestExpert: z.boolean().default(false),
+  images: z.array(z.string()).optional(),
+  videos: z.array(z.string()).optional(),
 });
 
 export async function POST(request: NextRequest) {
