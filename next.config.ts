@@ -38,8 +38,19 @@ const nextConfig: NextConfig = {
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
   },
   experimental: {
-    optimizePackageImports: ["@radix-ui/react-icons", "date-fns"],
+    optimizePackageImports: [
+      "@radix-ui/react-icons",
+      "date-fns",
+      "@tabler/icons-react",
+      "lucide-react",
+    ],
   },
+  // Optimize CSS
+  compiler: {
+    removeConsole: process.env.NODE_ENV === "production",
+  },
+  // Modern browser support - remove unnecessary polyfills
+  productionBrowserSourceMaps: false,
 };
 
 export default withPWA(nextConfig);

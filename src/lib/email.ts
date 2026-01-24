@@ -1,6 +1,6 @@
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.AUTH_RESEND_KEY);
+const resend = process.env.AUTH_RESEND_KEY ? new Resend(process.env.AUTH_RESEND_KEY) : null;
 
 const FROM_EMAIL = "The Dramaturgy <noreply@thedramaturgy.com>";
 const SITE_URL = process.env.NEXTAUTH_URL || "https://thedramaturgy.com";
@@ -12,6 +12,11 @@ interface SendEmailOptions {
 }
 
 async function sendEmail({ to, subject, html }: SendEmailOptions) {
+  if (!resend) {
+    console.warn(`Email sending skipped (no API key): ${subject}`);
+    return;
+  }
+
   try {
     await resend.emails.send({
       from: FROM_EMAIL,
