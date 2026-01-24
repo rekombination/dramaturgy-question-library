@@ -126,7 +126,7 @@ export function ReplyCard({
       {isSolution && <SolutionBadge />}
 
       {/* Reply Content */}
-      <div className="p-6 md:p-8 border-t-2 border-foreground">
+      <div className={`p-6 md:p-8 ${isSolution ? 'border-t-0' : 'border-t-2'} border-foreground`}>
         {/* Header */}
         <div className="flex items-start justify-between gap-4 mb-4">
           <div className="flex items-center gap-3">
@@ -233,15 +233,17 @@ export function ReplyCard({
               userVote={userVote}
             />
 
-            {reply.commentCount > 0 && (
-              <button
-                onClick={() => setShowComments(!showComments)}
-                className="flex items-center gap-2 text-sm font-bold text-muted-foreground hover:text-primary transition-colors"
-              >
-                <IconMessageCircle size={18} />
-                {reply.commentCount} {reply.commentCount === 1 ? "Comment" : "Comments"}
-              </button>
-            )}
+            <button
+              onClick={() => setShowComments(!showComments)}
+              className="flex items-center gap-2 text-sm font-bold text-muted-foreground hover:text-primary transition-colors"
+            >
+              <IconMessageCircle size={18} />
+              {reply.commentCount > 0 ? (
+                <>{reply.commentCount} {reply.commentCount === 1 ? "Comment" : "Comments"}</>
+              ) : (
+                "Add Comment"
+              )}
+            </button>
           </div>
         )}
       </div>

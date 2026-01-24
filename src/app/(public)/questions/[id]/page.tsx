@@ -448,7 +448,7 @@ export default async function QuestionDetailPage({
         )}
 
         {question.isSolved && (
-          <div className="border-2 border-green-600 border-t-0 p-6 bg-green-50 dark:bg-green-950/30 text-center">
+          <div className="border-2 border-green-600 p-6 bg-green-50 dark:bg-green-950/30 text-center mt-8">
             <IconCheck size={32} className="mx-auto mb-2 text-green-600" />
             <p className="font-bold text-green-900 dark:text-green-100">This question has been resolved</p>
           </div>
