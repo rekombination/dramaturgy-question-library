@@ -102,22 +102,14 @@ export function ReplyList({
 
   return (
     <div>
-      {/* Sort Filter */}
-      <div className="flex items-center justify-between mb-6">
-        <h3 className="text-lg font-bold">
-          {replies.length} {replies.length === 1 ? "Answer" : "Answers"}
-        </h3>
-        <ReplySortFilter currentSort={sortOption} />
-      </div>
-
       {/* Replies */}
-      <div className="space-y-6">
-        {replies.map((reply) => {
+      <div>
+        {replies.map((reply, index) => {
           const isSolution = solvedReplyId === reply.id;
           const isAuthor = currentUserId === reply.author.id;
 
           return (
-            <div key={reply.id} className="space-y-3">
+            <div key={reply.id}>
               <ReplyCard
                 reply={reply}
                 isSolution={isSolution}
@@ -127,29 +119,33 @@ export function ReplyList({
 
               {/* Mark as Helpful Button */}
               {isQuestionAuthor && !isSolved && (
-                <div className="flex justify-end">
-                  <Button
-                    onClick={() => handleMarkAsHelpful(reply.id)}
-                    disabled={solvingReplyId === reply.id}
-                    size="sm"
-                    className="bg-primary text-primary-foreground font-bold hover:bg-primary/90"
-                  >
-                    <IconCheck className="mr-2" size={16} />
-                    {solvingReplyId === reply.id ? "Marking..." : "This Helped Me"}
-                  </Button>
+                <div className="px-6 md:px-8 pb-4 border-t border-muted">
+                  <div className="flex justify-end pt-4">
+                    <Button
+                      onClick={() => handleMarkAsHelpful(reply.id)}
+                      disabled={solvingReplyId === reply.id}
+                      size="sm"
+                      className="bg-primary text-primary-foreground font-bold hover:bg-primary/90"
+                    >
+                      <IconCheck className="mr-2" size={16} />
+                      {solvingReplyId === reply.id ? "Marking..." : "This Helped Me"}
+                    </Button>
+                  </div>
                 </div>
               )}
 
               {isQuestionAuthor && isSolution && (
-                <div className="flex justify-end">
-                  <Button
-                    onClick={handleUnmarkHelpful}
-                    size="sm"
-                    variant="outline"
-                    className="border-2 border-foreground font-bold"
-                  >
-                    Unmark Solution
-                  </Button>
+                <div className="px-6 md:px-8 pb-4 border-t border-muted">
+                  <div className="flex justify-end pt-4">
+                    <Button
+                      onClick={handleUnmarkHelpful}
+                      size="sm"
+                      variant="outline"
+                      className="border-2 border-foreground font-bold"
+                    >
+                      Unmark Solution
+                    </Button>
+                  </div>
                 </div>
               )}
             </div>

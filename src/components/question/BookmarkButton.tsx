@@ -65,7 +65,7 @@ export function BookmarkButton({ questionId, initialBookmarked }: BookmarkButton
     <button
       onClick={handleToggle}
       disabled={isLoading}
-      className={`flex items-center gap-2 px-4 py-2 font-bold border-2 border-foreground transition-colors ${
+      className={`flex items-center gap-2 h-9 px-4 py-2 font-bold border-2 border-foreground transition-colors ${
         isBookmarked
           ? "bg-foreground text-background"
           : "bg-background text-foreground hover:bg-muted"

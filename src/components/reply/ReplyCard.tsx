@@ -121,12 +121,12 @@ export function ReplyCard({
   };
 
   return (
-    <div className="border-2 border-foreground bg-background">
+    <div className="bg-background">
       {/* Solution Badge */}
       {isSolution && <SolutionBadge />}
 
       {/* Reply Content */}
-      <div className="p-6 md:p-8">
+      <div className="p-6 md:p-8 border-t-2 border-foreground">
         {/* Header */}
         <div className="flex items-start justify-between gap-4 mb-4">
           <div className="flex items-center gap-3">
@@ -248,7 +248,7 @@ export function ReplyCard({
 
       {/* Comments */}
       {!isEditing && showComments && (
-        <div className="px-6 md:px-8 pb-6 border-t-2 border-foreground">
+        <div className="px-6 md:px-8 pb-6 border-t-2 border-foreground bg-muted/30">
           <CommentThread
             replyId={reply.id}
             comments={reply.comments || []}

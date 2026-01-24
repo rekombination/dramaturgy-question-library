@@ -4,6 +4,7 @@ import { prisma } from "@/lib/db";
 import Link from "next/link";
 import { ReplyForm } from "@/components/reply-form";
 import { ReplyList } from "@/components/reply-list";
+import { ReplySortFilter } from "@/components/reply/ReplySortFilter";
 import { QuestionActions } from "@/components/question-actions";
 import { MediaGallery } from "@/components/media-gallery";
 import { BookmarkButton } from "@/components/question/BookmarkButton";
@@ -400,11 +401,16 @@ export default async function QuestionDetailPage({
         </article>
 
         {/* Replies Section */}
-        <div className="mb-8">
-          <h2 className="text-2xl font-black mb-6 flex items-center gap-3">
-            <IconMessageCircle size={28} />
-            {question._count.replies} {question._count.replies === 1 ? "Reply" : "Replies"}
-          </h2>
+        <div className="mb-8 border-2 border-foreground">
+          <div className="p-6 md:p-8 bg-muted border-b-2 border-foreground">
+            <div className="flex items-center justify-between">
+              <h2 className="text-2xl font-black flex items-center gap-3">
+                <IconMessageCircle size={28} />
+                {question._count.replies} {question._count.replies === 1 ? "Answer" : "Answers"}
+              </h2>
+              <ReplySortFilter currentSort={sortOption as "best" | "newest" | "expert"} />
+            </div>
+          </div>
 
           <ReplyList
             replies={sortedReplies}
@@ -419,7 +425,7 @@ export default async function QuestionDetailPage({
 
         {/* Reply Form */}
         {session?.user && !question.isSolved && question.status === "PUBLISHED" && (
-          <div className="border-2 border-foreground p-6 md:p-8 bg-muted">
+          <div className="border-2 border-foreground border-t-0 p-6 md:p-8 bg-muted">
             <h3 className="text-xl font-black mb-4">Your Answer</h3>
             <ReplyForm
               questionId={question.id}
@@ -430,7 +436,7 @@ export default async function QuestionDetailPage({
         )}
 
         {!session?.user && (
-          <div className="border-2 border-foreground p-8 text-center">
+          <div className="border-2 border-foreground border-t-0 p-8 text-center">
             <p className="text-lg font-bold mb-4">Want to answer this question?</p>
             <Link
               href={`/login?callbackUrl=/questions/${question.id}`}
@@ -442,7 +448,7 @@ export default async function QuestionDetailPage({
         )}
 
         {question.isSolved && (
-          <div className="border-2 border-green-600 p-6 bg-green-50 dark:bg-green-950/30 text-center">
+          <div className="border-2 border-green-600 border-t-0 p-6 bg-green-50 dark:bg-green-950/30 text-center">
             <IconCheck size={32} className="mx-auto mb-2 text-green-600" />
             <p className="font-bold text-green-900 dark:text-green-100">This question has been resolved</p>
           </div>
