@@ -102,20 +102,20 @@ export default async function HomePage() {
         <div className="container py-12">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             <div>
-              <div className="text-4xl md:text-5xl font-black text-primary">{totalQuestions}</div>
-              <div className="mt-2 text-sm uppercase tracking-wider">Questions</div>
+              <div className="text-4xl md:text-5xl font-black text-background">{totalQuestions}</div>
+              <div className="mt-2 text-sm uppercase tracking-wider text-background/80">Questions</div>
             </div>
             <div>
-              <div className="text-4xl md:text-5xl font-black">{totalAnswers}</div>
-              <div className="mt-2 text-sm uppercase tracking-wider">Answers</div>
+              <div className="text-4xl md:text-5xl font-black text-background">{totalAnswers}</div>
+              <div className="mt-2 text-sm uppercase tracking-wider text-background/80">Answers</div>
             </div>
             <div>
-              <div className="text-4xl md:text-5xl font-black text-primary">{totalUsers}</div>
-              <div className="mt-2 text-sm uppercase tracking-wider">Community Members</div>
+              <div className="text-4xl md:text-5xl font-black text-background">{totalUsers}</div>
+              <div className="mt-2 text-sm uppercase tracking-wider text-background/80">Community Members</div>
             </div>
             <div>
-              <div className="text-4xl md:text-5xl font-black">Free</div>
-              <div className="mt-2 text-sm uppercase tracking-wider">To Join</div>
+              <div className="text-4xl md:text-5xl font-black text-background">Free</div>
+              <div className="mt-2 text-sm uppercase tracking-wider text-background/80">To Join</div>
             </div>
           </div>
         </div>
@@ -131,7 +131,7 @@ export default async function HomePage() {
                 href="/explore"
                 className="px-6 py-3 border-2 border-foreground font-bold hover:bg-foreground hover:text-background transition-colors"
               >
-                View All
+                View All Questions
               </Link>
             </div>
             <div className="grid gap-6">
@@ -216,7 +216,7 @@ export default async function HomePage() {
                 href="/blog"
                 className="px-6 py-3 border-2 border-foreground font-bold hover:bg-foreground hover:text-background transition-colors"
               >
-                View All
+                View All Articles
               </Link>
             </div>
             <div className="grid md:grid-cols-3 gap-8">
@@ -291,7 +291,7 @@ export default async function HomePage() {
               <h2 className="text-4xl md:text-5xl lg:text-6xl font-black leading-tight">
                 Ready to join the conversation?
               </h2>
-              <p className="mt-6 text-xl opacity-90">
+              <p className="mt-6 text-xl text-primary-foreground/95">
                 Sign up to ask questions, contribute answers, and build your personal
                 collection of dramaturgical resources.
               </p>

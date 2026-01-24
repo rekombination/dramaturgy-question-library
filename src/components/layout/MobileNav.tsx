@@ -67,6 +67,7 @@ export function MobileNav() {
               <Link
                 key={item.href}
                 href={item.href}
+                aria-label="Ask a question"
                 className="flex items-center justify-center -mt-4 h-14 w-14 rounded-full bg-primary text-primary-foreground shadow-lg active:scale-95 transition-transform"
               >
                 {item.icon}
@@ -86,7 +87,7 @@ export function MobileNav() {
               )}
             >
               {item.icon}
-              <span className="text-[10px] font-medium">{item.label}</span>
+              <span className="text-[11px] font-medium">{item.label}</span>
             </Link>
           );
         })}
