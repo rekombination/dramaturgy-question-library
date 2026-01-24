@@ -22,50 +22,41 @@ function Avatar({
   )
 }
 
+interface AvatarImageProps extends Omit<React.ComponentProps<typeof AvatarPrimitive.Image>, "asChild"> {
+  src?: string
+  alt?: string
+}
+
 function AvatarImage({
   className,
   src,
   alt,
   ...props
-}: React.ComponentProps<typeof AvatarPrimitive.Image>) {
-  const [imageError, setImageError] = React.useState(false)
+}: AvatarImageProps) {
+  const [error, setError] = React.useState(false)
 
-  // Use Next.js Image for string URLs (automatic WebP/AVIF conversion)
-  if (src && typeof src === "string" && !imageError) {
-    return (
-      <AvatarPrimitive.Image
-        data-slot="avatar-image"
-        className={cn("aspect-square size-full", className)}
-        asChild
-        {...props}
-      >
-        <Image
-          src={src}
-          alt={alt || ""}
-          fill
-          sizes="(max-width: 768px) 40px, 48px"
-          className="object-cover"
-          onError={() => setImageError(true)}
-        />
-      </AvatarPrimitive.Image>
-    )
+  if (!src || error) {
+    return null
   }
 
-  // Fallback to regular img for Blob or when error occurs
-  if (src && !imageError) {
-    return (
-      <AvatarPrimitive.Image
-        data-slot="avatar-image"
-        className={cn("aspect-square size-full", className)}
+  // Use Next.js Image for automatic format conversion
+  return (
+    <AvatarPrimitive.Image
+      data-slot="avatar-image"
+      className={cn("aspect-square size-full", className)}
+      asChild
+      {...props}
+    >
+      <Image
         src={src}
-        alt={alt}
-        onError={() => setImageError(true)}
-        {...props}
+        alt={alt || ""}
+        width={48}
+        height={48}
+        className="rounded-full object-cover size-full"
+        onError={() => setError(true)}
       />
-    )
-  }
-
-  return null
+    </AvatarPrimitive.Image>
+  )
 }
 
 function AvatarFallback({
