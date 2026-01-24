@@ -46,7 +46,7 @@ export function ProfileImageUpload({
 
       const result = await startUpload([convertedFile]);
       if (result && result[0]) {
-        onUploadComplete(result[0].url);
+        onUploadComplete(result[0].ufsUrl);
       }
     } catch (error) {
       console.error("Upload failed:", error);
