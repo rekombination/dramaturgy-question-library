@@ -7,6 +7,7 @@ import { ReplySortFilter } from "@/components/reply/ReplySortFilter";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { IconCheck } from "@tabler/icons-react";
+import { VoteType } from "@prisma/client";
 
 interface Reply {
   id: string;
@@ -24,7 +25,7 @@ interface Reply {
     image: string | null;
     role: string;
   };
-  votes?: Array<{ type: string; userId: string }>;
+  votes?: Array<{ type: VoteType; userId: string }>;
   comments?: any[];
 }
 
