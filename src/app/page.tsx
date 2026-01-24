@@ -103,19 +103,19 @@ export default async function HomePage() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             <div>
               <div className="text-4xl md:text-5xl font-black text-background">{totalQuestions}</div>
-              <div className="mt-2 text-sm uppercase tracking-wider text-background/80">Questions</div>
+              <div className="mt-2 text-sm uppercase tracking-wider text-background">Questions</div>
             </div>
             <div>
               <div className="text-4xl md:text-5xl font-black text-background">{totalAnswers}</div>
-              <div className="mt-2 text-sm uppercase tracking-wider text-background/80">Answers</div>
+              <div className="mt-2 text-sm uppercase tracking-wider text-background">Answers</div>
             </div>
             <div>
               <div className="text-4xl md:text-5xl font-black text-background">{totalUsers}</div>
-              <div className="mt-2 text-sm uppercase tracking-wider text-background/80">Community Members</div>
+              <div className="mt-2 text-sm uppercase tracking-wider text-background">Community Members</div>
             </div>
             <div>
               <div className="text-4xl md:text-5xl font-black text-background">Free</div>
-              <div className="mt-2 text-sm uppercase tracking-wider text-background/80">To Join</div>
+              <div className="mt-2 text-sm uppercase tracking-wider text-background">To Join</div>
             </div>
           </div>
         </div>

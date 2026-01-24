@@ -83,7 +83,7 @@ export function MobileNav() {
                 "flex flex-col items-center justify-center flex-1 h-full gap-1 transition-colors",
                 isActive
                   ? "text-primary"
-                  : "text-muted-foreground hover:text-foreground"
+                  : "text-foreground/70 hover:text-foreground"
               )}
             >
               {item.icon}
