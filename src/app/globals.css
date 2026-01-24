@@ -217,8 +217,7 @@ h3,
 .hero-text,
 .display-text {
   font-weight: 900 !important;
-  font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
-  font-synthesis: weight;
+  font-variation-settings: "wght" 900;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -226,18 +225,20 @@ h3,
 
 .font-bold {
   font-weight: 700 !important;
-  font-synthesis: weight;
+  font-variation-settings: "wght" 700;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Android Firefox specific fix */
+/* Firefox specific bold enforcement */
 @supports (-moz-appearance: none) {
-  @media (max-width: 768px) {
-    h1, h2, h3, .font-black, .hero-text, .display-text {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif !important;
-      font-weight: 900 !important;
-      letter-spacing: -0.02em;
-    }
+  h1, h2, h3, .font-black, .hero-text, .display-text {
+    font-weight: 900 !important;
+    font-variation-settings: "wght" 900 !important;
+  }
+
+  b, strong, .font-bold {
+    font-weight: 700 !important;
+    font-variation-settings: "wght" 700 !important;
   }
 }
