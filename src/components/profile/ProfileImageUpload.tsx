@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useUploadThing } from "@/lib/uploadthing";
+import { convertImageToWebP } from "@/lib/image-converter";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { IconUpload, IconX } from "@tabler/icons-react";
@@ -25,17 +26,20 @@ export function ProfileImageUpload({
     const file = e.target.files?.[0];
     if (!file) return;
 
-    // Create preview
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setPreviewUrl(reader.result as string);
-    };
-    reader.readAsDataURL(file);
-
     // Upload
     setIsUploading(true);
     try {
-      const result = await startUpload([file]);
+      // Convert image to WebP before upload (512x512, quality 0.9)
+      const convertedFile = await convertImageToWebP(file, 0.9, 512, 512);
+
+      // Create preview from converted file
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreviewUrl(reader.result as string);
+      };
+      reader.readAsDataURL(convertedFile);
+
+      const result = await startUpload([convertedFile]);
       if (result && result[0]) {
         onUploadComplete(result[0].url);
       }
@@ -105,7 +109,7 @@ export function ProfileImageUpload({
           </div>
 
           <p className="text-xs text-muted-foreground">
-            JPG, PNG or GIF. Max 4MB.
+            JPG, PNG or GIF. Automatically converted to WebP. Max 4MB.
           </p>
         </div>
       </div>

@@ -20,6 +20,7 @@ import { toast } from "sonner";
 import { IconX, IconPhoto, IconVideo, IconEye } from "@tabler/icons-react";
 import { QuestionPreviewModal } from "@/components/question/QuestionPreviewModal";
 import { useUploadThing } from "@/lib/uploadthing";
+import { convertImageToWebP } from "@/lib/image-converter";
 
 const contextTypes = [
   { value: "REHEARSAL", label: "Rehearsal" },
@@ -154,8 +155,20 @@ export default function SubmitPage() {
     setIsUploading(true);
 
     try {
+      // Convert images to WebP before upload (keep videos as-is)
+      const processedFiles = await Promise.all(
+        validFiles.map(async (file) => {
+          if (file.type.startsWith("image/")) {
+            // Convert images to WebP with quality 0.85, max 2048x2048
+            return await convertImageToWebP(file, 0.85, 2048, 2048);
+          }
+          // Keep videos unchanged
+          return file;
+        })
+      );
+
       // Upload using Uploadthing
-      const uploadedResults = await startUpload(validFiles);
+      const uploadedResults = await startUpload(processedFiles);
 
       if (!uploadedResults) {
         throw new Error("Upload failed");
@@ -370,7 +383,7 @@ export default function SubmitPage() {
                     )}
                   </Button>
                   <p className="text-sm text-muted-foreground">
-                    Select multiple images or videos (max 15MB each)
+                    Select multiple images or videos. Images auto-converted to WebP. Max 16MB each.
                   </p>
                 </div>
 
