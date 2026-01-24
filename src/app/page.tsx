@@ -78,13 +78,13 @@ export default async function HomePage() {
               <div className="mt-10 flex flex-col sm:flex-row gap-4">
                 <Link
                   href="/explore"
-                  className="inline-flex items-center justify-center w-full sm:w-52 px-8 py-4 bg-primary text-primary-foreground text-lg font-bold hover:bg-foreground hover:text-background transition-colors text-center"
+                  className="inline-flex items-center justify-center w-full sm:w-auto px-8 py-4 bg-primary text-primary-foreground text-lg font-bold hover:bg-foreground hover:text-background transition-colors text-center whitespace-nowrap"
                 >
                   Explore Questions
                 </Link>
                 <Link
                   href="/submit"
-                  className="inline-flex items-center justify-center w-full sm:w-52 px-8 py-4 border-2 border-foreground text-lg font-bold hover:bg-foreground hover:text-background transition-colors text-center"
+                  className="inline-flex items-center justify-center w-full sm:w-auto px-8 py-4 border-2 border-foreground text-lg font-bold hover:bg-foreground hover:text-background transition-colors text-center whitespace-nowrap"
                 >
                   Ask a Question
                 </Link>
