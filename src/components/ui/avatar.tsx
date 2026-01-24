@@ -2,7 +2,6 @@
 
 import * as React from "react"
 import * as AvatarPrimitive from "@radix-ui/react-avatar"
-import Image from "next/image"
 
 import { cn } from "@/lib/utils"
 
@@ -22,45 +21,16 @@ function Avatar({
   )
 }
 
-interface AvatarImageProps extends Omit<React.ComponentProps<typeof AvatarPrimitive.Image>, "asChild"> {
-  src?: string
-  alt?: string
-}
-
 function AvatarImage({
   className,
-  src,
-  alt,
   ...props
-}: AvatarImageProps) {
-  const [error, setError] = React.useState(false)
-
-  // Reset error state when src changes
-  React.useEffect(() => {
-    setError(false)
-  }, [src])
-
-  if (!src || error) {
-    return null
-  }
-
-  // Use Next.js Image for automatic format conversion
+}: React.ComponentProps<typeof AvatarPrimitive.Image>) {
   return (
     <AvatarPrimitive.Image
       data-slot="avatar-image"
-      className={cn("aspect-square size-full", className)}
-      asChild
+      className={cn("aspect-square size-full object-cover", className)}
       {...props}
-    >
-      <Image
-        src={src}
-        alt={alt || ""}
-        width={48}
-        height={48}
-        className="rounded-full object-cover size-full"
-        onError={() => setError(true)}
-      />
-    </AvatarPrimitive.Image>
+    />
   )
 }
 

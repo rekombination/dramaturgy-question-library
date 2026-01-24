@@ -59,6 +59,7 @@ export function MediaGallery({ images = [], videos = [], title }: MediaGalleryPr
               width={800}
               height={600}
               className="w-full h-auto object-cover"
+              unoptimized
             />
             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center">
               <span className="opacity-0 group-hover:opacity-100 text-white font-bold text-sm bg-black/50 px-3 py-1">
