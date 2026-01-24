@@ -73,15 +73,15 @@ async function getTags() {
 
 function QuestionListSkeleton() {
   return (
-    <div className="space-y-0">
+    <div className="space-y-6">
       {[...Array(3)].map((_, i) => (
-        <div key={i} className="border-2 border-foreground border-t-0 first:border-t-2 p-6 md:p-8">
+        <div key={i} className="p-6 md:p-8">
           <div className="flex flex-col md:flex-row md:items-start gap-4 md:gap-8">
             {/* Stats Column - Desktop only */}
             <div className="hidden md:flex flex-col items-center gap-2 text-center min-w-[80px]">
               <div className="h-8 w-12 bg-muted animate-pulse rounded" />
               <div className="h-3 w-12 bg-muted animate-pulse rounded" />
-              <div className="w-full h-px bg-foreground/20 my-2" />
+              <div className="w-full h-px bg-muted my-2" />
               <div className="h-8 w-12 bg-muted animate-pulse rounded" />
               <div className="h-3 w-14 bg-muted animate-pulse rounded" />
             </div>
@@ -105,9 +105,9 @@ function QuestionListSkeleton() {
 
               {/* Tags skeleton */}
               <div className="flex flex-wrap gap-2">
-                <div className="h-6 w-16 bg-muted animate-pulse" />
-                <div className="h-6 w-20 bg-muted animate-pulse" />
-                <div className="h-6 w-14 bg-muted animate-pulse" />
+                <div className="h-6 w-16 bg-muted animate-pulse rounded" />
+                <div className="h-6 w-20 bg-muted animate-pulse rounded" />
+                <div className="h-6 w-14 bg-muted animate-pulse rounded" />
               </div>
 
               {/* Footer with Avatar */}
