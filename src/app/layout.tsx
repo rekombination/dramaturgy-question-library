@@ -13,21 +13,25 @@ const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
   display: "swap",
-  // Load specific static weights for better Firefox compatibility
+  preload: true,
+  // Load only used weights for better performance
   weight: ["400", "700", "900"],
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
-  weight: ["400", "700", "900"],
+  display: "swap",
+  preload: false, // Not critical, load later
+  weight: ["400", "700"],
 });
 
 const spectral = Spectral({
-  weight: ["400", "600", "700"],
+  weight: ["600"], // Only weight used for brand-title
   subsets: ["latin"],
   variable: "--font-spectral",
   display: "swap",
+  preload: false, // Not critical, only for branding
 });
 
 const siteUrl = "https://thedramaturgy.com";
