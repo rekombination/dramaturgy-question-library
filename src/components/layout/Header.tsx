@@ -203,7 +203,7 @@ export function Header() {
                 height={180}
                 className="h-8 w-auto brightness-0 invert"
               />
-              <span className="brand-title text-xl">
+              <span className="brand-title text-xl leading-none mt-1">
                 The Dramaturgy
               </span>
             </div>
