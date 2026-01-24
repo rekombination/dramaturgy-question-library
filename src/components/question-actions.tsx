@@ -4,7 +4,8 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { IconHandStop, IconTrash } from "@tabler/icons-react";
+import { IconHandStop, IconTrash, IconPencil } from "@tabler/icons-react";
+import Link from "next/link";
 
 interface QuestionActionsProps {
   questionId: string;
@@ -91,15 +92,27 @@ export function QuestionActions({
         </span>
       )}
       {isAuthor && (
-        <Button
-          onClick={handleDeleteQuestion}
-          disabled={isDeleteLoading}
-          variant="outline"
-          className="border-red-600 text-red-600 hover:bg-red-600 hover:text-white font-bold"
-        >
-          <IconTrash className="mr-2" size={18} />
-          {isDeleteLoading ? "Deleting..." : "Delete Question"}
-        </Button>
+        <>
+          <Button
+            asChild
+            variant="outline"
+            className="border-2 border-foreground font-bold hover:bg-foreground hover:text-background"
+          >
+            <Link href={`/questions/${questionId}/edit`}>
+              <IconPencil className="mr-2" size={18} />
+              Edit Question
+            </Link>
+          </Button>
+          <Button
+            onClick={handleDeleteQuestion}
+            disabled={isDeleteLoading}
+            variant="outline"
+            className="border-red-600 text-red-600 hover:bg-red-600 hover:text-white font-bold"
+          >
+            <IconTrash className="mr-2" size={18} />
+            {isDeleteLoading ? "Deleting..." : "Delete Question"}
+          </Button>
+        </>
       )}
     </div>
   );
