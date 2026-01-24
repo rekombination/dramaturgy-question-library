@@ -209,16 +209,23 @@
   letter-spacing: 0.05em;
 }
 
-/* Force font-black (900) to work on Android */
+/* Force font-black (900) to work on Android and all browsers */
 h1,
 h2,
 h3,
-.font-black {
+.font-black,
+.hero-text,
+.display-text {
   font-weight: 900 !important;
+  font-synthesis: none;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 .font-bold {
   font-weight: 700 !important;
+  font-synthesis: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
