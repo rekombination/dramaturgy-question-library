@@ -196,6 +196,13 @@ export function Header() {
           {/* Mobile Menu Header */}
           <div className="flex items-center justify-between px-6 py-5 border-b border-background/20">
             <div className="flex items-center gap-3">
+              <Image
+                src="/logo.png"
+                alt="The Dramaturgy"
+                width={431}
+                height={180}
+                className="h-8 w-auto brightness-0 invert"
+              />
               <span className="brand-title text-xl">
                 The Dramaturgy
               </span>
