@@ -12,8 +12,8 @@ export const ourFileRouter = {
     })
     .onUploadComplete(async ({ metadata, file }) => {
       console.log("Profile image upload complete for userId:", metadata.userId);
-      console.log("file url", file.url);
-      return { uploadedBy: metadata.userId, url: file.url };
+      console.log("file url", file.appUrl);
+      return { uploadedBy: metadata.userId, url: file.appUrl };
     }),
 
   // Question media upload (images and videos)
@@ -28,8 +28,8 @@ export const ourFileRouter = {
     })
     .onUploadComplete(async ({ metadata, file }) => {
       console.log("Question media upload complete for userId:", metadata.userId);
-      console.log("file url", file.url);
-      return { uploadedBy: metadata.userId, url: file.url };
+      console.log("file url", file.appUrl);
+      return { uploadedBy: metadata.userId, url: file.appUrl };
     }),
 } satisfies FileRouter;
 

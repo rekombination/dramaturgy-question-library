@@ -182,7 +182,7 @@ export default function SubmitPage() {
       for (const result of uploadedResults) {
         const fileType = result.type.startsWith("image") ? "image" : "video";
         const uploadedFile: UploadedFile = {
-          url: result.url,
+          url: result.appUrl,
           type: fileType,
           size: result.size,
           name: result.name,
@@ -194,12 +194,12 @@ export default function SubmitPage() {
         if (fileType === "image") {
           setFormData((prev) => ({
             ...prev,
-            images: [...(prev.images || []), result.url],
+            images: [...(prev.images || []), result.appUrl],
           }));
         } else {
           setFormData((prev) => ({
             ...prev,
-            videos: [...(prev.videos || []), result.url],
+            videos: [...(prev.videos || []), result.appUrl],
           }));
         }
       }
