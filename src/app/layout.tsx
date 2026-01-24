@@ -12,6 +12,7 @@ import { OnboardingGuard } from "@/components/OnboardingGuard";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
+  display: "swap",
 });
 
 const geistMono = Geist_Mono({

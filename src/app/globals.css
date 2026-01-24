@@ -208,3 +208,17 @@
   font-variant: small-caps;
   letter-spacing: 0.05em;
 }
+
+/* Force font-black (900) to work on Android */
+h1,
+h2,
+h3,
+.font-black {
+  font-weight: 900 !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.font-bold {
+  font-weight: 700 !important;
+}
