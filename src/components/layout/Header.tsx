@@ -73,8 +73,8 @@ export function Header() {
               <Image
                 src="/logo.png"
                 alt="The Dramaturgy"
-                width={160}
-                height={53}
+                width={431}
+                height={180}
                 className="hidden md:block h-10 lg:h-12 w-auto"
                 priority
               />
@@ -199,8 +199,8 @@ export function Header() {
               <Image
                 src="/logo.png"
                 alt="The Dramaturgy"
-                width={100}
-                height={33}
+                width={431}
+                height={180}
                 className="h-8 w-auto brightness-0 invert"
               />
               <span className="text-lg font-normal">
