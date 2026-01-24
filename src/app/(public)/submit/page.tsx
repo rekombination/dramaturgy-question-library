@@ -61,6 +61,7 @@ export default function SubmitPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [uploadedFiles, setUploadedFiles] = useState<UploadedFile[]>([]);
   const [isUploading, setIsUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
   const [showPreview, setShowPreview] = useState(false);
 
   const { startUpload, isUploading: uploadthingUploading } = useUploadThing("questionMedia", {
@@ -72,6 +73,9 @@ export default function SubmitPage() {
       toast.error("Upload failed", {
         description: error.message,
       });
+    },
+    onUploadProgress: (progress) => {
+      setUploadProgress(progress);
     },
   });
 
@@ -207,6 +211,7 @@ export default function SubmitPage() {
       });
     } finally {
       setIsUploading(false);
+      setUploadProgress(0);
       // Reset input
       e.target.value = "";
     }
@@ -371,16 +376,27 @@ export default function SubmitPage() {
                     onClick={() => document.getElementById("file-upload")?.click()}
                     disabled={isUploading}
                     variant="outline"
-                    className="border-2 border-foreground font-bold"
+                    className="border-2 border-foreground font-bold relative overflow-hidden"
                   >
-                    {isUploading ? (
-                      <>Uploading...</>
-                    ) : (
-                      <>
-                        <IconPhoto className="mr-2" size={18} />
-                        Upload Files
-                      </>
+                    {/* Progress bar background */}
+                    {isUploading && (
+                      <div
+                        className="absolute inset-0 bg-primary/20 transition-all duration-300"
+                        style={{ width: `${uploadProgress}%` }}
+                      />
                     )}
+
+                    {/* Button content */}
+                    <span className="relative z-10 inline-flex items-center">
+                      {isUploading ? (
+                        <>Uploading... {uploadProgress}%</>
+                      ) : (
+                        <>
+                          <IconPhoto className="mr-2" size={18} />
+                          Upload Files
+                        </>
+                      )}
+                    </span>
                   </Button>
                   <p className="text-sm text-muted-foreground">
                     Select multiple images or videos. Images auto-converted to WebP. Max 16MB each.

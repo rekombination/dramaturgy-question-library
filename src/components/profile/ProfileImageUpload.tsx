@@ -19,8 +19,13 @@ export function ProfileImageUpload({
   onUploadComplete,
 }: ProfileImageUploadProps) {
   const [isUploading, setIsUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-  const { startUpload } = useUploadThing("profileImage");
+  const { startUpload } = useUploadThing("profileImage", {
+    onUploadProgress: (progress) => {
+      setUploadProgress(progress);
+    },
+  });
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -48,6 +53,7 @@ export function ProfileImageUpload({
       alert("Failed to upload image. Please try again.");
     } finally {
       setIsUploading(false);
+      setUploadProgress(0);
     }
   };
 
@@ -84,12 +90,23 @@ export function ProfileImageUpload({
                 variant="outline"
                 size="sm"
                 disabled={isUploading}
-                className="font-bold"
+                className="font-bold relative overflow-hidden"
                 asChild
               >
                 <span>
-                  <IconUpload size={16} className="mr-2" />
-                  {isUploading ? "Uploading..." : "Upload New"}
+                  {/* Progress bar background */}
+                  {isUploading && (
+                    <span
+                      className="absolute inset-0 bg-primary/20 transition-all duration-300"
+                      style={{ width: `${uploadProgress}%` }}
+                    />
+                  )}
+
+                  {/* Button content */}
+                  <span className="relative z-10 inline-flex items-center">
+                    <IconUpload size={16} className="mr-2" />
+                    {isUploading ? `Uploading... ${uploadProgress}%` : "Upload New"}
+                  </span>
                 </span>
               </Button>
             </label>
