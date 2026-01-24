@@ -75,23 +75,26 @@ function QuestionListSkeleton() {
   return (
     <div className="space-y-0">
       {[...Array(3)].map((_, i) => (
-        <div key={i} className="border-b-2 border-foreground p-6 md:p-8">
-          <div className="flex items-start gap-4">
-            {/* Avatar skeleton */}
-            <div className="h-10 w-10 md:h-12 md:w-12 rounded-full bg-muted animate-pulse shrink-0" />
+        <div key={i} className="border-2 border-foreground border-t-0 first:border-t-2 p-6 md:p-8">
+          <div className="flex flex-col md:flex-row md:items-start gap-4 md:gap-8">
+            {/* Stats Column - Desktop only */}
+            <div className="hidden md:flex flex-col items-center gap-2 text-center min-w-[80px]">
+              <div className="h-8 w-12 bg-muted animate-pulse rounded" />
+              <div className="h-3 w-12 bg-muted animate-pulse rounded" />
+              <div className="w-full h-px bg-foreground/20 my-2" />
+              <div className="h-8 w-12 bg-muted animate-pulse rounded" />
+              <div className="h-3 w-14 bg-muted animate-pulse rounded" />
+            </div>
 
-            <div className="flex-1 space-y-4">
-              {/* Author and metadata skeleton */}
-              <div className="flex flex-wrap items-center gap-2">
-                <div className="h-5 w-24 bg-muted animate-pulse rounded" />
-                <div className="h-4 w-4 bg-muted animate-pulse rounded-full" />
-                <div className="h-5 w-20 bg-muted animate-pulse rounded" />
-              </div>
-
-              {/* Title skeleton */}
-              <div className="space-y-2">
-                <div className="h-7 w-3/4 bg-muted animate-pulse rounded" />
-                <div className="h-7 w-1/2 bg-muted animate-pulse rounded" />
+            {/* Content */}
+            <div className="flex-1 min-w-0 space-y-4">
+              {/* Title and Badge */}
+              <div className="flex items-start justify-between gap-4">
+                <div className="flex-1 space-y-2">
+                  <div className="h-7 w-3/4 bg-muted animate-pulse rounded" />
+                  <div className="h-7 w-1/2 bg-muted animate-pulse rounded" />
+                </div>
+                <div className="h-6 w-20 bg-muted animate-pulse shrink-0" />
               </div>
 
               {/* Body skeleton */}
@@ -102,16 +105,23 @@ function QuestionListSkeleton() {
 
               {/* Tags skeleton */}
               <div className="flex flex-wrap gap-2">
-                <div className="h-6 w-16 bg-muted animate-pulse rounded" />
-                <div className="h-6 w-20 bg-muted animate-pulse rounded" />
-                <div className="h-6 w-14 bg-muted animate-pulse rounded" />
+                <div className="h-6 w-16 bg-muted animate-pulse" />
+                <div className="h-6 w-20 bg-muted animate-pulse" />
+                <div className="h-6 w-14 bg-muted animate-pulse" />
               </div>
 
-              {/* Stats skeleton */}
-              <div className="flex items-center gap-6 pt-2">
-                <div className="h-5 w-16 bg-muted animate-pulse rounded" />
-                <div className="h-5 w-16 bg-muted animate-pulse rounded" />
-                <div className="h-5 w-16 bg-muted animate-pulse rounded" />
+              {/* Footer with Avatar */}
+              <div className="flex flex-wrap items-center justify-between gap-4">
+                <div className="flex items-center gap-3">
+                  {/* Avatar skeleton */}
+                  <div className="h-8 w-8 rounded-full bg-muted animate-pulse border-2 border-foreground" />
+                  <div className="h-4 w-24 bg-muted animate-pulse rounded" />
+                </div>
+
+                {/* Stats - Mobile + Time */}
+                <div className="flex items-center gap-4">
+                  <div className="h-4 w-32 bg-muted animate-pulse rounded" />
+                </div>
               </div>
             </div>
           </div>

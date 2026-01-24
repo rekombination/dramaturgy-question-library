@@ -1,7 +1,9 @@
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/db";
+import { auth } from "@/lib/auth";
+import { canViewProfile } from "@/lib/privacy";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { IconBrandInstagram, IconBrandLinkedin, IconBrandTiktok, IconBrandYoutube, IconWorld } from "@tabler/icons-react";
+import { IconBrandInstagram, IconBrandLinkedin, IconBrandTiktok, IconBrandYoutube, IconWorld, IconLock } from "@tabler/icons-react";
 import Link from "next/link";
 import { QuestionCard } from "@/components/question/QuestionCard";
 import type { QuestionWithRelations } from "@/types";
@@ -37,6 +39,7 @@ export async function generateMetadata({ params }: ProfilePageProps) {
 
 export default async function ProfilePage({ params }: ProfilePageProps) {
   const { username } = await params;
+  const session = await auth();
 
   const user = await prisma.user.findFirst({
     where: {
@@ -60,6 +63,10 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
       linkedinUrl: true,
       websiteUrl: true,
       createdAt: true,
+      profileVisibility: true,
+      showActivity: true,
+      showStats: true,
+      showSocialLinks: true,
       _count: {
         select: {
           questions: true,
@@ -71,6 +78,36 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
 
   if (!user) {
     notFound();
+  }
+
+  // Check if viewer can access this profile
+  const hasAccess = canViewProfile(
+    user.profileVisibility,
+    session?.user?.id,
+    user.id,
+    session?.user?.role
+  );
+
+  if (!hasAccess) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center max-w-md mx-auto p-8 border-2 border-foreground">
+          <IconLock className="mx-auto mb-4" size={48} />
+          <h1 className="text-2xl font-black mb-2">Profile is Private</h1>
+          <p className="text-muted-foreground">
+            This profile is not publicly available. Please sign in to view it.
+          </p>
+          {!session && (
+            <Link
+              href="/login"
+              className="inline-block mt-6 px-6 py-3 bg-primary text-primary-foreground font-bold border-2 border-foreground hover:bg-primary/90 transition-colors"
+            >
+              Sign In
+            </Link>
+          )}
+        </div>
+      </div>
+    );
   }
 
   // Fetch user's public questions
@@ -95,13 +132,15 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
     take: 10,
   });
 
-  const socialLinks = [
-    { url: user.instagramUrl, icon: IconBrandInstagram, label: "Instagram" },
-    { url: user.tiktokUrl, icon: IconBrandTiktok, label: "TikTok" },
-    { url: user.youtubeUrl, icon: IconBrandYoutube, label: "YouTube" },
-    { url: user.linkedinUrl, icon: IconBrandLinkedin, label: "LinkedIn" },
-    { url: user.websiteUrl, icon: IconWorld, label: "Website" },
-  ].filter((link) => link.url);
+  const socialLinks = user.showSocialLinks
+    ? [
+        { url: user.instagramUrl, icon: IconBrandInstagram, label: "Instagram" },
+        { url: user.tiktokUrl, icon: IconBrandTiktok, label: "TikTok" },
+        { url: user.youtubeUrl, icon: IconBrandYoutube, label: "YouTube" },
+        { url: user.linkedinUrl, icon: IconBrandLinkedin, label: "LinkedIn" },
+        { url: user.websiteUrl, icon: IconWorld, label: "Website" },
+      ].filter((link) => link.url)
+    : [];
 
   return (
     <div className="min-h-screen">
@@ -177,42 +216,46 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
           </div>
 
           {/* Stats */}
-          <div className="mt-8 flex gap-8 text-center md:text-left">
-            <div>
-              <div className="text-3xl font-black text-primary">{user._count.questions}</div>
-              <div className="text-sm text-muted-foreground uppercase tracking-wider mt-1">Questions</div>
-            </div>
-            <div>
-              <div className="text-3xl font-black text-primary">{user._count.replies}</div>
-              <div className="text-sm text-muted-foreground uppercase tracking-wider mt-1">Answers</div>
-            </div>
-            <div>
-              <div className="text-3xl font-black">
-                {new Date(user.createdAt).getFullYear()}
+          {user.showStats && (
+            <div className="mt-8 flex gap-8 text-center md:text-left">
+              <div>
+                <div className="text-3xl font-black text-primary">{user._count.questions}</div>
+                <div className="text-sm text-muted-foreground uppercase tracking-wider mt-1">Questions</div>
               </div>
-              <div className="text-sm text-muted-foreground uppercase tracking-wider mt-1">Member Since</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Questions Section */}
-      <section className="py-12 md:py-16">
-        <div className="container">
-          <h2 className="text-3xl font-black mb-8">Recent Questions</h2>
-          {questions.length === 0 ? (
-            <div className="text-center py-12 border-2 border-foreground">
-              <p className="text-lg text-muted-foreground">No public questions yet.</p>
-            </div>
-          ) : (
-            <div className="space-y-0">
-              {questions.map((question) => (
-                <QuestionCard key={question.id} question={question as QuestionWithRelations} />
-              ))}
+              <div>
+                <div className="text-3xl font-black text-primary">{user._count.replies}</div>
+                <div className="text-sm text-muted-foreground uppercase tracking-wider mt-1">Answers</div>
+              </div>
+              <div>
+                <div className="text-3xl font-black">
+                  {new Date(user.createdAt).getFullYear()}
+                </div>
+                <div className="text-sm text-muted-foreground uppercase tracking-wider mt-1">Member Since</div>
+              </div>
             </div>
           )}
         </div>
       </section>
+
+      {/* Questions Section */}
+      {user.showActivity && (
+        <section className="py-12 md:py-16">
+          <div className="container">
+            <h2 className="text-3xl font-black mb-8">Recent Questions</h2>
+            {questions.length === 0 ? (
+              <div className="text-center py-12 border-2 border-foreground">
+                <p className="text-lg text-muted-foreground">No public questions yet.</p>
+              </div>
+            ) : (
+              <div className="space-y-0">
+                {questions.map((question) => (
+                  <QuestionCard key={question.id} question={question as QuestionWithRelations} />
+                ))}
+              </div>
+            )}
+          </div>
+        </section>
+      )}
     </div>
   );
 }

@@ -7,6 +7,7 @@ import { Footer } from "@/components/layout/Footer";
 import { MobileNav } from "@/components/layout/MobileNav";
 import { FeedbackButton } from "@/components/feedback/FeedbackButton";
 import { OrganizationJsonLd, WebSiteJsonLd } from "@/components/seo/JsonLd";
+import { OnboardingGuard } from "@/components/OnboardingGuard";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -138,6 +139,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} ${spectral.variable} antialiased min-h-screen flex flex-col`}
       >
         <Providers>
+          <OnboardingGuard />
           <Header />
           <main className="flex-1 pb-16 md:pb-0">{children}</main>
           <Footer className="hidden md:block" />

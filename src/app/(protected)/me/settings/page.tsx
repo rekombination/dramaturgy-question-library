@@ -16,8 +16,12 @@ import {
   IconCheck,
   IconX,
   IconLoader2,
-  IconLock
+  IconLock,
+  IconEye,
+  IconEyeOff,
+  IconUsers,
 } from "@tabler/icons-react";
+import { ProfileVisibility } from "@prisma/client";
 
 export default function SettingsPage() {
   const { data: session, update } = useSession();
@@ -37,6 +41,12 @@ export default function SettingsPage() {
     vimeoUrl: "",
     linkedinUrl: "",
     websiteUrl: "",
+    profileVisibility: "PUBLIC" as ProfileVisibility,
+    showActivity: true,
+    showStats: true,
+    showSocialLinks: true,
+    emailNotifications: true,
+    showInLeaderboards: true,
   });
 
   const [passwordData, setPasswordData] = useState({
@@ -56,6 +66,43 @@ export default function SettingsPage() {
     valid: null,
     message: "",
   });
+
+  // Fetch user profile data on mount
+  useEffect(() => {
+    async function fetchUserProfile() {
+      try {
+        const response = await fetch("/api/user/me");
+        if (response.ok) {
+          const data = await response.json();
+          setFormData({
+            name: data.user.name || "",
+            username: data.user.username || "",
+            image: data.user.image || "",
+            bio: data.user.bio || "",
+            expertiseAreas: data.user.expertiseAreas || [],
+            instagramUrl: data.user.instagramUrl || "",
+            tiktokUrl: data.user.tiktokUrl || "",
+            youtubeUrl: data.user.youtubeUrl || "",
+            vimeoUrl: data.user.vimeoUrl || "",
+            linkedinUrl: data.user.linkedinUrl || "",
+            websiteUrl: data.user.websiteUrl || "",
+            profileVisibility: data.user.profileVisibility || "PUBLIC",
+            showActivity: data.user.showActivity ?? true,
+            showStats: data.user.showStats ?? true,
+            showSocialLinks: data.user.showSocialLinks ?? true,
+            emailNotifications: data.user.emailNotifications ?? true,
+            showInLeaderboards: data.user.showInLeaderboards ?? true,
+          });
+        }
+      } catch (error) {
+        console.error("Failed to fetch user profile:", error);
+      }
+    }
+
+    if (session?.user) {
+      fetchUserProfile();
+    }
+  }, [session?.user]);
 
   // Username validation
   useEffect(() => {
@@ -560,6 +607,194 @@ export default function SettingsPage() {
                   {passwordLoading ? "Setting password..." : "Set Password"}
                 </Button>
               </form>
+            </section>
+
+            {/* Privacy & Visibility */}
+            <section className="border-t-2 border-foreground pt-8">
+              <h2 className="text-2xl font-black mb-6 flex items-center gap-2">
+                <IconEye size={28} />
+                Privacy & Visibility
+              </h2>
+
+              <div className="space-y-6">
+                {/* Profile Visibility */}
+                <div>
+                  <label className="block text-sm font-bold mb-3">
+                    Who can view your profile?
+                  </label>
+                  <div className="space-y-3">
+                    <label className="flex items-start gap-3 p-4 border-2 border-foreground cursor-pointer hover:bg-muted transition-colors">
+                      <input
+                        type="radio"
+                        name="profileVisibility"
+                        value="PUBLIC"
+                        checked={formData.profileVisibility === "PUBLIC"}
+                        onChange={(e) =>
+                          setFormData({
+                            ...formData,
+                            profileVisibility: e.target.value as ProfileVisibility,
+                          })
+                        }
+                        className="mt-1"
+                      />
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 font-bold mb-1">
+                          <IconEye size={18} />
+                          Public
+                        </div>
+                        <p className="text-sm text-muted-foreground">
+                          Anyone can view your profile, including non-logged in users
+                        </p>
+                      </div>
+                    </label>
+
+                    <label className="flex items-start gap-3 p-4 border-2 border-foreground cursor-pointer hover:bg-muted transition-colors">
+                      <input
+                        type="radio"
+                        name="profileVisibility"
+                        value="MEMBERS_ONLY"
+                        checked={formData.profileVisibility === "MEMBERS_ONLY"}
+                        onChange={(e) =>
+                          setFormData({
+                            ...formData,
+                            profileVisibility: e.target.value as ProfileVisibility,
+                          })
+                        }
+                        className="mt-1"
+                      />
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 font-bold mb-1">
+                          <IconUsers size={18} />
+                          Members Only
+                        </div>
+                        <p className="text-sm text-muted-foreground">
+                          Only logged-in users can view your profile
+                        </p>
+                      </div>
+                    </label>
+
+                    <label className="flex items-start gap-3 p-4 border-2 border-foreground cursor-pointer hover:bg-muted transition-colors">
+                      <input
+                        type="radio"
+                        name="profileVisibility"
+                        value="PRIVATE"
+                        checked={formData.profileVisibility === "PRIVATE"}
+                        onChange={(e) =>
+                          setFormData({
+                            ...formData,
+                            profileVisibility: e.target.value as ProfileVisibility,
+                          })
+                        }
+                        className="mt-1"
+                      />
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 font-bold mb-1">
+                          <IconEyeOff size={18} />
+                          Private
+                        </div>
+                        <p className="text-sm text-muted-foreground">
+                          Only you can view your profile
+                        </p>
+                      </div>
+                    </label>
+                  </div>
+                </div>
+
+                {/* Additional Privacy Options */}
+                <div className="pt-4 border-t-2 border-foreground space-y-4">
+                  <h3 className="font-bold text-lg">What to show on your profile</h3>
+
+                  <label className="flex items-start gap-3 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={formData.showActivity}
+                      onChange={(e) =>
+                        setFormData({ ...formData, showActivity: e.target.checked })
+                      }
+                      className="mt-1"
+                    />
+                    <div>
+                      <div className="font-bold">Show my questions and replies</div>
+                      <p className="text-sm text-muted-foreground">
+                        Display your questions and replies on your profile
+                      </p>
+                    </div>
+                  </label>
+
+                  <label className="flex items-start gap-3 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={formData.showStats}
+                      onChange={(e) =>
+                        setFormData({ ...formData, showStats: e.target.checked })
+                      }
+                      className="mt-1"
+                    />
+                    <div>
+                      <div className="font-bold">Show statistics</div>
+                      <p className="text-sm text-muted-foreground">
+                        Display question count, reply count, and other stats
+                      </p>
+                    </div>
+                  </label>
+
+                  <label className="flex items-start gap-3 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={formData.showSocialLinks}
+                      onChange={(e) =>
+                        setFormData({ ...formData, showSocialLinks: e.target.checked })
+                      }
+                      className="mt-1"
+                    />
+                    <div>
+                      <div className="font-bold">Show social media links</div>
+                      <p className="text-sm text-muted-foreground">
+                        Display your social media links on your profile
+                      </p>
+                    </div>
+                  </label>
+
+                  <label className="flex items-start gap-3 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={formData.showInLeaderboards}
+                      onChange={(e) =>
+                        setFormData({ ...formData, showInLeaderboards: e.target.checked })
+                      }
+                      className="mt-1"
+                    />
+                    <div>
+                      <div className="font-bold">Show in leaderboards</div>
+                      <p className="text-sm text-muted-foreground">
+                        Appear in community leaderboards and rankings
+                      </p>
+                    </div>
+                  </label>
+                </div>
+
+                {/* Notification Preferences */}
+                <div className="pt-4 border-t-2 border-foreground space-y-4">
+                  <h3 className="font-bold text-lg">Notification Preferences</h3>
+
+                  <label className="flex items-start gap-3 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={formData.emailNotifications}
+                      onChange={(e) =>
+                        setFormData({ ...formData, emailNotifications: e.target.checked })
+                      }
+                      className="mt-1"
+                    />
+                    <div>
+                      <div className="font-bold">Email notifications</div>
+                      <p className="text-sm text-muted-foreground">
+                        Receive email updates about replies and mentions
+                      </p>
+                    </div>
+                  </label>
+                </div>
+              </div>
             </section>
 
             {/* Actions - Bottom */}
