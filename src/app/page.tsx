@@ -155,11 +155,11 @@ export default async function HomePage() {
                     </p>
                     <div className="flex items-center gap-6 text-sm text-muted-foreground">
                       <div>
-                        by <span className="font-bold text-foreground">{question.author.name}</span>
+                        by <span className="font-bold text-foreground">{question.author.name || question.author.username || "Anonymous"}</span>
                       </div>
                       <div className="flex items-center gap-4">
-                        <span>{question.replyCount} answers</span>
-                        <span>{question.voteCount} votes</span>
+                        <span>{question.replyCount} {question.replyCount === 1 ? "answer" : "answers"}</span>
+                        <span>{question.voteCount} {question.voteCount === 1 ? "vote" : "votes"}</span>
                       </div>
                       <div className="ml-auto text-xs">
                         {new Date(question.createdAt).toLocaleDateString("de-DE")}
