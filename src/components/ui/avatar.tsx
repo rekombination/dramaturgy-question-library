@@ -30,8 +30,8 @@ function AvatarImage({
 }: React.ComponentProps<typeof AvatarPrimitive.Image>) {
   const [imageError, setImageError] = React.useState(false)
 
-  // Use Next.js Image for external URLs (automatic WebP/AVIF conversion)
-  if (src && !imageError) {
+  // Use Next.js Image for string URLs (automatic WebP/AVIF conversion)
+  if (src && typeof src === "string" && !imageError) {
     return (
       <AvatarPrimitive.Image
         data-slot="avatar-image"
@@ -48,6 +48,20 @@ function AvatarImage({
           onError={() => setImageError(true)}
         />
       </AvatarPrimitive.Image>
+    )
+  }
+
+  // Fallback to regular img for Blob or when error occurs
+  if (src && !imageError) {
+    return (
+      <AvatarPrimitive.Image
+        data-slot="avatar-image"
+        className={cn("aspect-square size-full", className)}
+        src={src}
+        alt={alt}
+        onError={() => setImageError(true)}
+        {...props}
+      />
     )
   }
 
