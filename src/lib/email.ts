@@ -287,19 +287,23 @@ export async function sendQuestionSolvedNotification({
 export async function sendContactEmail({
   name,
   email,
+  messageType,
   subject,
   message,
 }: {
   name: string;
   email: string;
+  messageType: "inquiry" | "feedback";
   subject: string;
   message: string;
 }) {
   const adminEmail = "hello@thedramaturgy.com";
+  const typeLabel = messageType === "feedback" ? "Feedback" : "Inquiry";
 
   // Send to admin
   const adminContent = `
     <h2>New Contact Form Submission</h2>
+    <p><strong>Type:</strong> <span style="background-color: ${messageType === "feedback" ? "#C8372D" : "#0A0A0A"}; color: #ffffff; padding: 4px 8px; font-weight: 700; font-size: 12px;">${typeLabel.toUpperCase()}</span></p>
     <p><strong>From:</strong> ${name} (${email})</p>
     <p><strong>Subject:</strong> ${subject}</p>
     <hr style="border: 0; border-top: 2px solid #E5E5E0; margin: 24px 0;" />
@@ -313,7 +317,7 @@ export async function sendContactEmail({
 
   await sendEmail({
     to: adminEmail,
-    subject: `Contact Form: ${subject}`,
+    subject: `[${typeLabel.toUpperCase()}] ${subject}`,
     html: emailTemplate(adminContent),
   });
 

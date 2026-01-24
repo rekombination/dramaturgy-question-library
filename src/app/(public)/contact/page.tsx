@@ -16,6 +16,7 @@ export default function ContactPage() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
+    messageType: "inquiry", // "inquiry" or "feedback"
     subject: "",
     message: "",
     website: "", // Honeypot field
@@ -65,6 +66,7 @@ export default function ContactPage() {
         body: JSON.stringify({
           name: formData.name,
           email: formData.email,
+          messageType: formData.messageType,
           subject: formData.subject,
           message: formData.message,
         }),
@@ -101,6 +103,7 @@ export default function ContactPage() {
                 setFormData({
                   name: session?.user?.name || "",
                   email: session?.user?.email || "",
+                  messageType: "inquiry",
                   subject: "",
                   message: "",
                   website: "",
@@ -165,6 +168,37 @@ export default function ContactPage() {
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-6">
+              {/* Message Type Selection */}
+              <div className="space-y-2">
+                <Label className="text-sm font-bold uppercase tracking-wider">
+                  Message Type
+                </Label>
+                <div className="grid grid-cols-2 gap-3">
+                  <button
+                    type="button"
+                    onClick={() => setFormData({ ...formData, messageType: "inquiry" })}
+                    className={`h-14 px-4 border-2 border-foreground font-bold text-base transition-colors ${
+                      formData.messageType === "inquiry"
+                        ? "bg-foreground text-background"
+                        : "bg-background text-foreground hover:bg-muted"
+                    }`}
+                  >
+                    Inquiry
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setFormData({ ...formData, messageType: "feedback" })}
+                    className={`h-14 px-4 border-2 border-foreground font-bold text-base transition-colors ${
+                      formData.messageType === "feedback"
+                        ? "bg-foreground text-background"
+                        : "bg-background text-foreground hover:bg-muted"
+                    }`}
+                  >
+                    Feedback
+                  </button>
+                </div>
+              </div>
+
               <div className="grid md:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <Label htmlFor="name" className="text-sm font-bold uppercase tracking-wider">

@@ -3,12 +3,20 @@ import { sendContactEmail } from "@/lib/email";
 
 export async function POST(request: NextRequest) {
   try {
-    const { name, email, subject, message } = await request.json();
+    const { name, email, messageType, subject, message } = await request.json();
 
     // Validate required fields
     if (!name || !email || !subject || !message) {
       return NextResponse.json(
         { error: "All fields are required" },
+        { status: 400 }
+      );
+    }
+
+    // Validate message type
+    if (messageType && !["inquiry", "feedback"].includes(messageType)) {
+      return NextResponse.json(
+        { error: "Invalid message type" },
         { status: 400 }
       );
     }
@@ -41,6 +49,7 @@ export async function POST(request: NextRequest) {
     await sendContactEmail({
       name,
       email,
+      messageType: messageType || "inquiry",
       subject,
       message,
     });

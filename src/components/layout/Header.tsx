@@ -139,10 +139,10 @@ export function Header() {
                       <Link href="/me/settings" className="font-medium">Settings</Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem
-                      className="font-medium cursor-pointer"
+                      className="font-medium cursor-pointer group"
                       onSelect={handleInviteFriends}
                     >
-                      <IconUserPlus className="mr-2" size={16} />
+                      <IconUserPlus className="mr-2 group-hover:text-background transition-colors" size={16} />
                       Invite Friends
                     </DropdownMenuItem>
                     {(session.user.role === "EXPERT" ||
