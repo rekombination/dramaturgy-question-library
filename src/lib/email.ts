@@ -297,7 +297,7 @@ export async function sendContactEmail({
   subject: string;
   message: string;
 }) {
-  const adminEmail = "hello@thedramaturgy.com";
+  const adminEmail = "mm@rekombination.de";
   const typeLabel = messageType === "feedback" ? "Feedback" : "Inquiry";
 
   // Send to admin
@@ -329,7 +329,7 @@ export async function sendContactEmail({
     <h3>Your Message:</h3>
     <p><strong>Subject:</strong> ${subject}</p>
     <p style="white-space: pre-wrap; background-color: #F5F5F0; padding: 16px; border-left: 4px solid #C8372D;">${message}</p>
-    <p style="margin-top: 24px;">If you have any urgent questions, feel free to reach out directly at <a href="mailto:hello@thedramaturgy.com" style="color: #C8372D;">hello@thedramaturgy.com</a>.</p>
+    <p style="margin-top: 24px;">If you have any urgent questions, feel free to reach out directly at <a href="mailto:mm@rekombination.de" style="color: #C8372D;">mm@rekombination.de</a>.</p>
     <p>Best regards,<br>The Dramaturgy Team</p>
   `;
 
