@@ -56,6 +56,12 @@ enum TrustLevel {
   TRUSTED
 }
 
+enum ProfileVisibility {
+  PUBLIC
+  MEMBERS_ONLY
+  PRIVATE
+}
+
 model User {
   id              String     @id @default(cuid())
   name            String?
@@ -79,6 +85,17 @@ model User {
   vimeoUrl        String?
   linkedinUrl     String?
   websiteUrl      String?
+
+  // Privacy Settings
+  profileVisibility   ProfileVisibility @default(PUBLIC)
+  showActivity        Boolean           @default(true)
+  showStats           Boolean           @default(true)
+  showSocialLinks     Boolean           @default(true)
+  emailNotifications  Boolean           @default(true)
+  showInLeaderboards  Boolean           @default(true)
+
+  // Onboarding
+  hasCompletedOnboarding Boolean        @default(false)
 
   accounts               Account[]
   sessions               Session[]

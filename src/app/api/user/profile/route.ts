@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/db";
+import { ProfileVisibility } from "@prisma/client";
 
 export async function PATCH(request: NextRequest) {
   try {
@@ -23,6 +24,13 @@ export async function PATCH(request: NextRequest) {
       vimeoUrl,
       linkedinUrl,
       websiteUrl,
+      // Privacy settings
+      profileVisibility,
+      showActivity,
+      showStats,
+      showSocialLinks,
+      emailNotifications,
+      showInLeaderboards,
     } = body;
 
     // If username is being updated, validate it
@@ -67,6 +75,13 @@ export async function PATCH(request: NextRequest) {
         vimeoUrl: vimeoUrl || null,
         linkedinUrl: linkedinUrl || null,
         websiteUrl: websiteUrl || null,
+        // Privacy settings (only update if provided)
+        ...(profileVisibility !== undefined && { profileVisibility: profileVisibility as ProfileVisibility }),
+        ...(showActivity !== undefined && { showActivity }),
+        ...(showStats !== undefined && { showStats }),
+        ...(showSocialLinks !== undefined && { showSocialLinks }),
+        ...(emailNotifications !== undefined && { emailNotifications }),
+        ...(showInLeaderboards !== undefined && { showInLeaderboards }),
       },
     });
 

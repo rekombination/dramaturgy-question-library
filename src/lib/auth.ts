@@ -161,12 +161,18 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         // Fetch additional user data
         const dbUser = await prisma.user.findUnique({
           where: { id: user.id },
-          select: { role: true, trustLevel: true, username: true },
+          select: {
+            role: true,
+            trustLevel: true,
+            username: true,
+            hasCompletedOnboarding: true,
+          },
         });
         if (dbUser) {
           session.user.role = dbUser.role;
           session.user.trustLevel = dbUser.trustLevel;
           session.user.username = dbUser.username;
+          session.user.hasCompletedOnboarding = dbUser.hasCompletedOnboarding;
         }
       }
       return session;

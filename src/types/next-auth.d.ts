@@ -8,6 +8,7 @@ declare module "next-auth" {
       role: UserRole;
       trustLevel: TrustLevel;
       username: string | null;
+      hasCompletedOnboarding: boolean;
     } & DefaultSession["user"];
   }
 }
