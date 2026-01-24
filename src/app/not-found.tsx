@@ -27,7 +27,7 @@ export default function NotFound() {
               <div className="mt-8 space-y-3">
                 <Link
                   href="/"
-                  className="block px-6 py-4 bg-primary text-primary-foreground font-bold text-center hover:bg-primary/90 transition-colors"
+                  className="block px-6 py-4 bg-primary text-primary-foreground font-bold text-center hover:bg-foreground hover:text-background transition-colors"
                 >
                   Go to Homepage
                 </Link>

@@ -22,6 +22,7 @@ const navLinks = [
   { href: "/toolkits", label: "Toolkits" },
   { href: "/blog", label: "Blog" },
   { href: "/guidelines", label: "Guidelines" },
+  { href: "/contact", label: "Contact" },
 ];
 
 export function Header() {
@@ -67,7 +68,7 @@ export function Header() {
             </button>
 
             <Link href="/" className="flex items-center">
-              <span className="md:hidden brand-title text-lg">
+              <span className="md:hidden brand-title text-lg font-semibold">
                 The Dramaturgy
               </span>
               <Image
@@ -203,7 +204,7 @@ export function Header() {
                 height={180}
                 className="h-8 w-auto brightness-0 invert"
               />
-              <span className="brand-title text-xl leading-none mt-1">
+              <span className="brand-title text-xl leading-none mt-1 font-semibold">
                 The Dramaturgy
               </span>
             </div>

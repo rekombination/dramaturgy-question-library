@@ -22,7 +22,7 @@ export function Footer({ className }: FooterProps) {
           {/* Brand */}
           <div className="col-span-2 md:col-span-1">
             <Link href="/" className="inline-block">
-              <span className="brand-title text-2xl text-background">The Dramaturgy</span>
+              <span className="brand-title text-2xl text-background font-semibold">The Dramaturgy</span>
             </Link>
             <p className="mt-4 text-sm text-background/70 max-w-xs">
               A community platform for dramaturgical questions, insights, and knowledge sharing.
@@ -68,6 +68,11 @@ export function Footer({ className }: FooterProps) {
               <li>
                 <Link href="/about" className="text-background/70 hover:text-primary transition-colors">
                   About
+                </Link>
+              </li>
+              <li>
+                <Link href="/contact" className="text-background/70 hover:text-primary transition-colors">
+                  Contact
                 </Link>
               </li>
             </ul>

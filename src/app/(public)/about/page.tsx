@@ -67,13 +67,13 @@ export default function AboutPage() {
           <div className="mt-12 flex flex-wrap gap-4">
             <Link
               href="/signup"
-              className="px-8 py-4 bg-primary text-primary-foreground font-bold text-lg hover:bg-primary/90 transition-colors"
+              className="inline-flex items-center justify-center px-8 py-4 bg-primary text-primary-foreground font-bold text-lg hover:bg-foreground hover:text-background transition-colors"
             >
               Create Account
             </Link>
             <Link
               href="/explore"
-              className="px-8 py-4 border-2 border-foreground font-bold text-lg hover:bg-foreground hover:text-background transition-colors"
+              className="inline-flex items-center justify-center px-8 py-4 border-2 border-foreground font-bold text-lg hover:bg-foreground hover:text-background transition-colors"
             >
               Explore Questions
             </Link>

@@ -78,7 +78,7 @@ export default async function HomePage() {
               <div className="mt-10 flex flex-col sm:flex-row gap-4">
                 <Link
                   href="/explore"
-                  className="inline-flex items-center justify-center w-full sm:w-52 px-8 py-4 bg-primary text-primary-foreground text-lg font-bold hover:bg-primary/90 transition-colors text-center"
+                  className="inline-flex items-center justify-center w-full sm:w-52 px-8 py-4 bg-primary text-primary-foreground text-lg font-bold hover:bg-foreground hover:text-background transition-colors text-center"
                 >
                   Explore Questions
                 </Link>
@@ -304,7 +304,7 @@ export default async function HomePage() {
                 </Link>
                 <Link
                   href="/explore"
-                  className="inline-flex items-center justify-center w-full sm:w-52 px-8 py-4 border-2 border-primary-foreground text-primary-foreground text-lg font-bold hover:bg-background hover:text-foreground transition-all text-center"
+                  className="inline-flex items-center justify-center w-full sm:w-52 px-8 py-4 border-2 border-primary-foreground text-primary-foreground text-lg font-bold hover:bg-foreground hover:text-background transition-all text-center"
                 >
                   Browse First
                 </Link>

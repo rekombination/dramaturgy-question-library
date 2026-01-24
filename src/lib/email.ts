@@ -280,3 +280,58 @@ export async function sendQuestionSolvedNotification({
     html: emailTemplate(content),
   });
 }
+
+/**
+ * Send contact form submission to admin and confirmation to sender
+ */
+export async function sendContactEmail({
+  name,
+  email,
+  subject,
+  message,
+}: {
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+}) {
+  const adminEmail = "hello@thedramaturgy.com";
+
+  // Send to admin
+  const adminContent = `
+    <h2>New Contact Form Submission</h2>
+    <p><strong>From:</strong> ${name} (${email})</p>
+    <p><strong>Subject:</strong> ${subject}</p>
+    <hr style="border: 0; border-top: 2px solid #E5E5E0; margin: 24px 0;" />
+    <h3>Message:</h3>
+    <p style="white-space: pre-wrap;">${message}</p>
+    <hr style="border: 0; border-top: 2px solid #E5E5E0; margin: 24px 0;" />
+    <p style="color: #666; font-size: 14px;">
+      Reply to: <a href="mailto:${email}" style="color: #C8372D;">${email}</a>
+    </p>
+  `;
+
+  await sendEmail({
+    to: adminEmail,
+    subject: `Contact Form: ${subject}`,
+    html: emailTemplate(adminContent),
+  });
+
+  // Send confirmation to sender
+  const confirmationContent = `
+    <h2>Thank You for Contacting Us</h2>
+    <p>Hi ${name},</p>
+    <p>We've received your message and will get back to you as soon as possible.</p>
+    <h3>Your Message:</h3>
+    <p><strong>Subject:</strong> ${subject}</p>
+    <p style="white-space: pre-wrap; background-color: #F5F5F0; padding: 16px; border-left: 4px solid #C8372D;">${message}</p>
+    <p style="margin-top: 24px;">If you have any urgent questions, feel free to reach out directly at <a href="mailto:hello@thedramaturgy.com" style="color: #C8372D;">hello@thedramaturgy.com</a>.</p>
+    <p>Best regards,<br>The Dramaturgy Team</p>
+  `;
+
+  await sendEmail({
+    to: email,
+    subject: `We received your message: ${subject}`,
+    html: emailTemplate(confirmationContent),
+  });
+}

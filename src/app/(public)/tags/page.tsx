@@ -67,7 +67,7 @@ export default async function TagsPage() {
                       >
                         <div className="px-5 py-3 border-2 border-foreground font-bold text-lg hover:bg-foreground hover:text-background transition-colors flex items-center gap-3">
                           <span>{tag.name}</span>
-                          <span className="text-sm font-normal text-muted-foreground group-hover:text-background/70">
+                          <span className="text-sm font-normal text-muted-foreground group-hover:text-background">
                             {tag._count.questions}
                           </span>
                         </div>
@@ -95,7 +95,7 @@ export default async function TagsPage() {
             </div>
             <Link
               href="/submit"
-              className="px-8 py-4 bg-primary text-primary-foreground font-bold text-lg hover:bg-primary/90 transition-colors"
+              className="inline-flex items-center justify-center px-8 py-4 bg-primary text-primary-foreground font-bold text-lg hover:bg-primary/90 transition-colors"
             >
               Ask a Question
             </Link>

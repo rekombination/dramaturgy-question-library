@@ -211,10 +211,10 @@ export default async function ExplorePage() {
                       <Link
                         key={tag.id}
                         href={`/tags/${tag.slug}`}
-                        className="px-3 py-1.5 border-2 border-foreground text-sm font-medium hover:bg-foreground hover:text-background transition-colors"
+                        className="group px-3 py-1.5 border-2 border-foreground text-sm font-medium hover:bg-foreground hover:text-background transition-colors"
                       >
                         {tag.name}
-                        <span className="ml-1 text-muted-foreground">
+                        <span className="ml-1 text-muted-foreground group-hover:text-background">
                           {tag._count.questions}
                         </span>
                       </Link>
