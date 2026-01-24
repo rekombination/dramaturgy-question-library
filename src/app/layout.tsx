@@ -135,6 +135,11 @@ export default function RootLayout({
       <head>
         <OrganizationJsonLd />
         <WebSiteJsonLd />
+        <script
+          defer
+          src="https://cloud.umami.is/script.js"
+          data-website-id="72c1e8f8-0814-4634-8c30-a3cd33303584"
+        />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${spectral.variable} antialiased min-h-screen flex flex-col`}
