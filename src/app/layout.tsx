@@ -13,14 +13,14 @@ const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
   display: "swap",
-  // Use weight range for variable font instead of array
-  weight: "variable",
+  // Load specific static weights for better Firefox compatibility
+  weight: ["400", "700", "900"],
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
-  weight: "variable",
+  weight: ["400", "700", "900"],
 });
 
 const spectral = Spectral({

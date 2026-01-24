@@ -210,35 +210,23 @@
 }
 
 /* Force font-black (900) to work on Android and all browsers */
+/* Using static fonts instead of variable fonts for Firefox compatibility */
 h1,
 h2,
 h3,
 .font-black,
 .hero-text,
 .display-text {
+  font-family: var(--font-geist-sans) !important;
   font-weight: 900 !important;
-  font-variation-settings: "wght" 900;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
 }
 
 .font-bold {
+  font-family: var(--font-geist-sans) !important;
   font-weight: 700 !important;
-  font-variation-settings: "wght" 700;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-/* Firefox specific bold enforcement */
-@supports (-moz-appearance: none) {
-  h1, h2, h3, .font-black, .hero-text, .display-text {
-    font-weight: 900 !important;
-    font-variation-settings: "wght" 900 !important;
-  }
-
-  b, strong, .font-bold {
-    font-weight: 700 !important;
-    font-variation-settings: "wght" 700 !important;
-  }
 }
