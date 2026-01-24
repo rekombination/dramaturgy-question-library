@@ -74,7 +74,7 @@ export function QuestionCard({ question }: QuestionCardProps) {
           {/* Footer */}
           <div className="mt-6 flex flex-wrap items-center justify-between gap-4 text-sm">
             <div className="flex items-center gap-3">
-              <Avatar className="h-8 w-8 border-2 border-foreground">
+              <Avatar className="h-8 w-8">
                 <AvatarImage
                   src={question.author.image || ""}
                   alt={question.author.name || ""}

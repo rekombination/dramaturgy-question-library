@@ -114,7 +114,7 @@ function QuestionListSkeleton() {
               <div className="flex flex-wrap items-center justify-between gap-4">
                 <div className="flex items-center gap-3">
                   {/* Avatar skeleton */}
-                  <div className="h-8 w-8 rounded-full bg-muted animate-pulse border-2 border-foreground" />
+                  <div className="h-8 w-8 rounded-full bg-muted animate-pulse" />
                   <div className="h-4 w-24 bg-muted animate-pulse rounded" />
                 </div>
 
