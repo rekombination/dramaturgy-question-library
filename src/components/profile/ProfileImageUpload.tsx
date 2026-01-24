@@ -47,10 +47,13 @@ export function ProfileImageUpload({
       const result = await startUpload([convertedFile]);
       if (result && result[0]) {
         onUploadComplete(result[0].ufsUrl);
+        // Clear preview so currentImage (the uploaded URL) is shown
+        setPreviewUrl(null);
       }
     } catch (error) {
       console.error("Upload failed:", error);
       alert("Failed to upload image. Please try again.");
+      setPreviewUrl(null);
     } finally {
       setIsUploading(false);
       setUploadProgress(0);
