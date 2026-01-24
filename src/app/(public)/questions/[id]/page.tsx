@@ -6,6 +6,7 @@ import { ReplyForm } from "@/components/reply-form";
 import { ReplyList } from "@/components/reply-list";
 import { QuestionActions } from "@/components/question-actions";
 import { MediaGallery } from "@/components/media-gallery";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { IconCheck, IconClock, IconUser, IconMessageCircle } from "@tabler/icons-react";
 
 export default async function QuestionDetailPage({
@@ -192,23 +193,33 @@ export default async function QuestionDetailPage({
 
             {/* Author Info */}
             <div className="flex items-center gap-3 text-sm">
-              <div className="flex items-center gap-2">
-                <IconUser size={18} />
-                {question.author.username ? (
-                  <Link
-                    href={`/profile/${question.author.username}`}
-                    className="font-bold hover:text-primary transition-colors"
-                  >
-                    {question.author.username}
-                  </Link>
-                ) : (
-                  <span className="font-bold">{question.author.name || "Anonymous"}</span>
-                )}
-                {question.author.role !== "USER" && (
-                  <span className="px-2 py-0.5 bg-primary text-primary-foreground text-xs font-bold uppercase">
-                    {question.author.role}
-                  </span>
-                )}
+              <div className="flex items-center gap-3">
+                <Avatar className="h-10 w-10">
+                  <AvatarImage
+                    src={question.author.image || ""}
+                    alt={question.author.name || ""}
+                  />
+                  <AvatarFallback className="bg-primary text-primary-foreground font-bold text-sm">
+                    {question.author.name?.charAt(0).toUpperCase() || "U"}
+                  </AvatarFallback>
+                </Avatar>
+                <div className="flex items-center gap-2">
+                  {question.author.username ? (
+                    <Link
+                      href={`/profile/${question.author.username}`}
+                      className="font-bold hover:text-primary transition-colors"
+                    >
+                      {question.author.username}
+                    </Link>
+                  ) : (
+                    <span className="font-bold">{question.author.name || "Anonymous"}</span>
+                  )}
+                  {question.author.role !== "USER" && (
+                    <span className="px-2 py-0.5 bg-primary text-primary-foreground text-xs font-bold uppercase">
+                      {question.author.role}
+                    </span>
+                  )}
+                </div>
               </div>
               <span className="text-muted-foreground">•</span>
               <div className="flex items-center gap-2 text-muted-foreground">
