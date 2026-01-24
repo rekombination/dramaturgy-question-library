@@ -55,7 +55,10 @@ export async function POST(
       );
     }
 
-    if (question.expertClaimedById) {
+    // Allow ADMIN and MODERATOR to override claims
+    const canOverride = ["ADMIN", "MODERATOR"].includes(session.user.role);
+
+    if (question.expertClaimedById && !canOverride) {
       return NextResponse.json(
         { error: "This question has already been claimed by another expert" },
         { status: 400 }
@@ -153,7 +156,10 @@ export async function DELETE(
       );
     }
 
-    if (question.expertClaimedById !== session.user.id) {
+    // Allow ADMIN and MODERATOR to unclaim any question
+    const canOverride = ["ADMIN", "MODERATOR"].includes(session.user.role);
+
+    if (question.expertClaimedById !== session.user.id && !canOverride) {
       return NextResponse.json(
         { error: "You have not claimed this question" },
         { status: 403 }
