@@ -67,7 +67,7 @@ export function Header() {
             </button>
 
             <Link href="/" className="flex items-center">
-              <span className="md:hidden text-lg font-bold">
+              <span className="md:hidden brand-title text-lg">
                 The Dramaturgy
               </span>
               <Image
@@ -196,7 +196,7 @@ export function Header() {
           {/* Mobile Menu Header */}
           <div className="flex items-center justify-between px-6 py-5 border-b border-background/20">
             <div className="flex items-center gap-3">
-              <span className="text-xl font-bold">
+              <span className="brand-title text-xl">
                 The Dramaturgy
               </span>
             </div>

@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Spectral } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
 import { Header } from "@/components/layout/Header";
@@ -16,6 +16,13 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+});
+
+const spectral = Spectral({
+  weight: ["400", "600", "700"],
+  subsets: ["latin"],
+  variable: "--font-spectral",
+  display: "swap",
 });
 
 const siteUrl = "https://thedramaturgy.com";
@@ -128,7 +135,7 @@ export default function RootLayout({
         <WebSiteJsonLd />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
+        className={`${geistSans.variable} ${geistMono.variable} ${spectral.variable} antialiased min-h-screen flex flex-col`}
       >
         <Providers>
           <Header />

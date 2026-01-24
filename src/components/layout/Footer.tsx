@@ -22,7 +22,7 @@ export function Footer({ className }: FooterProps) {
           {/* Brand */}
           <div className="col-span-2 md:col-span-1">
             <Link href="/" className="inline-block">
-              <span className="text-2xl font-bold text-background">The Dramaturgy</span>
+              <span className="brand-title text-2xl text-background">The Dramaturgy</span>
             </Link>
             <p className="mt-4 text-sm text-background/70 max-w-xs">
               A community platform for dramaturgical questions, insights, and knowledge sharing.

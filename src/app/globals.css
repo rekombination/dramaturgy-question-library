@@ -8,6 +8,7 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-spectral: var(--font-spectral);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -200,4 +201,11 @@
     transform: translateY(-4px);
     box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.15);
   }
+}
+
+.brand-title {
+  font-family: var(--font-spectral);
+  font-variant: small-caps;
+  font-weight: 600;
+  letter-spacing: 0.05em;
 }
