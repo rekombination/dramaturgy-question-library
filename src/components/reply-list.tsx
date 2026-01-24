@@ -2,16 +2,21 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
+import { ReplyCard } from "@/components/reply/ReplyCard";
+import { ReplySortFilter } from "@/components/reply/ReplySortFilter";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { IconCheck, IconUser, IconStar } from "@tabler/icons-react";
+import { IconCheck } from "@tabler/icons-react";
 
 interface Reply {
   id: string;
   body: string;
   isExpertPerspective: boolean;
   createdAt: Date;
+  updatedAt: Date;
+  editedAt: Date | null;
+  voteCount: number;
+  commentCount: number;
   author: {
     id: string;
     name: string | null;
@@ -19,9 +24,8 @@ interface Reply {
     image: string | null;
     role: string;
   };
-  _count: {
-    votes: number;
-  };
+  votes?: Array<{ type: string; userId: string }>;
+  comments?: any[];
 }
 
 interface ReplyListProps {
@@ -31,6 +35,7 @@ interface ReplyListProps {
   isSolved: boolean;
   solvedReplyId: string | null;
   currentUserId?: string;
+  sortOption?: "best" | "newest" | "expert";
 }
 
 export function ReplyList({
@@ -40,6 +45,7 @@ export function ReplyList({
   isSolved,
   solvedReplyId,
   currentUserId,
+  sortOption = "best",
 }: ReplyListProps) {
   const router = useRouter();
   const [solvingReplyId, setSolvingReplyId] = useState<string | null>(null);
@@ -94,105 +100,61 @@ export function ReplyList({
   }
 
   return (
-    <div className="space-y-6">
-      {replies.map((reply) => {
-        const isSolution = solvedReplyId === reply.id;
-        const isAuthor = currentUserId === reply.author.id;
+    <div>
+      {/* Sort Filter */}
+      <div className="flex items-center justify-between mb-6">
+        <h3 className="text-lg font-bold">
+          {replies.length} {replies.length === 1 ? "Answer" : "Answers"}
+        </h3>
+        <ReplySortFilter currentSort={sortOption} />
+      </div>
 
-        return (
-          <div
-            key={reply.id}
-            className={`border-2 ${
-              isSolution
-                ? "border-green-600 bg-green-50 dark:bg-green-950/20"
-                : "border-foreground"
-            }`}
-          >
-            {/* Header */}
-            <div className={`p-4 border-b-2 ${
-              isSolution ? "border-green-600 bg-green-100 dark:bg-green-950/30" : "border-foreground bg-muted"
-            }`}>
-              <div className="flex items-start justify-between gap-4">
-                <div className="flex items-center gap-3 flex-1">
-                  <div className="flex items-center gap-2">
-                    <IconUser size={18} />
-                    {reply.author.username ? (
-                      <Link
-                        href={`/profile/${reply.author.username}`}
-                        className="font-bold hover:text-primary transition-colors"
-                      >
-                        {reply.author.username}
-                      </Link>
-                    ) : (
-                      <span className="font-bold">{reply.author.name || "Anonymous"}</span>
-                    )}
-                    {reply.author.role !== "USER" && (
-                      <span className="px-2 py-0.5 bg-primary text-primary-foreground text-xs font-bold uppercase">
-                        {reply.author.role}
-                      </span>
-                    )}
-                    {reply.isExpertPerspective && (
-                      <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-foreground text-background text-xs font-bold uppercase">
-                        <IconStar size={14} />
-                        Expert
-                      </span>
-                    )}
-                  </div>
-                  <span className="text-muted-foreground text-sm">
-                    {new Date(reply.createdAt).toLocaleDateString("de-DE")}
-                  </span>
-                </div>
+      {/* Replies */}
+      <div className="space-y-6">
+        {replies.map((reply) => {
+          const isSolution = solvedReplyId === reply.id;
+          const isAuthor = currentUserId === reply.author.id;
 
-                {isSolution && (
-                  <span className="inline-flex items-center gap-1 px-3 py-1 bg-green-600 text-white text-xs font-bold uppercase rounded">
-                    <IconCheck size={16} />
-                    This Helped
-                  </span>
-                )}
-              </div>
-            </div>
+          return (
+            <div key={reply.id} className="space-y-3">
+              <ReplyCard
+                reply={reply}
+                isSolution={isSolution}
+                isAuthor={isAuthor}
+                currentUserId={currentUserId}
+              />
 
-            {/* Body */}
-            <div className="p-6">
-              <p className="whitespace-pre-wrap text-base leading-relaxed">
-                {reply.body}
-              </p>
-            </div>
-
-            {/* Footer */}
-            <div className={`p-4 border-t-2 ${
-              isSolution ? "border-green-600 bg-green-50 dark:bg-green-950/30" : "border-foreground bg-muted"
-            } flex items-center justify-between`}>
-              <div className="text-sm text-muted-foreground">
-                {reply._count.votes} votes
-              </div>
-
+              {/* Mark as Helpful Button */}
               {isQuestionAuthor && !isSolved && (
-                <Button
-                  onClick={() => handleMarkAsHelpful(reply.id)}
-                  disabled={solvingReplyId === reply.id}
-                  size="sm"
-                  className="bg-primary text-primary-foreground font-bold hover:bg-primary/90"
-                >
-                  <IconCheck className="mr-2" size={16} />
-                  {solvingReplyId === reply.id ? "Marking..." : "This Helped Me"}
-                </Button>
+                <div className="flex justify-end">
+                  <Button
+                    onClick={() => handleMarkAsHelpful(reply.id)}
+                    disabled={solvingReplyId === reply.id}
+                    size="sm"
+                    className="bg-primary text-primary-foreground font-bold hover:bg-primary/90"
+                  >
+                    <IconCheck className="mr-2" size={16} />
+                    {solvingReplyId === reply.id ? "Marking..." : "This Helped Me"}
+                  </Button>
+                </div>
               )}
 
               {isQuestionAuthor && isSolution && (
-                <Button
-                  onClick={handleUnmarkHelpful}
-                  size="sm"
-                  variant="outline"
-                  className="border-2 border-foreground font-bold"
-                >
-                  Unmark
-                </Button>
+                <div className="flex justify-end">
+                  <Button
+                    onClick={handleUnmarkHelpful}
+                    size="sm"
+                    variant="outline"
+                    className="border-2 border-foreground font-bold"
+                  >
+                    Unmark Solution
+                  </Button>
+                </div>
               )}
             </div>
-          </div>
-        );
-      })}
+          );
+        })}
+      </div>
     </div>
   );
 }

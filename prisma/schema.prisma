@@ -110,6 +110,7 @@ model User {
   feedback               Feedback[]
   notifications          Notification[]
   triggeredNotifications Notification[] @relation("NotificationActor")
+  comments               Comment[]
 
   @@index([username])
 }
@@ -217,8 +218,10 @@ model Reply {
   status              ReplyStatus @default(PUBLISHED)
   isExpertPerspective Boolean     @default(false)
   voteCount           Int         @default(0)
+  commentCount        Int         @default(0)
   createdAt           DateTime    @default(now())
   updatedAt           DateTime    @updatedAt
+  editedAt            DateTime?
 
   questionId          String
   question            Question    @relation(fields: [questionId], references: [id], onDelete: Cascade)
@@ -228,6 +231,7 @@ model Reply {
 
   votes               Vote[]
   flags               Flag[]
+  comments            Comment[]
   solvedQuestions     Question[]     @relation("SolvedByReply")
   notifications       Notification[]
 
@@ -254,10 +258,40 @@ model Vote {
   replyId    String?
   reply      Reply?    @relation(fields: [replyId], references: [id], onDelete: Cascade)
 
+  commentId  String?
+  comment    Comment?  @relation(fields: [commentId], references: [id], onDelete: Cascade)
+
   @@unique([userId, questionId])
   @@unique([userId, replyId])
+  @@unique([userId, commentId])
   @@index([questionId])
   @@index([replyId])
+  @@index([commentId])
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  body      String   @db.Text
+  voteCount Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  editedAt  DateTime?
+
+  replyId   String
+  reply     Reply    @relation(fields: [replyId], references: [id], onDelete: Cascade)
+
+  authorId  String
+  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  parentCommentId String?
+  parentComment   Comment?  @relation("CommentThread", fields: [parentCommentId], references: [id], onDelete: Cascade)
+  childComments   Comment[] @relation("CommentThread")
+
+  votes     Vote[]
+
+  @@index([replyId])
+  @@index([authorId])
+  @@index([parentCommentId])
 }
 
 model Bookmark {

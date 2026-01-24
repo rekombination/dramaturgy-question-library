@@ -6,16 +6,23 @@ import { ReplyForm } from "@/components/reply-form";
 import { ReplyList } from "@/components/reply-list";
 import { QuestionActions } from "@/components/question-actions";
 import { MediaGallery } from "@/components/media-gallery";
+import { BookmarkButton } from "@/components/question/BookmarkButton";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { IconCheck, IconClock, IconUser, IconMessageCircle } from "@tabler/icons-react";
 
 export default async function QuestionDetailPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ id: string }>;
+  searchParams: Promise<{ sort?: string }>;
 }) {
   const session = await auth();
   const { id: questionId } = await params;
+  const { sort = "best" } = await searchParams;
+
+  // Validate sort parameter
+  const sortOption = ["best", "newest", "expert"].includes(sort) ? sort : "best";
 
   const question = await prisma.question.findUnique({
     where: { id: questionId },
@@ -58,12 +65,50 @@ export default async function QuestionDetailPage({
               role: true,
             },
           },
-          _count: {
-            select: { votes: true },
+          votes: {
+            select: {
+              type: true,
+              userId: true,
+            },
           },
-        },
-        orderBy: {
-          createdAt: "asc",
+          comments: {
+            include: {
+              author: {
+                select: {
+                  id: true,
+                  name: true,
+                  username: true,
+                  image: true,
+                  role: true,
+                },
+              },
+              votes: {
+                select: {
+                  type: true,
+                  userId: true,
+                },
+              },
+              childComments: {
+                include: {
+                  author: {
+                    select: {
+                      id: true,
+                      name: true,
+                      username: true,
+                      image: true,
+                      role: true,
+                    },
+                  },
+                  votes: {
+                    select: {
+                      type: true,
+                      userId: true,
+                    },
+                  },
+                },
+              },
+            },
+          },
         },
       },
       _count: {
@@ -77,6 +122,47 @@ export default async function QuestionDetailPage({
 
   if (!question) {
     notFound();
+  }
+
+  // Check if user has bookmarked this question
+  let isBookmarked = false;
+  if (session?.user) {
+    const bookmark = await prisma.bookmark.findUnique({
+      where: {
+        userId_questionId: {
+          userId: session.user.id,
+          questionId: question.id,
+        },
+      },
+    });
+    isBookmarked = !!bookmark;
+  }
+
+  // Sort replies based on sort option
+  let sortedReplies = [...question.replies];
+  if (sortOption === "best") {
+    // Best: (HELPFUL * 2 + INSIGHTFUL * 1.5) DESC
+    sortedReplies.sort((a, b) => {
+      const aHelpful = a.votes.filter((v) => v.type === "HELPFUL").length;
+      const aInsightful = a.votes.filter((v) => v.type === "INSIGHTFUL").length;
+      const bHelpful = b.votes.filter((v) => v.type === "HELPFUL").length;
+      const bInsightful = b.votes.filter((v) => v.type === "INSIGHTFUL").length;
+
+      const aScore = aHelpful * 2 + aInsightful * 1.5;
+      const bScore = bHelpful * 2 + bInsightful * 1.5;
+
+      return bScore - aScore;
+    });
+  } else if (sortOption === "newest") {
+    // Newest: createdAt DESC
+    sortedReplies.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+  } else if (sortOption === "expert") {
+    // Expert: isExpertPerspective DESC, createdAt DESC
+    sortedReplies.sort((a, b) => {
+      if (a.isExpertPerspective && !b.isExpertPerspective) return -1;
+      if (!a.isExpertPerspective && b.isExpertPerspective) return 1;
+      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+    });
   }
 
   // Check if user can view this question
@@ -295,13 +381,21 @@ export default async function QuestionDetailPage({
 
           {/* Footer Actions */}
           <div className="p-6 md:p-8 border-t-2 border-foreground bg-muted">
-            <QuestionActions
-              questionId={question.id}
-              isAuthor={isAuthor}
-              canClaim={canClaim}
-              hasClaimed={hasClaimed}
-              isSolved={question.isSolved}
-            />
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+              <QuestionActions
+                questionId={question.id}
+                isAuthor={isAuthor}
+                canClaim={canClaim}
+                hasClaimed={hasClaimed}
+                isSolved={question.isSolved}
+              />
+              {session?.user && (
+                <BookmarkButton
+                  questionId={question.id}
+                  initialBookmarked={isBookmarked}
+                />
+              )}
+            </div>
           </div>
         </article>
 
@@ -313,12 +407,13 @@ export default async function QuestionDetailPage({
           </h2>
 
           <ReplyList
-            replies={question.replies}
+            replies={sortedReplies}
             questionId={question.id}
             isQuestionAuthor={isAuthor}
             isSolved={question.isSolved}
             solvedReplyId={question.solvedByReplyId}
             currentUserId={session?.user?.id}
+            sortOption={sortOption as "best" | "newest" | "expert"}
           />
         </div>
 
