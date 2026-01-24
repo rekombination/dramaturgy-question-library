@@ -182,7 +182,7 @@ export default function SubmitPage() {
       for (const result of uploadedResults) {
         const fileType = result.type.startsWith("image") ? "image" : "video";
         const uploadedFile: UploadedFile = {
-          url: result.appUrl,
+          url: result.url,
           type: fileType,
           size: result.size,
           name: result.name,
@@ -194,12 +194,12 @@ export default function SubmitPage() {
         if (fileType === "image") {
           setFormData((prev) => ({
             ...prev,
-            images: [...(prev.images || []), result.appUrl],
+            images: [...(prev.images || []), result.url],
           }));
         } else {
           setFormData((prev) => ({
             ...prev,
-            videos: [...(prev.videos || []), result.appUrl],
+            videos: [...(prev.videos || []), result.url],
           }));
         }
       }
@@ -440,7 +440,7 @@ export default function SubmitPage() {
                             <button
                               type="button"
                               onClick={() => removeFile(file.url)}
-                              className="shrink-0 p-1.5 bg-destructive text-destructive-foreground hover:bg-destructive/90 transition-colors"
+                              className="shrink-0 p-1.5 bg-destructive text-white hover:bg-destructive/90 transition-colors"
                               aria-label="Remove file"
                             >
                               <IconX size={16} />

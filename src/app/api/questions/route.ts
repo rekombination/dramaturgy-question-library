@@ -51,6 +51,8 @@ export async function POST(request: NextRequest) {
         sensitivityNote: validatedData.sensitivityNote,
         isPrivate: validatedData.isPrivate,
         requestExpert: validatedData.requestExpert,
+        images: validatedData.images || [],
+        videos: validatedData.videos || [],
         status: questionStatus,
         authorId: session.user.id,
       },
