@@ -35,6 +35,11 @@ function AvatarImage({
 }: AvatarImageProps) {
   const [error, setError] = React.useState(false)
 
+  // Reset error state when src changes
+  React.useEffect(() => {
+    setError(false)
+  }, [src])
+
   if (!src || error) {
     return null
   }

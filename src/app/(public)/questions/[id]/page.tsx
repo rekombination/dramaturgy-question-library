@@ -2,10 +2,10 @@ import { notFound, redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import Link from "next/link";
-import Image from "next/image";
 import { ReplyForm } from "@/components/reply-form";
 import { ReplyList } from "@/components/reply-list";
 import { QuestionActions } from "@/components/question-actions";
+import { MediaGallery } from "@/components/media-gallery";
 import { IconCheck, IconClock, IconUser, IconMessageCircle } from "@tabler/icons-react";
 
 export default async function QuestionDetailPage({
@@ -239,37 +239,11 @@ export default async function QuestionDetailPage({
             </div>
 
             {/* Media Display */}
-            {((question.images && question.images.length > 0) || (question.videos && question.videos.length > 0)) && (
-              <div className="mt-8 space-y-4">
-                <h3 className="text-sm font-bold uppercase tracking-wider text-muted-foreground">
-                  Attached Media
-                </h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {question.images?.map((url, index) => (
-                    <div key={url} className="border-2 border-foreground overflow-hidden">
-                      <Image
-                        src={url}
-                        alt={`Image ${index + 1} for ${question.title}`}
-                        width={800}
-                        height={600}
-                        className="w-full h-auto object-cover"
-                      />
-                    </div>
-                  ))}
-                  {question.videos?.map((url, index) => (
-                    <div key={url} className="border-2 border-foreground overflow-hidden">
-                      <video
-                        src={url}
-                        controls
-                        className="w-full h-auto"
-                      >
-                        Your browser does not support the video tag.
-                      </video>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
+            <MediaGallery
+              images={question.images}
+              videos={question.videos}
+              title={question.title}
+            />
 
             {/* Additional Details */}
             {(question.stakes || question.constraints || question.sensitivityNote) && (
