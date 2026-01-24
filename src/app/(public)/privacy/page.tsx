@@ -67,10 +67,17 @@ export default function PrivacyPage() {
             </div>
 
             <div>
-              <h2 className="text-2xl font-bold mb-4">5. Cookies</h2>
+              <h2 className="text-2xl font-bold mb-4">5. Cookies and Tracking</h2>
+              <p className="text-muted-foreground leading-relaxed mb-4">
+                We use only technically necessary cookies and privacy-friendly analytics:
+              </p>
+              <ul className="list-disc list-inside text-muted-foreground space-y-2 mb-4">
+                <li><strong>Authentication Cookies:</strong> We use session cookies (NextAuth.js) to keep you logged in. These are technically necessary for the platform to function and do not require consent under GDPR Article 6(1)(b).</li>
+                <li><strong>Local Storage:</strong> We use browser SessionStorage to temporarily save form drafts (e.g., when writing questions). This data never leaves your device and is not tracked.</li>
+                <li><strong>Analytics:</strong> We use Umami Analytics, a privacy-friendly, cookieless analytics service that collects only anonymous usage statistics (page views, referrers, browser types) without storing any personal data or creating user profiles. No consent required under GDPR.</li>
+              </ul>
               <p className="text-muted-foreground leading-relaxed">
-                We use cookies and similar technologies to maintain your session,
-                remember your preferences, and understand how you use our platform.
+                We explicitly do not use tracking cookies, third-party advertising cookies, or any form of cross-site tracking. Vercel Analytics is disabled on our platform.
               </p>
             </div>
 
@@ -89,9 +96,18 @@ export default function PrivacyPage() {
 
             <div>
               <h2 className="text-2xl font-bold mb-4">7. Third-Party Services</h2>
-              <p className="text-muted-foreground leading-relaxed">
-                We may use third-party services for authentication (Google, GitHub)
-                and email delivery. These services have their own privacy policies.
+              <p className="text-muted-foreground leading-relaxed mb-4">
+                We use the following third-party services:
+              </p>
+              <ul className="list-disc list-inside text-muted-foreground space-y-2">
+                <li><strong>Email Authentication:</strong> Resend (email delivery service) for passwordless login</li>
+                <li><strong>Database:</strong> Supabase (PostgreSQL database hosting)</li>
+                <li><strong>File Storage:</strong> Vercel Blob (for uploaded images and media)</li>
+                <li><strong>Hosting:</strong> Vercel (website hosting and deployment)</li>
+                <li><strong>Analytics:</strong> Umami Cloud (privacy-friendly, cookieless analytics)</li>
+              </ul>
+              <p className="text-muted-foreground leading-relaxed mt-4">
+                These services have their own privacy policies and are GDPR-compliant. We do not share your personal data beyond what is necessary for these services to function.
               </p>
             </div>
 
@@ -104,10 +120,20 @@ export default function PrivacyPage() {
             </div>
 
             <div>
-              <h2 className="text-2xl font-bold mb-4">9. Contact Us</h2>
+              <h2 className="text-2xl font-bold mb-4">9. Data Controller</h2>
+              <p className="text-muted-foreground leading-relaxed mb-4">
+                The data controller responsible for your personal data is:
+              </p>
               <p className="text-muted-foreground leading-relaxed">
-                If you have questions about this privacy policy, please contact us
-                through our platform.
+                The Dramaturgy<br />
+                Email: hello@thedramaturgy.com
+              </p>
+            </div>
+
+            <div>
+              <h2 className="text-2xl font-bold mb-4">10. Contact Us</h2>
+              <p className="text-muted-foreground leading-relaxed">
+                If you have questions about this privacy policy or want to exercise your rights under GDPR, please contact us at hello@thedramaturgy.com or through our contact form.
               </p>
             </div>
           </div>
