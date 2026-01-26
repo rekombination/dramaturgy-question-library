@@ -16,7 +16,7 @@ export function RandomQuote() {
     return (
       <div className="relative">
         <div className="absolute -top-8 -left-8 w-32 h-32 bg-primary" />
-        <div className="relative bg-foreground text-background p-12">
+        <div className="relative bg-foreground/80 text-background p-12">
           <blockquote className="brand-title text-2xl leading-relaxed italic font-extralight">
             <span className="opacity-0">Loading...</span>
           </blockquote>
@@ -28,7 +28,7 @@ export function RandomQuote() {
   return (
     <div className="relative">
       <div className="absolute -top-8 -left-8 w-32 h-32 bg-primary" />
-      <div className="relative bg-foreground text-background p-12">
+      <div className="relative bg-foreground/80 text-background p-12">
         <blockquote className="brand-title text-2xl leading-relaxed italic font-extralight">
           „{quote.text}"
         </blockquote>
