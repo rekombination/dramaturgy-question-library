@@ -225,25 +225,35 @@ export function ReplyCard({
         {/* Actions */}
         {!isEditing && (
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-4 border-t-2 border-foreground">
-            <VotingButtons
-              targetType="reply"
-              targetId={reply.id}
-              initialHelpfulCount={helpfulCount}
-              initialInsightfulCount={insightfulCount}
-              userVote={userVote}
-            />
+            {currentUserId ? (
+              <>
+                <VotingButtons
+                  targetType="reply"
+                  targetId={reply.id}
+                  initialHelpfulCount={helpfulCount}
+                  initialInsightfulCount={insightfulCount}
+                  userVote={userVote}
+                />
 
-            <button
-              onClick={() => setShowComments(!showComments)}
-              className="flex items-center gap-2 text-sm font-bold text-muted-foreground hover:text-primary transition-colors"
-            >
-              <IconMessageCircle size={18} />
-              {reply.commentCount > 0 ? (
-                <>{reply.commentCount} {reply.commentCount === 1 ? "Comment" : "Comments"}</>
-              ) : (
-                "Add Comment"
-              )}
-            </button>
+                <button
+                  onClick={() => setShowComments(!showComments)}
+                  className="flex items-center gap-2 text-sm font-bold text-muted-foreground hover:text-primary transition-colors"
+                >
+                  <IconMessageCircle size={18} />
+                  {reply.commentCount > 0 ? (
+                    <>{reply.commentCount} {reply.commentCount === 1 ? "Comment" : "Comments"}</>
+                  ) : (
+                    "Add Comment"
+                  )}
+                </button>
+              </>
+            ) : (
+              <div className="text-sm text-muted-foreground">
+                <Link href="/login" className="font-bold text-primary hover:underline">
+                  Sign in
+                </Link> to vote and comment
+              </div>
+            )}
           </div>
         )}
       </div>

@@ -408,7 +408,9 @@ export default async function QuestionDetailPage({
                 <IconMessageCircle size={28} />
                 {question._count.replies} {question._count.replies === 1 ? "Answer" : "Answers"}
               </h2>
-              <ReplySortFilter currentSort={sortOption as "best" | "newest" | "expert"} />
+              {session?.user && (
+                <ReplySortFilter currentSort={sortOption as "best" | "newest" | "expert"} />
+              )}
             </div>
           </div>
 
