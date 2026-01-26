@@ -103,7 +103,7 @@ export function Footer({ className }: FooterProps) {
             </Link>
             <Link
               href="/submit"
-              className="text-sm font-bold text-background hover:text-primary transition-colors px-4 py-2 border-2 border-background"
+              className="text-sm font-bold text-background hover:underline transition-colors"
             >
               Ask a Question
             </Link>
