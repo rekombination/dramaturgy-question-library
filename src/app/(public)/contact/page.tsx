@@ -136,7 +136,7 @@ export default function ContactPage() {
               className="h-auto w-40 brightness-0 invert"
             />
             <h1 className="mt-8 text-4xl xl:text-5xl font-black leading-tight whitespace-nowrap">
-              Get in <span className="text-primary">Touch.</span>
+              Get in <span className="text-background">Touch.</span>
             </h1>
             <p className="mt-6 text-lg text-background/70">
               Have a question, suggestion, or feedback? We&apos;d love to hear from you. Our team will get back to you as soon as possible.
@@ -146,7 +146,7 @@ export default function ContactPage() {
                 <h3 className="text-sm font-bold uppercase tracking-wider mb-2">Email</h3>
                 <a
                   href="mailto:hello@thedramaturgy.com"
-                  className="text-primary hover:underline text-lg"
+                  className="text-background hover:text-background/80 hover:underline text-lg font-bold"
                 >
                   hello@thedramaturgy.com
                 </a>
