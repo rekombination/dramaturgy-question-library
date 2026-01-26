@@ -1,11 +1,27 @@
 import { MetadataRoute } from 'next';
 import { reader } from '@/lib/keystatic';
+import { prisma } from '@/lib/db';
 
 const siteUrl = 'https://thedramaturgy.com';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Get all blog posts
   const posts = await reader.collections.posts.all();
+
+  // Get all published questions
+  const questions = await prisma.question.findMany({
+    where: {
+      status: 'PUBLISHED',
+      isPrivate: false,
+    },
+    select: {
+      id: true,
+      updatedAt: true,
+    },
+    orderBy: {
+      updatedAt: 'desc',
+    },
+  });
 
   // Static pages
   const staticPages: MetadataRoute.Sitemap = [
@@ -63,6 +79,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'yearly',
       priority: 0.3,
     },
+    {
+      url: `${siteUrl}/contact`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.5,
+    },
+    {
+      url: `${siteUrl}/tags`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.6,
+    },
   ];
 
   // Blog posts
@@ -77,5 +105,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }));
 
-  return [...staticPages, ...blogPosts];
+  // Questions
+  const questionPages: MetadataRoute.Sitemap = questions.map((question) => ({
+    url: `${siteUrl}/questions/${question.id}`,
+    lastModified: question.updatedAt,
+    changeFrequency: 'weekly' as const,
+    priority: 0.8,
+  }));
+
+  return [...staticPages, ...blogPosts, ...questionPages];
 }
