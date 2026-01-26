@@ -401,7 +401,7 @@ export default async function QuestionDetailPage({
         </article>
 
         {/* Replies Section */}
-        <div className="mb-8 border-2 border-foreground">
+        <div className="border-2 border-foreground">
           <div className="p-6 md:p-8 bg-muted border-b-2 border-foreground">
             <div className="flex items-center justify-between">
               <h2 className="text-2xl font-black flex items-center gap-3">
@@ -425,7 +425,7 @@ export default async function QuestionDetailPage({
 
         {/* Reply Form */}
         {session?.user && !question.isSolved && question.status === "PUBLISHED" && (
-          <div className="border-2 border-foreground border-t-0 p-6 md:p-8 bg-muted">
+          <div className="mb-8 border-2 border-foreground border-t-0 p-6 md:p-8 bg-muted">
             <h3 className="text-xl font-black mb-4">Your Answer</h3>
             <ReplyForm
               questionId={question.id}
@@ -436,7 +436,7 @@ export default async function QuestionDetailPage({
         )}
 
         {!session?.user && (
-          <div className="border-2 border-foreground border-t-0 mt-0 p-8 text-center">
+          <div className="mb-8 border-2 border-foreground border-t-0 p-8 text-center">
             <p className="text-lg font-bold mb-4">Want to answer this question?</p>
             <Link
               href={`/login?callbackUrl=/questions/${question.id}`}
