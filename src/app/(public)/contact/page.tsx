@@ -44,14 +44,16 @@ export default function ContactPage() {
 
     // Spam protection: Check if honeypot field is filled
     if (formData.website) {
-      toast.error("Invalid submission detected.");
+      console.warn("[SPAM] Honeypot field was filled");
+      setIsSubmitting(false);
       return;
     }
 
-    // Spam protection: Check if form was submitted too quickly (less than 3 seconds)
+    // Spam protection: Check if form was submitted too quickly (less than 2 seconds)
     const timeTaken = Date.now() - formStartTime;
-    if (timeTaken < 3000) {
-      toast.error("Please take your time to fill out the form.");
+    if (timeTaken < 2000) {
+      console.warn("[SPAM] Form submitted too fast:", timeTaken, "ms");
+      setIsSubmitting(false);
       return;
     }
 
@@ -269,20 +271,24 @@ export default function ContactPage() {
               </div>
 
               {/* Honeypot field - hidden from users but visible to bots */}
-              <div className="hidden" aria-hidden="true">
-                <label htmlFor="website">Website</label>
-                <input
-                  id="website"
-                  type="text"
-                  name="website"
-                  tabIndex={-1}
-                  autoComplete="off"
-                  value={formData.website}
-                  onChange={(e) =>
-                    setFormData({ ...formData, website: e.target.value })
-                  }
-                />
-              </div>
+              <input
+                type="text"
+                name="website"
+                value={formData.website}
+                onChange={(e) =>
+                  setFormData({ ...formData, website: e.target.value })
+                }
+                tabIndex={-1}
+                autoComplete="off"
+                style={{
+                  position: "absolute",
+                  left: "-9999px",
+                  width: "1px",
+                  height: "1px",
+                  opacity: 0,
+                }}
+                aria-hidden="true"
+              />
 
               <Button
                 type="submit"

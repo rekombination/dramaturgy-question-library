@@ -21,6 +21,8 @@ function LoginContent() {
   const [isLoading, setIsLoading] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
   const [error, setError] = useState("");
+  const [honeypot, setHoneypot] = useState("");
+  const [pageLoadTime] = useState(Date.now());
 
   const handleEmailSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -28,6 +30,20 @@ function LoginContent() {
     setError("");
 
     try {
+      // Anti-spam checks
+      if (honeypot) {
+        console.warn("[SPAM] Honeypot field was filled");
+        setIsLoading(false);
+        return;
+      }
+
+      const timeOnPage = Date.now() - pageLoadTime;
+      if (timeOnPage < 2000) {
+        console.warn("[SPAM] Form submitted too fast:", timeOnPage, "ms");
+        setIsLoading(false);
+        return;
+      }
+
       // redirect: false prevents NextAuth from redirecting, we handle UI ourselves
       const result = await signIn("resend", {
         email,
@@ -53,6 +69,20 @@ function LoginContent() {
     setError("");
 
     try {
+      // Anti-spam checks
+      if (honeypot) {
+        console.warn("[SPAM] Honeypot field was filled");
+        setIsLoading(false);
+        return;
+      }
+
+      const timeOnPage = Date.now() - pageLoadTime;
+      if (timeOnPage < 2000) {
+        console.warn("[SPAM] Form submitted too fast:", timeOnPage, "ms");
+        setIsLoading(false);
+        return;
+      }
+
       const result = await signIn("credentials", {
         email,
         password,
@@ -200,6 +230,24 @@ function LoginContent() {
             {/* Magic Link Form */}
             {loginMethod === "magic-link" && (
               <form onSubmit={handleEmailSignIn} className="space-y-6">
+                {/* Honeypot field */}
+                <input
+                  type="text"
+                  name="website"
+                  value={honeypot}
+                  onChange={(e) => setHoneypot(e.target.value)}
+                  tabIndex={-1}
+                  autoComplete="off"
+                  style={{
+                    position: "absolute",
+                    left: "-9999px",
+                    width: "1px",
+                    height: "1px",
+                    opacity: 0,
+                  }}
+                  aria-hidden="true"
+                />
+
                 <div className="space-y-2">
                   <Label htmlFor="email" className="text-sm font-bold uppercase tracking-wider">
                     Email Address
@@ -227,6 +275,24 @@ function LoginContent() {
             {/* Password Form */}
             {loginMethod === "password" && (
               <form onSubmit={handlePasswordSignIn} className="space-y-6">
+                {/* Honeypot field */}
+                <input
+                  type="text"
+                  name="website"
+                  value={honeypot}
+                  onChange={(e) => setHoneypot(e.target.value)}
+                  tabIndex={-1}
+                  autoComplete="off"
+                  style={{
+                    position: "absolute",
+                    left: "-9999px",
+                    width: "1px",
+                    height: "1px",
+                    opacity: 0,
+                  }}
+                  aria-hidden="true"
+                />
+
                 {error && (
                   <div className="p-4 border-2 border-red-600 bg-red-50 dark:bg-red-950/20 text-red-900 dark:text-red-100 text-sm">
                     {error}

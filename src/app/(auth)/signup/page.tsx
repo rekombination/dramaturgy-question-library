@@ -16,12 +16,30 @@ function SignUpContent() {
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
+  const [honeypot, setHoneypot] = useState("");
+  const [pageLoadTime] = useState(Date.now());
 
   const handleEmailSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
     try {
+      // Anti-spam checks
+      // 1. Honeypot check - if filled, it's a bot
+      if (honeypot) {
+        console.warn("[SPAM] Honeypot field was filled");
+        setIsLoading(false);
+        return;
+      }
+
+      // 2. Time-based check - bots submit too fast (< 2 seconds)
+      const timeOnPage = Date.now() - pageLoadTime;
+      if (timeOnPage < 2000) {
+        console.warn("[SPAM] Form submitted too fast:", timeOnPage, "ms");
+        setIsLoading(false);
+        return;
+      }
+
       // redirect: false prevents NextAuth from redirecting, we handle UI ourselves
       const result = await signIn("resend", {
         email,
@@ -157,6 +175,24 @@ function SignUpContent() {
             </div>
 
             <form onSubmit={handleEmailSignUp} className="space-y-6">
+              {/* Honeypot field - hidden from humans, visible to bots */}
+              <input
+                type="text"
+                name="website"
+                value={honeypot}
+                onChange={(e) => setHoneypot(e.target.value)}
+                tabIndex={-1}
+                autoComplete="off"
+                style={{
+                  position: "absolute",
+                  left: "-9999px",
+                  width: "1px",
+                  height: "1px",
+                  opacity: 0,
+                }}
+                aria-hidden="true"
+              />
+
               <div className="space-y-2">
                 <Label htmlFor="email" className="text-sm font-bold uppercase tracking-wider">
                   Email Address

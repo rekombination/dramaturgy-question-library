@@ -55,6 +55,50 @@ export default function OnboardingPage() {
     }
   };
 
+  const handleSkip = async () => {
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      // Generate random username from email or timestamp
+      const randomUsername = `user_${Date.now().toString(36)}`;
+
+      const minimalData = {
+        name: "Anonymous User",
+        username: randomUsername,
+        bio: "",
+        profileVisibility: "PRIVATE" as ProfileVisibility,
+        showActivity: false,
+        showStats: false,
+        showSocialLinks: false,
+        emailNotifications: true,
+        showInLeaderboards: false,
+      };
+
+      const response = await fetch("/api/user/onboarding", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(minimalData),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to complete onboarding");
+      }
+
+      // Update session
+      await update();
+
+      // Redirect to dashboard
+      router.push("/me");
+      router.refresh();
+    } catch (error) {
+      setError(error instanceof Error ? error.message : "Something went wrong");
+      setIsLoading(false);
+    }
+  };
+
   const totalSteps = 3;
 
   return (
@@ -429,10 +473,11 @@ export default function OnboardingPage() {
         {step === 1 && (
           <div className="mt-4 text-center">
             <button
-              onClick={() => router.push("/me")}
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+              onClick={handleSkip}
+              disabled={isLoading}
+              className="text-sm text-muted-foreground hover:text-foreground transition-colors disabled:opacity-50"
             >
-              Skip for now
+              {isLoading ? "Setting up..." : "Skip for now"}
             </button>
           </div>
         )}
