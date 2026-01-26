@@ -66,13 +66,13 @@
   --accent-foreground: #FFFFFF;
   --highlight: #C8372D;
   --destructive: #C8372D;
-  --border: #E5E5E0;
-  --input: #E5E5E0;
+  --border: #CFCFC5;
+  --input: #CFCFC5;
   --ring: #C8372D;
   --chart-1: #C8372D;
   --chart-2: #0A0A0A;
   --chart-3: #6B6B6B;
-  --chart-4: #E5E5E0;
+  --chart-4: #d4d4ce;
   --chart-5: #FFFEF8;
   --sidebar: #0A0A0A;
   --sidebar-foreground: #FFFEF8;
@@ -85,37 +85,37 @@
 }
 
 .dark {
-  --background: #0A0A0A;
-  --foreground: #FFFEF8;
-  --card: #141414;
-  --card-foreground: #FFFEF8;
-  --popover: #141414;
-  --popover-foreground: #FFFEF8;
+  --background: #1a1f2e;
+  --foreground: #e8edf5;
+  --card: #242938;
+  --card-foreground: #e8edf5;
+  --popover: #242938;
+  --popover-foreground: #e8edf5;
   --primary: #C8372D;
   --primary-foreground: #FFFFFF;
-  --secondary: #FFFEF8;
-  --secondary-foreground: #0A0A0A;
-  --muted: #1A1A1A;
-  --muted-foreground: #A0A0A0;
+  --secondary: #e8edf5;
+  --secondary-foreground: #1a1f2e;
+  --muted: #2d3242;
+  --muted-foreground: #a5adb8;
   --accent: #C8372D;
   --accent-foreground: #FFFFFF;
   --highlight: #C8372D;
   --destructive: #C8372D;
-  --border: #2A2A2A;
-  --input: #2A2A2A;
+  --border: #2d3545;
+  --input: #2d3545;
   --ring: #C8372D;
   --chart-1: #C8372D;
-  --chart-2: #FFFEF8;
-  --chart-3: #A0A0A0;
-  --chart-4: #2A2A2A;
-  --chart-5: #0A0A0A;
-  --sidebar: #0A0A0A;
-  --sidebar-foreground: #FFFEF8;
+  --chart-2: #e8edf5;
+  --chart-3: #a5adb8;
+  --chart-4: #2d3545;
+  --chart-5: #1a1f2e;
+  --sidebar: #1a1f2e;
+  --sidebar-foreground: #e8edf5;
   --sidebar-primary: #C8372D;
   --sidebar-primary-foreground: #FFFFFF;
-  --sidebar-accent: #1A1A1A;
-  --sidebar-accent-foreground: #FFFEF8;
-  --sidebar-border: #2A2A2A;
+  --sidebar-accent: #2d3242;
+  --sidebar-accent-foreground: #e8edf5;
+  --sidebar-border: #2d3545;
   --sidebar-ring: #C8372D;
 }
 
@@ -193,6 +193,34 @@
 @utility dramatic-border {
   border-width: 3px;
   border-color: var(--foreground);
+}
+
+/* All border-2 classes become 1px in both light and dark mode */
+[class*="border-2"] {
+  border-width: 1px !important;
+}
+
+/* Override border-foreground with border color in dark mode */
+.dark .border-foreground,
+.dark [class*="border-foreground"] {
+  border-color: var(--border) !important;
+}
+
+/* Override border-foreground with border color in light mode too */
+.border-foreground,
+[class*="border-foreground"]:not(.dark *) {
+  border-color: var(--border) !important;
+}
+
+/* Remove outer viewport border in dark mode */
+.dark {
+  box-shadow: none !important;
+}
+
+.dark html,
+.dark body {
+  border: none !important;
+  outline: none !important;
 }
 
 @utility hover-lift {

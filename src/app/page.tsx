@@ -105,7 +105,7 @@ export default async function HomePage() {
       </section>
 
       {/* Stats Section */}
-      <section className="border-b-2 border-foreground bg-foreground text-white">
+      <section className="border-b-2 border-foreground bg-foreground text-background dark:bg-card dark:border-b dark:border-b-border dark:border-l-0 dark:border-r-0 dark:border-t-0">
         <div className="container py-12">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             <div>
@@ -130,7 +130,7 @@ export default async function HomePage() {
 
       {/* Latest Questions */}
       {latestQuestions.length > 0 && (
-        <section className="py-20 border-b-2 border-foreground">
+        <section className="py-20 border-b-2 border-foreground dark:border-l-0 dark:border-r-0 dark:border-t-0">
           <div className="container">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 mb-12">
               <h2 className="display-text">Latest Questions</h2>
@@ -215,7 +215,7 @@ export default async function HomePage() {
 
       {/* Latest Articles */}
       {latestPosts.length > 0 && (
-        <section className="py-20 border-t-2 border-foreground">
+        <section className="py-20 border-t-2 border-foreground dark:border-l-0 dark:border-r-0 dark:border-b-0">
           <div className="container">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 mb-12">
               <h2 className="display-text">Latest Articles</h2>
