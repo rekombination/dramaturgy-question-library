@@ -94,7 +94,7 @@ export function ReplyList({
 
   if (replies.length === 0) {
     return (
-      <div className="border-2 border-foreground p-8 text-center text-muted-foreground">
+      <div className="p-8 text-center text-muted-foreground">
         No answers yet. Be the first to help!
       </div>
     );
