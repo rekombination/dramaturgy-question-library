@@ -71,7 +71,7 @@ export default async function HomePage() {
       <section className="min-h-[80vh] flex items-center border-b-2 border-foreground">
         <div className="container py-16 md:py-24">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div>
+            <div className="relative z-10">
               <h1 className="hero-text">
                 Questions
                 <br />
