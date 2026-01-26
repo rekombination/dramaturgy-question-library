@@ -1,8 +1,15 @@
 import Link from "next/link";
+import { Metadata } from "next";
 import { reader } from "@/lib/keystatic";
 import { ResponsiveImage } from "@/components/blog/ResponsiveImage";
 import { RandomQuote } from "@/components/home/RandomQuote";
 import { prisma } from "@/lib/db";
+
+export const metadata: Metadata = {
+  alternates: {
+    canonical: "https://thedramaturgy.com",
+  },
+};
 
 export default async function HomePage() {
 

@@ -4,6 +4,9 @@ import { prisma } from "@/lib/db";
 export const metadata = {
   title: "Toolkits",
   description: "Curated collections of dramaturgical questions for specific topics and contexts.",
+  alternates: {
+    canonical: "https://thedramaturgy.com/toolkits",
+  },
 };
 
 async function getToolkits() {

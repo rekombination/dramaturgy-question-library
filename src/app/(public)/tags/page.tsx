@@ -4,6 +4,9 @@ import { prisma } from "@/lib/db";
 export const metadata = {
   title: "Tags",
   description: "Browse questions by topic tags.",
+  alternates: {
+    canonical: "https://thedramaturgy.com/tags",
+  },
 };
 
 async function getTags() {

@@ -3,6 +3,9 @@ import Link from "next/link";
 export const metadata = {
   title: "About",
   description: "About The Dramaturgy - a community platform for dramaturgical questions and knowledge sharing.",
+  alternates: {
+    canonical: "https://thedramaturgy.com/about",
+  },
 };
 
 export default function AboutPage() {

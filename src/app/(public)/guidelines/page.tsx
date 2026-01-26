@@ -1,6 +1,9 @@
 export const metadata = {
   title: "Community Guidelines",
   description: "Guidelines for participating in The Dramaturgy community.",
+  alternates: {
+    canonical: "https://thedramaturgy.com/guidelines",
+  },
 };
 
 const guidelines = [

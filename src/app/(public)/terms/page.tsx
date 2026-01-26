@@ -1,6 +1,9 @@
 export const metadata = {
   title: "Terms of Service",
   description: "Terms of Service for The Dramaturgy platform.",
+  alternates: {
+    canonical: "https://thedramaturgy.com/terms",
+  },
 };
 
 export default function TermsPage() {

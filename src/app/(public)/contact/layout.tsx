@@ -3,6 +3,9 @@ import { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Contact Us",
   description: "Get in touch with The Dramaturgy team. Have questions, suggestions, or feedback? We'd love to hear from you.",
+  alternates: {
+    canonical: "https://thedramaturgy.com/contact",
+  },
   openGraph: {
     title: "Contact Us | The Dramaturgy",
     description: "Get in touch with The Dramaturgy team. Have questions, suggestions, or feedback? We'd love to hear from you.",

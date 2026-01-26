@@ -10,6 +10,9 @@ import { mockQuestions, mockTags } from "@/lib/mocks/data";
 export const metadata = {
   title: "Explore Questions",
   description: "Browse and search dramaturgical questions from the community.",
+  alternates: {
+    canonical: "https://thedramaturgy.com/explore",
+  },
 };
 
 async function getQuestions(): Promise<QuestionWithRelations[]> {

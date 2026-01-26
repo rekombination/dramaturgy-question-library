@@ -1,6 +1,9 @@
 export const metadata = {
   title: "Privacy Policy",
   description: "Privacy Policy for The Dramaturgy platform.",
+  alternates: {
+    canonical: "https://thedramaturgy.com/privacy",
+  },
 };
 
 export default function PrivacyPage() {
