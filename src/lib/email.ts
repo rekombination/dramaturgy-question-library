@@ -1,6 +1,10 @@
 import { Resend } from "resend";
 
-const resend = process.env.AUTH_RESEND_KEY ? new Resend(process.env.AUTH_RESEND_KEY) : null;
+const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
+
+// Debug logging
+console.log("[Email] Resend initialized:", !!resend);
+console.log("[Email] RESEND_API_KEY set:", !!process.env.RESEND_API_KEY);
 
 const FROM_EMAIL = "The Dramaturgy <noreply@thedramaturgy.com>";
 const SITE_URL = process.env.NEXTAUTH_URL || "https://thedramaturgy.com";
