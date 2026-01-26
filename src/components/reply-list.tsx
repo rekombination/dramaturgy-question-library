@@ -65,10 +65,10 @@ export function ReplyList({
         throw new Error(data.error || "Failed to mark as helpful");
       }
 
-      toast.success("Marked as helpful!");
+      toast.success("Answer highlighted!");
       router.refresh();
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Failed to mark as helpful");
+      toast.error(error instanceof Error ? error.message : "Failed to highlight answer");
     } finally {
       setSolvingReplyId(null);
     }
@@ -128,7 +128,7 @@ export function ReplyList({
                       className="bg-primary text-primary-foreground font-bold hover:bg-primary/90"
                     >
                       <IconCheck className="mr-2" size={16} />
-                      {solvingReplyId === reply.id ? "Marking..." : "This Helped Me"}
+                      {solvingReplyId === reply.id ? "Highlighting..." : "Highlight This Answer"}
                     </Button>
                   </div>
                 </div>
@@ -143,7 +143,7 @@ export function ReplyList({
                       variant="outline"
                       className="border-2 border-foreground font-bold"
                     >
-                      Unmark Solution
+                      Remove Highlight
                     </Button>
                   </div>
                 </div>
