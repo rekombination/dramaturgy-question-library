@@ -70,13 +70,13 @@ export default function GuidelinesPage() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="border-b-2 border-foreground bg-background py-16 md:py-24">
+      <section className="border-b-2 border-foreground bg-primary text-primary-foreground py-16 md:py-24">
         <div className="container">
           <div className="max-w-3xl">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight">
-              Community <span className="text-primary">Guidelines</span>
+              Community Guidelines
             </h1>
-            <p className="mt-6 text-lg md:text-xl text-muted-foreground">
+            <p className="mt-6 text-lg md:text-xl text-primary-foreground/80">
               Our guidelines for a respectful and productive community.
               Together, we build a space for meaningful dramaturgical discourse.
             </p>
