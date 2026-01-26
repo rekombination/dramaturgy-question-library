@@ -320,8 +320,8 @@ export default async function QuestionDetailPage({
             </div>
           </div>
 
-          {/* Expert Claim Banner */}
-          {question.expertClaimedById && question.expertClaimedBy && (
+          {/* Expert Claim Banner - Only visible to question author and experts */}
+          {question.expertClaimedById && question.expertClaimedBy && (isAuthor || isExpert) && (
             <div className="p-4 bg-muted border-b-2 border-foreground">
               <p className="text-sm font-bold text-muted-foreground">
                 <IconUser size={16} className="inline mr-2" />
