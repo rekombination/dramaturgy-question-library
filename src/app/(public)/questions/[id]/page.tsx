@@ -436,7 +436,7 @@ export default async function QuestionDetailPage({
         )}
 
         {!session?.user && (
-          <div className="border-t-2 border-foreground p-8 text-center">
+          <div className="border-2 border-foreground border-t-0 mt-0 p-8 text-center">
             <p className="text-lg font-bold mb-4">Want to answer this question?</p>
             <Link
               href={`/login?callbackUrl=/questions/${question.id}`}
