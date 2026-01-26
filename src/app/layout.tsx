@@ -70,7 +70,6 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    alternateLocale: ["de_DE"],
     url: siteUrl,
     siteName: "The Dramaturgy",
     title: "The Dramaturgy | Community for Dramaturgical Questions",
@@ -111,12 +110,6 @@ export const metadata: Metadata = {
       { url: "/favicon-96x96.png", sizes: "96x96", type: "image/png" },
     ],
     apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
-  },
-  alternates: {
-    languages: {
-      "en-US": `${siteUrl}/en`,
-      "de-DE": `${siteUrl}/de`,
-    },
   },
 };
 
