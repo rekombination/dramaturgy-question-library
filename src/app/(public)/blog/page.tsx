@@ -92,17 +92,13 @@ export default async function BlogPage() {
       {/* Hero Section */}
       <section className="py-16 md:py-24 border-b-2 border-foreground bg-background">
         <div className="container max-w-6xl">
-          <div className="flex items-start gap-8">
-            <div className="w-16 h-16 bg-primary flex-shrink-0" />
-            <div className="flex-1">
-              <h1 className="text-5xl md:text-7xl font-black tracking-tight leading-[1.1]">
-                Insights &<br />
-                <span className="text-primary">Resources</span>
-              </h1>
-              <p className="mt-6 text-lg md:text-xl text-muted-foreground max-w-2xl">
-                Practical articles and in-depth explorations of dramaturgical practice, collaborative creation, and theatrical craft.
-              </p>
-            </div>
+          <div className="max-w-3xl">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight">
+              Insights & <span className="text-primary">Resources</span>
+            </h1>
+            <p className="mt-6 text-lg md:text-xl text-muted-foreground">
+              Practical articles and in-depth explorations of dramaturgical practice, collaborative creation, and theatrical craft.
+            </p>
           </div>
         </div>
       </section>

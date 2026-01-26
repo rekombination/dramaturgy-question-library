@@ -32,10 +32,10 @@ export default async function ToolkitsPage() {
       <section className="border-b-2 border-foreground py-16 md:py-24">
         <div className="container">
           <div className="max-w-3xl">
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-black tracking-tight">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight">
               Toolkits
             </h1>
-            <p className="mt-6 text-xl md:text-2xl text-muted-foreground">
+            <p className="mt-6 text-lg md:text-xl text-muted-foreground">
               Curated collections of questions for specific topics and contexts.
               Dive deep into focused areas of dramaturgical practice.
             </p>

@@ -9,14 +9,16 @@ export default function AboutPage() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="border-b-2 border-foreground bg-foreground text-background py-16 md:py-24">
+      <section className="border-b-2 border-foreground bg-background py-16 md:py-24">
         <div className="container">
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-black tracking-tight">
-            About
-          </h1>
-          <p className="mt-6 text-xl md:text-2xl text-background/70 max-w-2xl">
-            The questions that shape theatre.
-          </p>
+          <div className="max-w-3xl">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight">
+              About
+            </h1>
+            <p className="mt-6 text-lg md:text-xl text-muted-foreground">
+              The questions that shape theatre.
+            </p>
+          </div>
         </div>
       </section>
 

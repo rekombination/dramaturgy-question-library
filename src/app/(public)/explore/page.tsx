@@ -167,23 +167,15 @@ export default async function ExplorePage() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="border-b-2 border-foreground py-12 md:py-16">
+      <section className="border-b-2 border-foreground py-16 md:py-24">
         <div className="container">
-          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
-            <div>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight">
-                Explore <span className="text-primary">Questions</span>
-              </h1>
-              <p className="mt-4 text-lg md:text-xl text-muted-foreground max-w-xl">
-                Browse dramaturgical questions from the community
-              </p>
-            </div>
-            <Link
-              href="/submit"
-              className="px-8 py-4 bg-foreground text-background font-bold text-lg hover:bg-primary transition-colors self-start lg:self-auto"
-            >
-              Ask a Question
-            </Link>
+          <div className="max-w-3xl">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight">
+              Explore <span className="text-primary">Questions</span>
+            </h1>
+            <p className="mt-6 text-lg md:text-xl text-muted-foreground">
+              Browse dramaturgical questions from the community
+            </p>
           </div>
 
           <div className="mt-8">
