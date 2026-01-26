@@ -1,4 +1,5 @@
 import { notFound, redirect } from "next/navigation";
+import { Metadata } from "next";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import Link from "next/link";
@@ -8,8 +9,53 @@ import { ReplySortFilter } from "@/components/reply/ReplySortFilter";
 import { QuestionActions } from "@/components/question-actions";
 import { MediaGallery } from "@/components/media-gallery";
 import { BookmarkButton } from "@/components/question/BookmarkButton";
+import { QAPageJsonLd } from "@/components/seo/QAPageJsonLd";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { IconCheck, IconClock, IconUser, IconMessageCircle } from "@tabler/icons-react";
+
+const siteUrl = "https://thedramaturgy.com";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+  const { id } = await params;
+
+  const question = await prisma.question.findUnique({
+    where: { id },
+    select: {
+      title: true,
+      body: true,
+      isPrivate: true,
+    },
+  });
+
+  if (!question || question.isPrivate) {
+    return {
+      title: "Question Not Found",
+    };
+  }
+
+  // Truncate body for description
+  const description = question.body.length > 160
+    ? question.body.substring(0, 157) + "..."
+    : question.body;
+
+  return {
+    title: question.title,
+    description,
+    alternates: {
+      canonical: `${siteUrl}/questions/${id}`,
+    },
+    openGraph: {
+      title: question.title,
+      description,
+      type: "article",
+      url: `${siteUrl}/questions/${id}`,
+    },
+  };
+}
 
 export default async function QuestionDetailPage({
   params,
@@ -225,8 +271,10 @@ export default async function QuestionDetailPage({
   const hasClaimed = session?.user?.id === question.expertClaimedById;
 
   return (
-    <div className="min-h-screen py-12 md:py-16">
-      <div className="container max-w-4xl">
+    <>
+      <QAPageJsonLd question={question} />
+      <div className="min-h-screen py-12 md:py-16">
+        <div className="container max-w-4xl">
         {/* Back Link */}
         <Link
           href="/explore"
@@ -448,7 +496,8 @@ export default async function QuestionDetailPage({
             </Link>
           </div>
         )}
+        </div>
       </div>
-    </div>
+    </>
   );
 }
