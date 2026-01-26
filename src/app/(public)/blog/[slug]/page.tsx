@@ -124,7 +124,7 @@ export default async function BlogPostPage({ params }: Props) {
       />
       {/* Breadcrumb Navigation */}
       <nav className="border-b-2 border-foreground bg-foreground text-background py-4">
-        <div className="container max-w-5xl">
+        <div className="container max-w-6xl">
           <div className="flex items-center gap-3 text-sm font-bold uppercase tracking-wider">
             <Link href="/" className="hover:text-primary transition-colors">
               Home
@@ -341,13 +341,13 @@ export default async function BlogPostPage({ params }: Props) {
           <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link
               href="/submit"
-              className="px-8 py-4 border-2 border-primary-foreground bg-background text-foreground text-lg font-bold hover:bg-foreground hover:text-background transition-all text-center"
+              className="inline-flex items-center justify-center w-full sm:w-auto px-8 py-4 border-2 border-primary-foreground bg-background text-foreground text-lg font-bold hover:bg-foreground hover:text-background transition-all text-center"
             >
               Ask a Question
             </Link>
             <Link
               href="/explore"
-              className="px-8 py-4 border-2 border-primary-foreground text-lg font-bold hover:bg-background hover:text-foreground transition-all text-center"
+              className="inline-flex items-center justify-center w-full sm:w-auto px-8 py-4 border-2 border-primary-foreground text-primary-foreground text-lg font-bold hover:bg-foreground hover:text-background transition-all text-center"
             >
               Explore Questions
             </Link>

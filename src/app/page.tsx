@@ -139,11 +139,11 @@ export default async function HomePage() {
                 <Link
                   key={question.id}
                   href={`/questions/${question.id}`}
-                  className="group block border-2 border-foreground hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transition-all duration-300"
+                  className="group block border-2 border-foreground hover:-translate-y-2 hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transition-all duration-300"
                 >
                   <div className="p-6 md:p-8">
                     <div className="flex items-start justify-between gap-4 mb-4">
-                      <h3 className="text-xl md:text-2xl font-black group-hover:text-primary transition-colors flex-1">
+                      <h3 className="text-xl md:text-2xl font-bold md:font-black group-hover:text-primary transition-colors flex-1">
                         {question.title}
                       </h3>
                       <span className="px-3 py-1 bg-muted text-xs font-bold uppercase tracking-wider shrink-0">
