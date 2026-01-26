@@ -38,7 +38,9 @@ async function sendEmail({ to, subject, html }: SendEmailOptions) {
 /**
  * Email template wrapper with consistent styling
  */
-function emailTemplate(content: string): string {
+function emailTemplate(content: string, options?: { showMemberFooter?: boolean }): string {
+  const showMemberFooter = options?.showMemberFooter ?? true;
+
   return `
 <!DOCTYPE html>
 <html>
@@ -132,8 +134,13 @@ function emailTemplate(content: string): string {
       ${content}
     </div>
     <div class="footer">
-      <p>You're receiving this because you're a member of The Dramaturgy community.</p>
-      <p><a href="${SITE_URL}/me/settings">Manage your notification preferences</a></p>
+      ${showMemberFooter ? `
+        <p>You're receiving this because you're a member of The Dramaturgy community.</p>
+        <p><a href="${SITE_URL}/me/settings">Manage your notification preferences</a></p>
+      ` : `
+        <p>&copy; ${new Date().getFullYear()} The Dramaturgy</p>
+        <p><a href="${SITE_URL}">Visit our website</a></p>
+      `}
     </div>
   </div>
 </body>
@@ -322,7 +329,7 @@ export async function sendContactEmail({
   await sendEmail({
     to: adminEmail,
     subject: `[${typeLabel.toUpperCase()}] ${subject}`,
-    html: emailTemplate(adminContent),
+    html: emailTemplate(adminContent, { showMemberFooter: false }),
   });
 
   // Send confirmation to sender
@@ -340,6 +347,6 @@ export async function sendContactEmail({
   await sendEmail({
     to: email,
     subject: `We received your message: ${subject}`,
-    html: emailTemplate(confirmationContent),
+    html: emailTemplate(confirmationContent, { showMemberFooter: false }),
   });
 }
