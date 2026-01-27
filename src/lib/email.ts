@@ -308,7 +308,7 @@ export async function sendContactEmail({
   subject: string;
   message: string;
 }) {
-  const adminEmail = "mm@rekombination.de";
+  const adminEmail = "hello@thedramaturgy.com";
   const typeLabel = messageType === "feedback" ? "Feedback" : "Inquiry";
 
   // Send to admin
