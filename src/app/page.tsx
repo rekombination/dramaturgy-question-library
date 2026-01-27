@@ -68,7 +68,7 @@ export default async function HomePage() {
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
-      <section className="min-h-[80vh] flex items-center border-b-2 border-foreground">
+      <section className="min-h-[80vh] flex items-center border-b-2 border-foreground dark:border-b-0">
         <div className="container py-16 md:py-24">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="relative z-10">

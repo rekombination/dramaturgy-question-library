@@ -134,21 +134,21 @@ function LoginContent() {
       <div className="container">
         <div className="grid lg:grid-cols-2 gap-0 max-w-5xl mx-auto">
           {/* Left Side - Branding */}
-          <div className="hidden lg:block bg-foreground">
-            <div className="sticky top-0 flex flex-col justify-center text-background p-12 xl:p-16 min-h-screen">
+          <div className="hidden lg:block bg-foreground dark:bg-muted">
+            <div className="sticky top-0 flex flex-col justify-center text-background dark:text-foreground p-12 xl:p-16 min-h-screen">
             <Image
               src="/logo.png"
               alt="The Dramaturgy"
               width={180}
               height={60}
-              className="h-auto w-40 brightness-0 invert"
+              className="h-auto w-40 brightness-0 invert dark:brightness-100 dark:invert-0"
             />
             <h1 className="mt-8 text-4xl xl:text-5xl font-black leading-tight">
               Welcome
               <br />
               <span className="text-primary">back.</span>
             </h1>
-            <p className="mt-6 text-lg text-background/70">
+            <p className="mt-6 text-lg text-background/70 dark:text-muted-foreground">
               Sign in to continue your dramaturgical journey. Ask questions, share insights, and connect with the community.
             </p>
             </div>

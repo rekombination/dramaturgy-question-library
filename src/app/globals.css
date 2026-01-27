@@ -202,14 +202,23 @@
 
 /* Override border-foreground with border color in dark mode */
 .dark .border-foreground,
-.dark [class*="border-foreground"] {
+.dark [class*="border-foreground"]:not([class*="border-foreground/"]) {
   border-color: var(--border) !important;
 }
 
 /* Override border-foreground with border color in light mode too */
 .border-foreground,
-[class*="border-foreground"]:not(.dark *) {
+[class*="border-foreground"]:not(.dark *):not([class*="border-foreground/"]) {
   border-color: var(--border) !important;
+}
+
+/* Allow border-foreground with opacity to work */
+@layer utilities {
+  @supports (color: color-mix(in lab, red, red)) {
+    .dark\:border-foreground\/40:is(.dark *) {
+      border-color: color-mix(in oklab, var(--foreground) 40%, transparent) !important;
+    }
+  }
 }
 
 /* Remove outer viewport border in dark mode */
@@ -257,4 +266,11 @@ h3,
   font-weight: 700 !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Link underline styling */
+a.hover\:underline:hover {
+  text-decoration-thickness: 1px;
+  text-decoration-color: currentColor;
+  text-underline-offset: 2px;
 }

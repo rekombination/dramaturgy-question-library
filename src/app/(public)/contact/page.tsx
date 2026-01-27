@@ -127,33 +127,33 @@ export default function ContactPage() {
       <div className="container">
         <div className="grid lg:grid-cols-2 gap-0 max-w-5xl mx-auto">
           {/* Left Side - Info */}
-          <div className="hidden lg:flex flex-col justify-center bg-foreground text-background p-12 xl:p-16">
+          <div className="hidden lg:flex flex-col justify-center bg-foreground dark:bg-muted text-background dark:text-foreground p-12 xl:p-16">
             <Image
               src="/logo.png"
               alt="The Dramaturgy"
               width={180}
               height={60}
-              className="h-auto w-40 brightness-0 invert"
+              className="h-auto w-40 brightness-0 invert dark:brightness-100 dark:invert-0"
             />
             <h1 className="mt-8 text-4xl xl:text-5xl font-black leading-tight whitespace-nowrap">
-              Get in <span className="text-background">Touch.</span>
+              Get in <span className="text-background dark:text-primary">Touch.</span>
             </h1>
-            <p className="mt-6 text-lg text-background/70">
+            <p className="mt-6 text-lg text-background/70 dark:text-muted-foreground">
               Have a question, suggestion, or feedback? We&apos;d love to hear from you. Our team will get back to you as soon as possible.
             </p>
             <div className="mt-10 space-y-4">
               <div>
-                <h3 className="text-sm font-bold uppercase tracking-wider mb-2">Email</h3>
+                <h3 className="text-sm font-bold uppercase tracking-wider mb-2 text-background dark:text-foreground">Email</h3>
                 <a
                   href="mailto:hello@thedramaturgy.com"
-                  className="text-background hover:text-background/80 hover:underline text-lg font-bold"
+                  className="text-background dark:text-foreground hover:text-background/80 dark:hover:text-muted-foreground hover:underline text-lg font-bold"
                 >
                   hello@thedramaturgy.com
                 </a>
               </div>
               <div>
-                <h3 className="text-sm font-bold uppercase tracking-wider mb-2">Community</h3>
-                <p className="text-background/70">
+                <h3 className="text-sm font-bold uppercase tracking-wider mb-2 text-background dark:text-foreground">Community</h3>
+                <p className="text-background/70 dark:text-muted-foreground">
                   Join our platform to connect directly with other dramaturgs
                 </p>
               </div>
