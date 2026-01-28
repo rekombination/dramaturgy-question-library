@@ -190,8 +190,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
         // Notify admin about new registration
         await sendNewUserNotification({
-          userName: user.name,
-          userEmail: user.email,
+          userName: user.name ?? null,
+          userEmail: user.email ?? null,
           userId: user.id,
         });
       }
