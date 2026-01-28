@@ -6,6 +6,7 @@ import Apple from "next-auth/providers/apple";
 import Resend from "next-auth/providers/resend";
 import Credentials from "next-auth/providers/credentials";
 import { prisma } from "./db";
+import { sendNewUserNotification } from "./email";
 import bcrypt from "bcryptjs";
 
 // Debug logging
@@ -185,6 +186,13 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         await prisma.user.update({
           where: { id: user.id },
           data: { trustLevel: "NEW" },
+        });
+
+        // Notify admin about new registration
+        await sendNewUserNotification({
+          userName: user.name,
+          userEmail: user.email,
+          userId: user.id,
         });
       }
     },

@@ -295,6 +295,51 @@ export async function sendQuestionSolvedNotification({
 /**
  * Send contact form submission to admin and confirmation to sender
  */
+/**
+ * Send notification to admin when a new user registers
+ */
+export async function sendNewUserNotification({
+  userName,
+  userEmail,
+  userId,
+}: {
+  userName: string | null;
+  userEmail: string | null;
+  userId: string;
+}) {
+  const adminEmail = "hello@thedramaturgy.com";
+
+  const content = `
+    <h2>New User Registration</h2>
+    <p>A new user has joined The Dramaturgy!</p>
+    <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
+      <tr>
+        <td style="padding: 8px 0; font-weight: 700; width: 100px;">Name:</td>
+        <td style="padding: 8px 0;">${userName || "Not provided"}</td>
+      </tr>
+      <tr>
+        <td style="padding: 8px 0; font-weight: 700;">Email:</td>
+        <td style="padding: 8px 0;"><a href="mailto:${userEmail}" style="color: #C8372D;">${userEmail || "Not provided"}</a></td>
+      </tr>
+      <tr>
+        <td style="padding: 8px 0; font-weight: 700;">User ID:</td>
+        <td style="padding: 8px 0; font-family: monospace; font-size: 12px;">${userId}</td>
+      </tr>
+    </table>
+    <p>
+      <a href="${SITE_URL}/admin/users" class="button">
+        View All Users
+      </a>
+    </p>
+  `;
+
+  await sendEmail({
+    to: adminEmail,
+    subject: `New User: ${userName || userEmail || "Unknown"}`,
+    html: emailTemplate(content, { showMemberFooter: false }),
+  });
+}
+
 export async function sendContactEmail({
   name,
   email,
