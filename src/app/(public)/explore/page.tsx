@@ -3,7 +3,8 @@ import Link from "next/link";
 import { prisma } from "@/lib/db";
 import { auth } from "@/lib/auth";
 import { QuestionCard } from "@/components/question/QuestionCard";
-import { Input } from "@/components/ui/input";
+import { SearchForm } from "@/components/explore/SearchForm";
+import { ContextTypeFilter } from "@/components/explore/ContextTypeFilter";
 import type { QuestionWithRelations, Tag } from "@/types";
 import { mockQuestions, mockTags } from "@/lib/mocks/data";
 
@@ -15,29 +16,62 @@ export const metadata = {
   },
 };
 
-async function getQuestions(): Promise<QuestionWithRelations[]> {
+interface SearchParams {
+  q?: string;
+  context?: string;
+  sort?: string;
+}
+
+async function getQuestions(searchParams: SearchParams): Promise<QuestionWithRelations[]> {
   // Use mock data in local development
   if (process.env.USE_MOCK_DATA === "true") {
     return mockQuestions as any;
   }
 
   const session = await auth();
+  const { q, context, sort } = searchParams;
 
   // Build where clause based on user authentication and role
-  let whereClause: any = { status: "PUBLISHED" };
+  const whereClause: any = { status: "PUBLISHED" };
 
   if (!session?.user) {
     // Non-authenticated users: only see public questions
     whereClause.isPrivate = false;
   } else if (session.user.role === "EXPERT" || session.user.role === "MODERATOR" || session.user.role === "ADMIN") {
     // Experts, moderators, and admins: see all published questions (no additional filter)
-    // whereClause already has status: "PUBLISHED"
   } else {
     // Regular users: see public questions OR their own questions
     whereClause.OR = [
       { isPrivate: false },
       { authorId: session.user.id },
     ];
+  }
+
+  // Search filter
+  if (q && q.trim().length >= 2) {
+    const searchTerm = q.trim();
+    whereClause.AND = [
+      {
+        OR: [
+          { title: { contains: searchTerm, mode: "insensitive" } },
+          { body: { contains: searchTerm, mode: "insensitive" } },
+          { tags: { some: { tag: { name: { contains: searchTerm, mode: "insensitive" } } } } },
+        ],
+      },
+    ];
+  }
+
+  // Context type filter
+  if (context && ["REHEARSAL", "SHOW", "TOURING", "FUNDING", "TEAM", "AUDIENCE", "OTHER"].includes(context)) {
+    whereClause.contextType = context;
+  }
+
+  // Sort order
+  let orderBy: any = { createdAt: "desc" };
+  if (sort === "votes") {
+    orderBy = { voteCount: "desc" };
+  } else if (sort === "replies") {
+    orderBy = { replyCount: "desc" };
   }
 
   const questions = await prisma.question.findMany({
@@ -53,7 +87,7 @@ async function getQuestions(): Promise<QuestionWithRelations[]> {
         select: { replies: true, votes: true, bookmarks: true },
       },
     },
-    orderBy: { createdAt: "desc" },
+    orderBy,
     take: 20,
   });
 
@@ -134,23 +168,37 @@ function QuestionListSkeleton() {
   );
 }
 
-async function QuestionList() {
-  const questions = await getQuestions();
+async function QuestionList({ searchParams }: { searchParams: SearchParams }) {
+  const questions = await getQuestions(searchParams);
 
   if (questions.length === 0) {
+    const hasFilters = searchParams.q || searchParams.context;
     return (
       <div className="text-center py-20 border-2 border-foreground">
         <div className="text-8xl font-black text-primary">?</div>
-        <h3 className="mt-6 text-2xl font-bold">No questions yet</h3>
+        <h3 className="mt-6 text-2xl font-bold">
+          {hasFilters ? "No results found" : "No questions yet"}
+        </h3>
         <p className="text-muted-foreground mt-2 text-lg">
-          Be the first to ask a question!
+          {hasFilters
+            ? "Try adjusting your search or filters"
+            : "Be the first to ask a question!"}
         </p>
-        <Link
-          href="/submit"
-          className="inline-block mt-8 px-8 py-4 bg-foreground text-background font-bold text-lg hover:bg-primary transition-colors"
-        >
-          Ask the First Question
-        </Link>
+        {hasFilters ? (
+          <Link
+            href="/explore"
+            className="inline-block mt-8 px-8 py-4 bg-muted font-bold text-lg hover:bg-foreground hover:text-background transition-colors"
+          >
+            Clear Filters
+          </Link>
+        ) : (
+          <Link
+            href="/submit"
+            className="inline-block mt-8 px-8 py-4 bg-foreground text-background font-bold text-lg hover:bg-primary transition-colors"
+          >
+            Ask the First Question
+          </Link>
+        )}
       </div>
     );
   }
@@ -164,7 +212,12 @@ async function QuestionList() {
   );
 }
 
-export default async function ExplorePage() {
+export default async function ExplorePage({
+  searchParams,
+}: {
+  searchParams: Promise<SearchParams>;
+}) {
+  const params = await searchParams;
   const tags = await getTags();
 
   return (
@@ -182,10 +235,9 @@ export default async function ExplorePage() {
           </div>
 
           <div className="mt-8">
-            <Input
-              placeholder="Search questions..."
-              className="max-w-xl h-14 text-lg border-2 border-foreground px-6 placeholder:text-muted-foreground"
-            />
+            <Suspense fallback={<div className="h-14 max-w-xl bg-muted animate-pulse" />}>
+              <SearchForm />
+            </Suspense>
           </div>
         </div>
       </section>
@@ -196,7 +248,7 @@ export default async function ExplorePage() {
           {/* Questions List */}
           <div className="flex-1">
             <Suspense fallback={<QuestionListSkeleton />}>
-              <QuestionList />
+              <QuestionList searchParams={params} />
             </Suspense>
           </div>
 
@@ -241,16 +293,9 @@ export default async function ExplorePage() {
                 <h3 className="font-bold text-lg uppercase tracking-wide mb-4">
                   Context Types
                 </h3>
-                <div className="flex flex-wrap gap-2">
-                  {["Rehearsal", "Show", "Touring", "Funding", "Team", "Audience"].map((type) => (
-                    <button
-                      key={type}
-                      className="px-3 py-1.5 bg-muted text-sm font-medium hover:bg-foreground hover:text-background transition-colors"
-                    >
-                      {type}
-                    </button>
-                  ))}
-                </div>
+                <Suspense fallback={<div className="h-20 bg-muted animate-pulse" />}>
+                  <ContextTypeFilter />
+                </Suspense>
               </div>
 
               {/* Stats */}
