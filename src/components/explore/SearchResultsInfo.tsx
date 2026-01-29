@@ -17,6 +17,7 @@ export function SearchResultsInfo({
   const searchParams = useSearchParams();
   const query = searchParams.get("q");
   const context = searchParams.get("context");
+  const tag = searchParams.get("tag");
 
   // Don't show anything if no search/filter is active
   if (!hasActiveSearch && !hasActiveFilter) {
@@ -24,7 +25,7 @@ export function SearchResultsInfo({
   }
 
   return (
-    <div className="mt-3 flex items-center gap-2 text-sm">
+    <div className="mt-3 flex items-center gap-2 text-sm flex-wrap">
       {totalCount === 0 ? (
         <>
           <span className="text-muted-foreground">
@@ -56,6 +57,11 @@ export function SearchResultsInfo({
             {context && (
               <>
                 {" "}in <span className="font-medium text-foreground">{context.charAt(0) + context.slice(1).toLowerCase()}</span>
+              </>
+            )}
+            {tag && (
+              <>
+                {" "}tagged <span className="font-medium text-foreground">{tag}</span>
               </>
             )}
           </span>

@@ -5,6 +5,39 @@ import type { QuestionWithRelations, Tag } from "@/types";
 
 interface QuestionCardProps {
   question: QuestionWithRelations;
+  searchQuery?: string;
+}
+
+/**
+ * Highlights search terms in text by wrapping matches in <mark> tags
+ */
+function highlightText(text: string, query?: string): React.ReactNode {
+  if (!query || query.trim().length < 2) {
+    return text;
+  }
+
+  const searchTerm = query.trim();
+  // Escape special regex characters
+  const escapedTerm = searchTerm.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const regex = new RegExp(`(${escapedTerm})`, "gi");
+  const parts = text.split(regex);
+
+  if (parts.length === 1) {
+    return text;
+  }
+
+  return parts.map((part, index) =>
+    regex.test(part) ? (
+      <mark
+        key={index}
+        className="bg-primary/20 text-foreground px-0.5 rounded-sm"
+      >
+        {part}
+      </mark>
+    ) : (
+      part
+    )
+  );
 }
 
 const contextTypeLabels: Record<string, string> = {
@@ -17,7 +50,7 @@ const contextTypeLabels: Record<string, string> = {
   OTHER: "Other",
 };
 
-export function QuestionCard({ question }: QuestionCardProps) {
+export function QuestionCard({ question, searchQuery }: QuestionCardProps) {
   return (
     <article className="border-2 border-foreground border-t-0 first:border-t-2 p-6 md:p-8 hover:bg-muted transition-colors group">
       <div className="flex flex-col md:flex-row md:items-start gap-4 md:gap-8">
@@ -45,7 +78,7 @@ export function QuestionCard({ question }: QuestionCardProps) {
               href={`/questions/${question.id}`}
               className="text-xl md:text-2xl font-bold hover:text-primary transition-colors line-clamp-2"
             >
-              {question.title}
+              {highlightText(question.title, searchQuery)}
             </Link>
             <span className="shrink-0 px-3 py-1 bg-foreground text-background text-xs font-bold uppercase tracking-wider">
               {contextTypeLabels[question.contextType] || question.contextType}
@@ -53,7 +86,7 @@ export function QuestionCard({ question }: QuestionCardProps) {
           </div>
 
           <p className="mt-3 text-muted-foreground line-clamp-2">
-            {question.body}
+            {highlightText(question.body, searchQuery)}
           </p>
 
           {/* Tags */}

@@ -6,6 +6,9 @@ import { QuestionCard } from "@/components/question/QuestionCard";
 import { SearchForm } from "@/components/explore/SearchForm";
 import { ContextTypeFilter } from "@/components/explore/ContextTypeFilter";
 import { SearchResultsInfo } from "@/components/explore/SearchResultsInfo";
+import { SortSelect } from "@/components/explore/SortSelect";
+import { TagFilter } from "@/components/explore/TagFilter";
+import { Pagination } from "@/components/explore/Pagination";
 import type { QuestionWithRelations, Tag } from "@/types";
 import { mockQuestions, mockTags } from "@/lib/mocks/data";
 
@@ -21,7 +24,11 @@ interface SearchParams {
   q?: string;
   context?: string;
   sort?: string;
+  tag?: string;
+  page?: string;
 }
+
+const PAGE_SIZE = 20;
 
 interface QuestionsResult {
   questions: QuestionWithRelations[];
@@ -35,7 +42,9 @@ async function getQuestions(searchParams: SearchParams): Promise<QuestionsResult
   }
 
   const session = await auth();
-  const { q, context, sort } = searchParams;
+  const { q, context, sort, tag, page } = searchParams;
+  const currentPage = parseInt(page || "1", 10);
+  const skip = (currentPage - 1) * PAGE_SIZE;
 
   // Build where clause based on user authentication and role
   const whereClause: any = { status: "PUBLISHED" };
@@ -56,20 +65,28 @@ async function getQuestions(searchParams: SearchParams): Promise<QuestionsResult
   // Search filter
   if (q && q.trim().length >= 2) {
     const searchTerm = q.trim();
-    whereClause.AND = [
-      {
-        OR: [
-          { title: { contains: searchTerm, mode: "insensitive" } },
-          { body: { contains: searchTerm, mode: "insensitive" } },
-          { tags: { some: { tag: { name: { contains: searchTerm, mode: "insensitive" } } } } },
-        ],
-      },
-    ];
+    whereClause.AND = whereClause.AND || [];
+    whereClause.AND.push({
+      OR: [
+        { title: { contains: searchTerm, mode: "insensitive" } },
+        { body: { contains: searchTerm, mode: "insensitive" } },
+        { tags: { some: { tag: { name: { contains: searchTerm, mode: "insensitive" } } } } },
+      ],
+    });
   }
 
   // Context type filter
   if (context && ["REHEARSAL", "SHOW", "TOURING", "FUNDING", "TEAM", "AUDIENCE", "OTHER"].includes(context)) {
     whereClause.contextType = context;
+  }
+
+  // Tag filter
+  if (tag) {
+    whereClause.tags = {
+      some: {
+        tag: { slug: tag },
+      },
+    };
   }
 
   // Sort order
@@ -95,7 +112,8 @@ async function getQuestions(searchParams: SearchParams): Promise<QuestionsResult
         },
       },
       orderBy,
-      take: 20,
+      take: PAGE_SIZE,
+      skip,
     }),
     prisma.question.count({ where: whereClause }),
   ]);
@@ -178,10 +196,10 @@ function QuestionListSkeleton() {
 }
 
 async function QuestionList({ searchParams }: { searchParams: SearchParams }) {
-  const { questions } = await getQuestions(searchParams);
+  const { questions, totalCount } = await getQuestions(searchParams);
 
   if (questions.length === 0) {
-    const hasFilters = searchParams.q || searchParams.context;
+    const hasFilters = searchParams.q || searchParams.context || searchParams.tag;
     return (
       <div className="text-center py-20 border-2 border-foreground">
         <div className="text-8xl font-black text-primary">?</div>
@@ -213,18 +231,23 @@ async function QuestionList({ searchParams }: { searchParams: SearchParams }) {
   }
 
   return (
-    <div className="space-y-0">
-      {questions.map((question) => (
-        <QuestionCard key={question.id} question={question} />
-      ))}
-    </div>
+    <>
+      <div className="space-y-0">
+        {questions.map((question) => (
+          <QuestionCard key={question.id} question={question} searchQuery={searchParams.q} />
+        ))}
+      </div>
+      <Suspense fallback={null}>
+        <Pagination totalCount={totalCount} pageSize={PAGE_SIZE} />
+      </Suspense>
+    </>
   );
 }
 
 async function SearchResultsCount({ searchParams }: { searchParams: SearchParams }) {
   const { totalCount } = await getQuestions(searchParams);
   const hasActiveSearch = !!(searchParams.q && searchParams.q.trim().length >= 2);
-  const hasActiveFilter = !!searchParams.context;
+  const hasActiveFilter = !!(searchParams.context || searchParams.tag);
 
   return (
     <SearchResultsInfo
@@ -273,6 +296,13 @@ export default async function ExplorePage({
         <div className="flex flex-col gap-8 lg:flex-row">
           {/* Questions List */}
           <div className="flex-1">
+            {/* Sort Options */}
+            <div className="mb-6">
+              <Suspense fallback={<div className="h-10 w-64 bg-muted animate-pulse" />}>
+                <SortSelect />
+              </Suspense>
+            </div>
+
             <Suspense fallback={<QuestionListSkeleton />}>
               <QuestionList searchParams={params} />
             </Suspense>
@@ -284,26 +314,11 @@ export default async function ExplorePage({
               {/* Popular Tags */}
               <div className="border-2 border-foreground p-6">
                 <h3 className="font-bold text-lg uppercase tracking-wide mb-4">
-                  Popular Tags
+                  Filter by Tag
                 </h3>
-                <div className="flex flex-wrap gap-2">
-                  {tags.length === 0 ? (
-                    <p className="text-sm text-muted-foreground">No tags yet</p>
-                  ) : (
-                    tags.slice(0, 10).map((tag: Tag & { _count: { questions: number } }) => (
-                      <Link
-                        key={tag.id}
-                        href={`/tags/${tag.slug}`}
-                        className="group px-3 py-1.5 border-2 border-foreground text-sm font-medium hover:bg-foreground hover:text-background transition-colors"
-                      >
-                        {tag.name}
-                        <span className="ml-1 text-muted-foreground group-hover:text-background">
-                          {tag._count.questions}
-                        </span>
-                      </Link>
-                    ))
-                  )}
-                </div>
+                <Suspense fallback={<div className="h-20 bg-muted animate-pulse" />}>
+                  <TagFilter tags={tags as (Tag & { _count: { questions: number } })[]} />
+                </Suspense>
                 {tags.length > 10 && (
                   <Link
                     href="/tags"
