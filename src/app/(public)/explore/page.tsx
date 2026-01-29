@@ -5,6 +5,7 @@ import { auth } from "@/lib/auth";
 import { QuestionCard } from "@/components/question/QuestionCard";
 import { SearchForm } from "@/components/explore/SearchForm";
 import { ContextTypeFilter } from "@/components/explore/ContextTypeFilter";
+import { SearchResultsInfo } from "@/components/explore/SearchResultsInfo";
 import type { QuestionWithRelations, Tag } from "@/types";
 import { mockQuestions, mockTags } from "@/lib/mocks/data";
 
@@ -22,10 +23,15 @@ interface SearchParams {
   sort?: string;
 }
 
-async function getQuestions(searchParams: SearchParams): Promise<QuestionWithRelations[]> {
+interface QuestionsResult {
+  questions: QuestionWithRelations[];
+  totalCount: number;
+}
+
+async function getQuestions(searchParams: SearchParams): Promise<QuestionsResult> {
   // Use mock data in local development
   if (process.env.USE_MOCK_DATA === "true") {
-    return mockQuestions as any;
+    return { questions: mockQuestions as any, totalCount: mockQuestions.length };
   }
 
   const session = await auth();
@@ -74,24 +80,27 @@ async function getQuestions(searchParams: SearchParams): Promise<QuestionWithRel
     orderBy = { replyCount: "desc" };
   }
 
-  const questions = await prisma.question.findMany({
-    where: whereClause,
-    include: {
-      author: {
-        select: { id: true, name: true, username: true, image: true, role: true },
+  const [questions, totalCount] = await Promise.all([
+    prisma.question.findMany({
+      where: whereClause,
+      include: {
+        author: {
+          select: { id: true, name: true, username: true, image: true, role: true },
+        },
+        tags: {
+          include: { tag: true },
+        },
+        _count: {
+          select: { replies: true, votes: true, bookmarks: true },
+        },
       },
-      tags: {
-        include: { tag: true },
-      },
-      _count: {
-        select: { replies: true, votes: true, bookmarks: true },
-      },
-    },
-    orderBy,
-    take: 20,
-  });
+      orderBy,
+      take: 20,
+    }),
+    prisma.question.count({ where: whereClause }),
+  ]);
 
-  return questions as QuestionWithRelations[];
+  return { questions: questions as QuestionWithRelations[], totalCount };
 }
 
 async function getTags() {
@@ -169,7 +178,7 @@ function QuestionListSkeleton() {
 }
 
 async function QuestionList({ searchParams }: { searchParams: SearchParams }) {
-  const questions = await getQuestions(searchParams);
+  const { questions } = await getQuestions(searchParams);
 
   if (questions.length === 0) {
     const hasFilters = searchParams.q || searchParams.context;
@@ -212,6 +221,20 @@ async function QuestionList({ searchParams }: { searchParams: SearchParams }) {
   );
 }
 
+async function SearchResultsCount({ searchParams }: { searchParams: SearchParams }) {
+  const { totalCount } = await getQuestions(searchParams);
+  const hasActiveSearch = !!(searchParams.q && searchParams.q.trim().length >= 2);
+  const hasActiveFilter = !!searchParams.context;
+
+  return (
+    <SearchResultsInfo
+      totalCount={totalCount}
+      hasActiveSearch={hasActiveSearch}
+      hasActiveFilter={hasActiveFilter}
+    />
+  );
+}
+
 export default async function ExplorePage({
   searchParams,
 }: {
@@ -237,6 +260,9 @@ export default async function ExplorePage({
           <div className="mt-8">
             <Suspense fallback={<div className="h-14 max-w-xl bg-muted animate-pulse" />}>
               <SearchForm />
+            </Suspense>
+            <Suspense fallback={null}>
+              <SearchResultsCount searchParams={params} />
             </Suspense>
           </div>
         </div>
